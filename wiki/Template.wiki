@@ -19,7 +19,6 @@ JSISIDE模板框架是一个微指令集及其编译处理支持，还有基于�
 
 
 ===微指令集合===
-常用的简单指令：
 || type         ||     object                      ||   comment||
 || el           ||  [0,expression,unescape]        || //普通el||
 || attribute    ||  [1,name,expression]            || //表达式||
@@ -29,8 +28,6 @@ JSISIDE模板框架是一个微指令集及其编译处理支持，还有基于�
 || for          ||  [5,var,itemExpression,status]  || //设置某个变量（el | string）||
 || var          ||  [6,name,expression]            || //设置某个变量（el | string）||
 || end:         ||  []                             || //结束标签（如for if else 等是必须要结束标签的）||
-
-
 
 ===一些无需指令的常用语法元素(在编译期间被处理掉，直接将目标代码编译成更加低级的微指令集)===
 || type     ||   object                                       || comment||
