@@ -20,20 +20,19 @@ JSISIDE模板框架是一个微指令集及其编译处理支持，还有基于�
 
 ===微指令集合===
 常用的简单指令：
-||type          ||object                   || comment||
-||el            || [0,'exp',unescape]      || 普通el||
-||attribute     || [1,name1,exp]           ||||
-||if            || [2,'exp']               ||||
-||else if       || [3,'exp']               ||||
-||else          || [4]                     ||||
-||var           || [5,'var','el']          || 设置某个变量（el ？ string）||
-||out           || [6,'el']                || 输出某个表达式的值，不转义（转义使用el）||
-||end:          || []                      || 结束标签（如for if else 等是必须要结束标签的）||
+|| type         ||     object                      ||   comment||
+|| el           ||  [0,expression,unescape]        || //普通el||
+|| attribute    ||  [1,name,expression]            || //表达式||
+|| if           ||  [2,expression]                 || //||
+|| else if      ||  [3,expression]                 || //||
+|| else         ||  [4]                            || //||
+|| for          ||  [5,var,itemExpression,status]  || //设置某个变量（el | string）||
+|| var          ||  [6,name,expression]            || //设置某个变量（el | string）||
+|| end:         ||  []                             || //结束标签（如for if else 等是必须要结束标签的）||
 
-更复杂的指令有：
-||type          || object                  ||comment||
-||for           ||{var : ’item’ , value:[1,2,3],status:’status’,begin:1,end:2} || for循环||
 
-一些在编译期间被处理掉的无需指令的语法元素
-||include || {type:0,url:..,xpath:..,name:..}                ||包含某个页面，或者页面片段（xpath），或者一个命名节点||
-||template|| {type:1,url:...,name:...}                       ||将自己挂起，替换为模板页面，而模板页面中，可以引用自己这个节点，有点类似sitemash的功能||
+
+===一些无需指令的常用语法元素(在编译期间被处理掉，直接将目标代码编译成更加低级的微指令集)===
+|| type     ||   object                                       || comment||
+|| include  || {url:..,xpath:..,name:..}                || 包含某个页面，或者页面片段（xpath），或者一个命名节点||
+|| template || {url:...,name:...}                       || 将自己挂起，替换为模板页面，而模板页面中，可以引用自己这个节点，有点类似sitemash的功能（转义使用el）||
