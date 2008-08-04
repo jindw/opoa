@@ -68,13 +68,13 @@ if(!XPathResult){
 //if(BrowserInfo.isIE()){
 if(window.ActiveXObject){
     if(!XSLTProcessor){//IE7-
-        var xsltemplateProgid = ["Msxml2.XSLTemplate.6.0", "MSXML2.XSLTemplate.3.0"];
-        var freeThreadedDOMDocumentProgid = ["MSXML2.FreeThreadedDOMDocument.6.0", "MSXML2.FreeThreadedDOMDocument.3.0"];
-        var xmlWriterProgid = ["Msxml2.MXXMLWriter.6.0", "Msxml2.MXXMLWriter.3.0", "MSXML2.MXXMLWriter", "MSXML.MXXMLWriter", "Microsoft.XMLDOM"];
-        var domProgid = ["Msxml2.DOMDocument.6.0", "Msxml2.DOMDocument.3.0", "MSXML2.DOMDocument", "MSXML.DOMDocument", "Microsoft.XMLDOM"];
+        var xsltemplateProgid = [ "MSXML2.XSLTemplate.3.0","Msxml2.XSLTemplate.6.0"];
+        var freeThreadedDOMDocumentProgid = ["MSXML2.FreeThreadedDOMDocument.3.0","MSXML2.FreeThreadedDOMDocument.6.0"];
+        var domProgid = [ "Microsoft.XMLDOM", "MSXML.DOMDocument", "MSXML2.DOMDocument", "Msxml2.DOMDocument.3.0","Msxml2.DOMDocument.6.0"];
         function createActiveXObject(progids){
             if(progids instanceof Array){
-                for(var i = 0;i<progids.length;i++){
+                var i = progids.length;
+                while(i--){
                     try{
                         var result = new ActiveXObject(progids[i]);
                         progids = progids[i];
@@ -96,7 +96,7 @@ if(window.ActiveXObject){
         };
 
     
-    /**
+        /**
           * 引入 XSLT 样式表 styleSheet 为 XSLT stylesheet 的根结点。 
           * Imports the given XSLT DOM and compiles it to a reusable transform
           * <b>Note:</b> If the stylesheet was loaded from a URL and contains xsl:import or xsl:include elements,it will be reloaded to resolve those
@@ -127,7 +127,7 @@ if(window.ActiveXObject){
         };
 
     
-    /**
+         /**
           * 使用由importStylesheet()引入的样式表对结点source进行转换. 
           * Transform the given XML DOM and return the transformation result as a new DOM document
           * @argument sourceDoc The XML DOMDocument to transform
@@ -179,7 +179,7 @@ if(window.ActiveXObject){
         };
 
     
-    /**
+         /**
           * 设置 XSLT stylesheet 的参数。 
           * Set global XSLT parameter of the imported stylesheet
           * @argument namespaceURI The parameter namespace URI
@@ -248,7 +248,7 @@ if(window.ActiveXObject){
             }
       
           
-    }
+        }
         /**
           * 从 XSLTProcessor 中去除所有样式表和参数。
           */
@@ -262,7 +262,7 @@ if(window.ActiveXObject){
 
       
 
-  if(!DOMParser){
+    if(!DOMParser){
         DOMParser = function() { };
         DOMParser.parseFromString = DOMParser.prototype.parseFromString = function(sXml, contentType){
             var doc = createActiveXObject(domProgid);

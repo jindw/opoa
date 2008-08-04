@@ -7,7 +7,7 @@
  */
 //this.addScript("test.js",['Test']);
 this.addScript("include.js",'Include',
-              'org.jside.Request','org/jside/xml/mozilla-xml.js');
+              'org.jside.Request');
               
 this.addScript("drag-drop.js",["DragSource","DropTarget"],'org/jside/drag-drop.js');
 
