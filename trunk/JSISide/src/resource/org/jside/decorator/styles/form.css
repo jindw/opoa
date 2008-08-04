@@ -1,0 +1,106 @@
+/*=== spinner（微调器） 装饰器样式定义 ===*/
+
+.jside-spinner td{
+    vertical-align:middle;
+}
+.jside-spinner div{
+    position : relative;
+    top : 0px;
+    left : 0px;
+    height : 0px;
+    width : 0px;!important;
+    z-index : 2;
+}
+
+
+.jside-spinner div div{
+    background-image : url(spinner.gif);
+    position : absolute;
+    position : relative;
+    cursor : pointer;
+    width : 12px;!important;
+    height : 8px;
+    margin : 1px;
+    top:-10px;
+    left : -14px;
+}
+.jside-spinner-over{
+    background-position: 0 -8px;
+}
+.jside-spinner-down{
+    background-position: 0 -16px;
+}
+.jside-spinner div div div{
+    top:0;
+    left : 0px;
+    background-position: 0 -32px;
+}
+
+.jside-spinner div div div.jside-spinner-over{
+    background-position: 0 -40px;
+}
+.jside-spinner div div div.jside-spinner-down{
+    background-position: 0 -48px;
+}
+
+
+
+
+
+
+/*=== date-picker(日期选择器) 装饰器样式定义 ===*/
+.jside-date-picker {
+}
+.jside-date-picker td{
+    vertical-align:middle;
+}
+
+.jside-date-picker img{
+    margin:2px;
+    background-repeat: no-repeat;
+    background-image: url(date-picker.gif);
+}
+.jside-date-picker iframe{
+    border:0px;
+    overflow : hidden;
+    width : 140px;
+    height : 180px;
+}
+//    iframe.border = 0;
+//    iframe.frameBorder = 0;
+//    iframe.scrolling="no";
+//    iframe.width = "140px"
+//    iframe.height = "180px"
+
+/*=== slider(滑块) 装饰器样式定义 ===*/
+.jside-slider {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.jside-slider-horizontal {
+    width: 150px;
+    height: 11px;
+    background-image: url(slider-horizontal-background.gif);
+    background-repeat: repeat-x;
+}
+.jside-slider-vertical img{
+    background-image: url(slider-horizontal-grippy.gif);
+}
+.jside-slider-vertical {
+    width: 11px;
+    height: 150px;
+    background-image: url(slider-vertical-background.gif);
+    background-repeat: repeat-y;
+}
+.jside-slider-vertical img{
+    background-image: url(slider-vertical-grippy.gif);
+}
+.jside-slider-disabled {
+    background-color: #ECE9D8;
+}
+.jside-slider-disabled img {
+    cursor: default !important;
+}

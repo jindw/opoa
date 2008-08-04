@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:d="http://www.xidea.org/taglib/decorator" xml:lang="zh_CN"
+  lang="zh_CN">
+<head>
+<script src="../scripts/boot-decorator.js"></script>
+<title>Include 示例</title>
+<link rel="stylesheet" type="text/css" href="../styles/decorator.css" />
+</head>
+<body>
+<h1>Include 示例</h1>
+
+<h2>装饰效果</h2>
+<h3>简单包含</h3>
+<div class="group">
+    <a d:class="include" d:url='include-content.htm'></a>
+</div>
+
+<h3>xpath包含</h3>
+<div class="group">
+    <a d:class="include" d:url='include-content.htm' d:xpath="//h3"></a>
+</div>
+
+<h3>xslt转换</h3>
+<div class="group">
+    <a d:class="include" d:url='include-content.htm'
+  d:xslt="include-content.xsl"></a>
+</div>
+
+<hr />
+<a d:class="include" d:url='menu.xml' d:xslt="menu.xsl"></a>
+
+</body>
+</html>

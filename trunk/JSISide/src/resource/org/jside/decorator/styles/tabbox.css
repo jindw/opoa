@@ -1,0 +1,89 @@
+.xidea--tabbox{
+  width:98%;
+}
+.xidea--tabbox .xidea-tabs{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  height:22px;
+}
+.xidea--tabbox .xidea-tabpanels{
+  border: 1px solid #999;
+  padding:1px;
+}
+.xidea--tabbox .xidea-tabrow{
+  width:1000%;
+  position:relative;
+  cursor: pointer;
+  bottom: 0px;
+}
+.xidea--tabbox .xidea-tab{
+  float:left;
+  position:relative;
+  padding-top:2px;
+  padding-left:2px;
+  padding-right:2px;
+  margin-left:0px;
+  margin-right:-3px;
+  overflow:hidden;
+}
+.xidea--tabbox .xidea-selected{
+  padding-top:0px;
+  padding-left:0px;
+  padding-right:0px;
+  z-index:3;
+}
+/* .xidea-tab table */
+.xidea--tabbox .xidea-tab table{
+  background-color:#F4F3EE;
+}
+
+.xidea--tabbox .xidea-selected table{
+  background-color:#F8F8FF;
+}
+
+/* xidea-tab-top */
+.xidea--tabbox .xidea-tab-top{
+  background-image:url('tabbox.gif');
+  height:1px;overflow:hidden;
+}
+
+.xidea--tabbox .xidea-selected  .xidea-tab-top, .xidea--tabbox .xidea-mouseover .xidea-tab-top{
+  background-position:0px -1px;
+  height:3px;
+}
+
+/* xidea-tab-left xidea-tab-right */
+
+.xidea--tabbox .xidea-tab-left{
+  background-image:url('tabbox.gif');
+  background-position:-5px -4px;
+  width:3px;
+}
+.xidea--tabbox .xidea-selected .xidea-tab-left{
+	background-position:0px -4px;
+}
+.xidea--tabbox .xidea-tab-right{
+  background-image:url('tabbox.gif');
+  background-position:-7px -4px;
+  width:3px;
+}
+
+.xidea--tabbox .xidea-selected .xidea-tab-right{
+	background-position:-2px -4px;
+}
+/* xidea-tab-center */
+.xidea--tabbox .xidea-tab-center{
+  padding-top:2px;
+  padding-left:20px;
+  padding-right:20px;
+  line-height:18px;
+  vertical-align:top;
+  height:24px;
+}
+.xidea--tabbox .xidea-mouseover .xidea-tab-center{
+  padding-top:0px;
+}
+.xidea--tabbox .xidea-selected .xidea-tab-center{
+  padding-top:2px;
+}

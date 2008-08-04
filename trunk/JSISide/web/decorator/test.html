@@ -1,0 +1,728 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Common Template Engine</title>
+		<meta name="keywords" content="commontemplate ctl template language engine code generator" />
+		<style type="text/css">
+			body {
+				margin: 0px;
+				padding: 0px;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 12px;
+				color: #000000;
+				cursor: url('../images/cursor.cur');
+			}
+
+			td {
+				font-size: 12px;
+				height: 26;
+			}
+
+			img {
+				border: 0px;
+				clear: right;
+			}
+
+			input {
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 12px;
+				color: #000000;
+			}
+
+			a:link {
+				font-size: 12px;
+				color: #003399;
+				text-decoration: none;
+			}
+			a:visited {
+				font-size: 12px;
+				color: #003399;
+				text-decoration: none;
+			}
+			a:active {
+				font-size: 12px;
+				color: #003399;
+				text-decoration: none;
+			}
+			a:hover {
+				font-size: 12px;
+				color: #003399;
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+	<body>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td height="66">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td rowspan="2" height="60"><a href="http://www.commontemplate.org"><img src="../images/banner.gif" alt="Common Template Engine" border="0" width="400" height="50" /></a></td>
+							<td height="40" valign="top" align="right">
+								
+								<a href="../en/template.html">English</a>
+								
+								|
+								
+								&#20013;&#25991;
+								
+								|
+								<a href="join.html">翻译</a>&nbsp;&nbsp;
+							</td>
+						</tr>
+						<tr>
+							<td height="20" valign="bottom" align="right">
+								<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-style: solid; border-color: #CCCCCC;">
+									<tr align="center">
+										
+										<td width="90" height="20" style="font-weight: bold;"><a href="downloads.html" target="_self">下载</a></td>
+										
+										<td width="90" height="20" style="font-weight: bold;"><a href="news.html" target="_self">新闻</a></td>
+										
+										<td width="90" height="20" style="font-weight: bold;"><a href="http://forum.commontemplate.org" target="_blank">论坛</a></td>
+										
+										<td width="90" height="20" style="font-weight: bold;"><a href="about.html" target="_self">关于我们</a></td>
+										
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" height="6" style="background-color: #005B88;"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td width="200" valign="top">
+								<table width="100%" border="1" style="border-collapse: collapse; border-style: solid; border-color: #CCCCCC;" cellspacing="1" cellpadding="2">
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="4" height="22" style="background-color: #0055CC;"></td>
+													<td width="4"></td>
+													<td style="font-weight: bold;">文档</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="index.html" target="_self">概览</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="template.html" target="_self">模板指南</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="expression.html" target="_self">表达式指南</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="config.html" target="_self">配置指南</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="integration.html" target="_self">集成指南</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="extension.html" target="_self">扩展指南</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="api.html" target="_self">API使用指南</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="faq.html" target="_self">常见问题</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="architecture.html" target="_self">架构设计说明</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="4" height="22" style="background-color: #0055CC;"></td>
+													<td width="4"></td>
+													<td style="font-weight: bold;">资源</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="downloads.html" target="_self">下载</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="../resources/license.txt" target="_blank">许可协议</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="news.html" target="_self">更新日志</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="dependency.html" target="_self">依赖包</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="debug.html" target="_self">调试窗口说明</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="uml.html" target="_self">UML图</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="../javadoc" target="_blank">Java Doc</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="../coverage" target="_blank">测试覆盖率报告</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="4" height="22" style="background-color: #0055CC;"></td>
+													<td width="4"></td>
+													<td style="font-weight: bold;">社区</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="about.html" target="_self">开发团队</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="news.html" target="_self">新闻</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="http://forum.commontemplate.org" target="_blank">论坛</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="http://code.google.com/p/commontemplate/w/list" target="_blank">知识库</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="http://sourceforge.net/mail/?group_id=193256" target="_blank">邮件列表</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="http://code.google.com/p/commontemplate/issues/list" target="_blank">问题列表</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td height="24" style="background-color: #F4F4F4;">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td width="16"></td>
+													<td><a href="http://code.google.com/p/commontemplate/issues/entry" target="_blank">报告问题</a></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									
+									
+								</table>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td align="left" valign="top">
+								<table width="100%" border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td height="32" align="left" valign="bottom"><b><font size="3">Common Template Language(CTL)模板指南</font></b></td>
+									<tr>
+									<tr>
+										<td align="left"><hr width="30%" align="left" /></td>
+									<tr>
+									<tr>
+										<td align="left">
+											
+
+								<b>一. 语法规则:</b><br/>
+								整个模板语言只有一个语法规则：<br/>
+								$指令名{<a href="expression.html">参数表达式</a>}<br/>
+								<font color="green">(注：指令名或参数表达式均可以为空，但不可以同时为空，参数表达式为空时，大括号可省)</font><br/>
+								<br/>
+								<b>二. 特殊符转义:</b><br/>
+								<b>(1) 使用 \$ 转义，输出非指令 $ 符</b><br/>
+								如：“\${name}”输出“${name}”<br/>
+								<b>(2) 使用 \\ 取消转义，输出非转义 \ 符</b><br/>
+								如：“\\${name}”输出“\value”<br/>
+								“\\\${name}”等价于“\\”+“\${name}”的组合，输出“\” + “${name}”，即“\${name}”<br/>
+								“\\\\${name}”等价于“\\”+“\\”+“${name}”的组合，输出“\” + “\” +  “value”，即“\\value”<br/>
+								<font color="green">(注：这里的“\”都是指紧挨在“$”前的“\”，未紧挨在“$”前的任意“\”均不作任何处理，以避免模板中到处使用双斜杠)</font><br/>
+								<br/>
+								<b>三. 特殊指令: </b><br/>
+								<b>(1) 行注释:</b> 忽略其后同一行的内容 <font color="green">(注: 可注释不合法的指令内容)</font><br/>
+								运行期不保留: <font color="green">(注: 编译后即抛弃)</font><br/>
+								$# line comment ...<br/>
+								运行期保留: <font color="green">(注: 可通过Visitor访问到)</font><br/>
+								$## line comment ...<br/>
+								<b>(2) 多行块注释:</b> 忽略其包含的内容 <font color="green">(注: 可注释不合法的指令内容，自身不可嵌套，但可嵌套行注释和不解释块等)</font><br/>
+								运行期不保留: <font color="green">(注: 编译后即抛弃)</font><br/>
+								$*<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;block comment ...<br/>
+								*$<br/>
+								运行期保留: <font color="green">(注: 可通过Visitor访问到)</font><br/>
+								$**<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;block comment ...<br/>
+								*$<br/>
+								<b>(3) 不解释块:</b> 将其包含的内容作为纯文本输出 <font color="green">(注: 可包含不合法的指令内容，自身不可嵌套，但可嵌套行注释和块注释等)</font><br/>
+								$!<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;no parse, eg: $if ... <br/>
+								!$<br/>
+								<b>(4) 通用结束指令:</b><br/>
+								$end<br/>
+								<br/>
+								<b>四. 标准指令:</b><br/>
+								<b>(1) 输出指令:</b><br/>
+								表达式结果输出: <font color="green">(注：指令名为空的指令)</font><br/>
+								${user.name}<br/>
+								${user.coins + 100}<br/>
+								国际化信息输出:<br/>
+								$msg{"home.title"}<br/>
+								$msg{"home.title", arg0, arg1}<br/>
+								输出块指令：<font color="green">(注：与上面两个指令功能相同，用于注释版语法外套)</font><br/>
+								表达式结果输出：忽略指令内部块内容<br/>
+								$out{user.name} James $end<br/>
+								&lt;!--$out{user.name}--&gt; James &lt;!--$end--&gt;<br/>
+								&lt;!--$out{user.coins + 100}--&gt; 112 &lt;!--$end--&gt;<br/>
+								国际化信息输出：将内部块内容作为默认值<br/>
+								$message{"key", arg0, arg1} default value $end<br/>
+								$message{"home.title"} welcome $end<br/>
+								&lt;!--$message{"home.title"}--&gt; welcome &lt;!--$end--&gt;<br/>
+								<b>(2) 条件指令:</b><br/>
+								$if{user.name == "james"} <font color="green">(注：可以判断空对象，$if{user}等价于$if{user != null})</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$elseif{ user.name == "kent"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$else<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end<br/>
+								<b>(3) 迭代指令:</b><br/>
+								定义循环显示项:<br/>
+								$cycle{color: ("red", "blue", "green")}<br/>
+								迭代集合或数组:<br/>
+								$for{user : users}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;从循环显示项中取值 <font color="green">(注：cycle变量每次next取值时向后滚动，到最后一个值时将循环到第一个值)</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;${color.next} ${color.value} ${color.index}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;中断循环 <font color="green">(注：条件判定与指令合并，以避免冗长的语句：$if {for.count &gt; 5} $break $end)</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;$break{for.count &gt; 5}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;继续循环<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;$continue{user.name == null}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;状态<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;<font color="green">(注：for变量(非关键字)持有循环过程的状态，多级嵌套循环时，可以用super.for.index获取上级循环的状态)</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;${for.index} ${for.count} ${for.size} ${for.first} ${for.middle} ${for.last} ${for.odd} ${for.even}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;<font color="green">(注：index从0开始，count从1开始，也就是count = index + 1)</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;取值<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;${user.name}<br/>
+								$forelse <font color="green">(注：仿$if ... $else ...语法，以避免多重判断语句，当循环集合为空时执行)</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;have no users...<br/>
+								$end<br/>
+								特殊迭代举例：<br/>
+								a. 简单次数迭代：$for{10}，迭代10次，不产生迭代项数据，但可以用状态信息${for.index}等，当次数小于或等于零时不迭代<br/>
+								b. 数字序列迭代：$for{num : 1..9}，$for{num : -2..5}，$for{num : 5..-2}<br/>
+								c. 子集合迭代：$for{item : list[0..2]}，迭代list中索引号从0到2的元素(包含边界)，索引号越界时忽略<br/>
+								d. 过滤迭代：$for{item : list[=> item != 'xxx']}，过滤掉"xxx"项，参见"=&gt;"操作符使用<br/>
+								e. 排序迭代：$for{item : list orderby ("+property1", "-property2")}，$for{book : books orderby "+price"} 将books内的元素按price属性值升序排列后再迭代 (参见orderby操作符使用)<br/>
+								f. 非空选择迭代：$for{item : list1 || list2 || list3}，从左至右选第一个非空的集合进行迭代<br/>
+								g. 并行迭代：$for{item1 : list1, item2 : list2}, $for{i : (1..10), user : users}，多个集合并行取next值，以最长的集合作为结束，短集合自动补null值<br/>
+								<b>(4) 变量指令:</b><br/>
+								声明局部变量: <font color="green">(注：通常用于隐藏上级同名变量)</font><br/>
+								$local{name = "james"}<br/>
+								当前模板根级上下文变量定义<br/>
+								$root{name = "james"}<br/>
+								全局上下文变量定义<br/>
+								$global{name = "james"}<br/>
+								给最近区域的变量赋值: <font color="green">(注：若直到根区域均未找到相应变量，则在当前区域创建局部变量)</font><br/>
+								$set{name = "james"} <font color="green">(注：不能修改即有数据模型状态，也就是不能使用像：$set{user.name = "james"}的层级设值方式，以遵守模板无副作用契约，避免引入业务逻辑)</font><br/>
+								如果变量为空或未定义，则给其赋初始值: <br/>
+								$init{name = "guest"}<br/>
+								<b>(5) 包含指令:</b><br/>
+								内嵌其它模板: <font color="green">(注：被内嵌的文件<b>可以</b>访问当前上下文的变量，<b>不可以</b>传参)</font><br/>
+								$embed{"common.ctl"}<br/>
+								$embed{"common.ctl", "UTF-8"}<br/>
+								内嵌其它模板的一部分: <font color="green">(注：#后为zone的名称, 参见$zone指令)</font><br/>
+								$embed{"common.ctl#zone"}<br/>
+								包含其它模板的输出: <font color="green">(注：只包含输出，被包含的文件在新的上下文中执行，<b>不能</b>访问当前上下文的变量，<b>可以</b>传参)</font><br/>
+								$include{"common.ctl"}<br/>
+								$include{"common.ctl", "UTF-8"}<br/>
+								$include{"common.ctl", (param1: "value1", param2: "value2")}<br/>
+								$include{"common.ctl", "UTF-8", (param1: "value1", param2: "value2")}<br/>
+								包含其它模板的一部分: <font color="green">(注：#后为zone的名称, 参见$zone指令)</font><br/>
+								$include{"common.ctl#zone"}<br/>
+								显示文件的内容: <font color="green">(注：不解析其内容)</font><br/>
+								$display{"article.txt"}<br/>
+								$display{"article.txt", "UTF-8"}<br/>
+								抓取远程文件的内容: <font color="green">(注：只在Web环境下有效)</font><br/>
+								$snatch{"list.jsp"} 相对于当前页面路径目录<br/>
+								$snatch{"../list.jsp"} 相对于当前页面路径的上级目录<br/>
+								$snatch{"/list.jsp"} 相对于Web根目录<br/>
+								$snatch{"/list.jsp", 'UTF-8'} 指定编码<br/>
+								$snatch{"http://www.163.com"} 远程页面<br/>
+								<b>(6) 块指令:</b><br/>
+								Block块定义: <font color="green">(注: Block块在定义的位置不显示, 需通过show指令显示, 可以多次调用显示)</font><br/>
+								$block{"myblock"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end<br/>
+								显示Block块:<br/>
+								$show{"myblock"}<br/>
+								<b>(7) 宏指令:</b><br/>
+								宏定义:<br/>
+								$macro{"mymacro"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end<br/>
+								$macro{"mymacro_block"} <font color="green">(注：以"_block"结尾的指令表示块指令，可以通过inner指令回调其内部块)</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;回调调用者的内部块<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;$inner{param3: "value3"}<br/>
+								$end<br/>
+								导入模板文件作为宏:<br/>
+								$import{mymacro : "mymacro.ctl"}<br/>
+								$import{mymacro_block : "mymacro.ctl"}<br/>
+								导入模板文件中的宏作为宏: <font color="green">(注：#号后面是宏的名称, 参见$macro指令)</font><br/>
+								$import{mymacro : "mymacro.ctl#mymacro"}<br/>
+								使用Block块作为宏:<br/>
+								$using{mymacro : "myblock"}<br/>
+								$using{mymacro_block : "myblock"}<br/>
+								宏调用方式: <font color="green">(注：宏调用在新的上下文中执行，<b>不能</b>访问当前上下文的变量，<b>可以</b>传参)</font><br/>
+								$mymacro{param1: "value1", param2: "value2"}<br/>
+								$mymacro_block{param1: "value1", param2: "value2"} <font color="green">(注：以"_block"结尾的指令表示块指令)</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end<br/>
+								<b>(8) 继承指令:</b> <font color="green">(注：通常用于布局layout)</font> <a href="demo_extends.html">示例&gt;&gt;</a><br/>
+								模板块区域定义: <font color="green">(注：在父模板中)</font><br/>
+								$zone{"myzone"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end<br/>
+								继承模板: <font color="green">(注：在子模板中)</font><br/>
+								$extends{"super.ctl"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;覆盖父模板块:<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;$overzone{"myzone"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;调用父模板块:<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$superzone<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;$end<br/>
+								$end<br/>
+								<b>(9) 动态指令:</b><br/>
+								动态执行模板:<br/>
+								$exec{templateString}<br/>
+								动态表达式求值:<br/>
+								$eval{expressionString}<br/>
+								<b>(10) 过滤指令:</b><br/>
+								输出过滤指令:  <font color="green">(注：只过滤动态内容，不过滤文本块)</font><br/>
+								$filter{x => "&lt;b&gt;" + x.escapeHtml + "&lt;/b&gt;"} <font color="green">(注：缺省名称为value，如：$filter{=> value.escapeHtml})</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end <br/>
+								输出全过滤指令:  <font color="green">(注：过滤所有输出，包括文本块)</font><br/>
+								$filterAll{x => x.escapeHtml} <font color="green">(注：缺省名称为value，如：$filterAll{=> value.escapeHtml})</font><br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end <br/>
+								压缩空格: <font color="green">(注: 将多个连续的空白符压成一个空格)</font><br/>
+								$compress<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end <br/>
+								转义特殊符:<br/>
+								$escape{"html", "js", "url", "base64"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end<br/>
+								<!--
+								代码着色:<br/>
+								$code{"java"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end<br/>
+								关键字加亮:<br/>
+								$keyword{"word1", "word2"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end<br/>
+								-->
+								<b>(11) 调试指令:</b><br/>
+								停止页面解析：<br/>
+								$stop<br/>
+								性能监测：(记录其内部块的运行时间，并将时间存入全局的变量中)<br/>
+								$time{"xxx_time"}<br/>
+								&nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+								$end<br/>
+								above block spend time: ${xxx_time} ms<br/>
+								调试日志：<br/>
+								$log{"debug messages..."}<br/>
+								$log{debug: "debug messages..."}<br/>
+								$log{info: "info messages..."}<br/>
+								$log{warn: "warn messages..."}<br/>
+								$log{error: "error messages..."}<br/>
+								单步调试断点：(运行时遇到此指令将弹出单步调试对话框) <a href="debug.html">更多...</a><br/>
+								$breakpoint<br/>
+								<br/>
+								<b>五. 变量区间:</b><br/>
+								页面内的每一个块指令(如$if,$for等)都会创建相应的LocalContext, 变量取值时逐级向上查找, <br/>
+								如果当前LocalContext中的变量与上级变量重名，可以使用super关键字跳到上级取值，如：${super.var}<br/>
+								Web应用中变量查找顺序：页面内, root, model, request, parameter, header, session, cookie, application, global<br/>
+								可以用context["区域名"]在指定范围内查找，如：${context["session"].loginUser}<br/>
+								另外，也可以用context["指令名"]查找最近的某个块指令区域内的变量，如：${context["for"].xxx} ${context["if"].xxx}<br/>
+								<br/>
+								<b>六. Html语法扩展</b><br/>
+								(1) &lt;!--$name{expression}--&gt; 注释指令<br/>
+								(2) &lt;table ct:if="users != null && users.size &gt; 0"&gt;...&lt;table&gt; 属性指令, (只能用于块指令)<br/>
+								<br/>
+								<b>七. 举例:</b><br/>
+								(1) 标准指令:<br/>
+<font color="#3f7f5f">&lt;html&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;body&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$if{users&nbsp;!=&nbsp;null&nbsp;&amp;&amp;&nbsp;users.size&nbsp;&gt;&nbsp;0}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;table&nbsp;<font color="#7f0055">border</font><font color="#000000">=</font><font color="#2a00ff">"1"</font>&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$for{user&nbsp;:&nbsp;users}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;tr&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;td&gt;</font>${for.index&nbsp;+&nbsp;1}<font color="#3f7f5f">&lt;/td&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;td&gt;</font>${user.name}<font color="#3f7f5f">&lt;/td&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;td&gt;</font>${user.coins}<font color="#3f7f5f">&lt;/td&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;/tr&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$end<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;/table&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$end<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;/body&gt;</font><br/>
+<font color="#3f7f5f">&lt;/html&gt;</font><br/>
+								<br/>
+								(2) 注释版语法外套:<br/>
+<font color="#3f7f5f">&lt;html&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;body&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f5fbf">&lt;!--$if{users&nbsp;!=&nbsp;null&nbsp;&amp;&amp;&nbsp;users.size&nbsp;&gt;&nbsp;0}--&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;table&nbsp;<font color="#7f0055">border</font><font color="#000000">=</font><font color="#2a00ff">"1"</font>&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f5fbf">&lt;!--$for{user&nbsp;:&nbsp;users}--&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;tr&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;td&gt;</font><font color="#3f5fbf">&lt;!--$out{for.index&nbsp;+&nbsp;1}--&gt;</font>1<font color="#3f5fbf">&lt;!--$end--&gt;</font><font color="#3f7f5f">&lt;/td&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;td&gt;</font><font color="#3f5fbf">&lt;!--$out{user.name}--&gt;</font>james<font color="#3f5fbf">&lt;!--$end--&gt;</font><font color="#3f7f5f">&lt;/td&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;td&gt;</font><font color="#3f5fbf">&lt;!--$out{user.coins}--&gt;</font>2.00<font color="#3f5fbf">&lt;!--$end--&gt;</font><font color="#3f7f5f">&lt;/td&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;/tr&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f5fbf">&lt;!--$end--&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;/table&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f5fbf">&lt;!--$end--&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;/body&gt;</font><br/>
+<font color="#3f7f5f">&lt;/html&gt;</font><br/>
+								<br/>
+								(3) 属性版语法外套:<br/>
+<font color="#3f7f5f">&lt;html&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;body&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;table&nbsp;<font color="#7f0055">ct:if</font><font color="#000000">=</font><font color="#2a00ff">"users&nbsp;!=&nbsp;null&nbsp;&amp;&amp;&nbsp;users.size&nbsp;&gt;&nbsp;0"</font>&nbsp;<font color="#7f0055">border</font><font color="#000000">=</font><font color="#2a00ff">"1"</font>&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;tr&nbsp;<font color="#7f0055">ct:for</font><font color="#000000">=</font><font color="#2a00ff">"user&nbsp;:&nbsp;users"</font>&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;td&gt;</font><font color="#3f7f5f">&lt;span&nbsp;<font color="#7f0055">ct:out</font><font color="#000000">=</font><font color="#2a00ff">"for.index&nbsp;+&nbsp;1"</font>&gt;</font>1<font color="#3f7f5f">&lt;/span&gt;</font><font color="#3f7f5f">&lt;/td&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;td&gt;</font><font color="#3f7f5f">&lt;span&nbsp;<font color="#7f0055">ct:out</font><font color="#000000">=</font><font color="#2a00ff">"user.name"</font>&gt;</font>james<font color="#3f7f5f">&lt;/span&gt;</font><font color="#3f7f5f">&lt;/td&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;td&gt;</font><font color="#3f7f5f">&lt;span&nbsp;<font color="#7f0055">ct:out</font><font color="#000000">=</font><font color="#2a00ff">"user.coins"</font>&gt;</font>2.00<font color="#3f7f5f">&lt;/span&gt;</font><font color="#3f7f5f">&lt;/td&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;/tr&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;/table&gt;</font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#3f7f5f">&lt;/body&gt;</font><br/>
+<font color="#3f7f5f">&lt;/html&gt;</font><br/>
+
+	
+										</td>
+									<tr>
+								</table>
+							</td>
+							<td width="20">&nbsp;</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td height="6" align="center"><hr width="94%" align="center"/></td>
+			</tr>
+			<tr>
+				<td height="24" align="center">
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<td>
+								版权所有 &#169; 2007-2008 <a href="about_us.html">CommonTemplate 开发小组</a>
+							</td>
+							<td width="100" align="right">
+								<a href="http://www.commontemplate.org"><img src="../images/logo.gif" border="0" /></a>
+							</td>
+							<td width="100" align="right">
+								<a target="_blank" href="http://sourceforge.net" target="_blank"><img src="../images/sourceforge.jpg" border="0" /></a>
+							</td>
+						<tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
