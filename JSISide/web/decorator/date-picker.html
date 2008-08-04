@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:d="http://www.xidea.org/taglib/decorator" xml:lang="zh_CN"
+  lang="zh_CN">
+<head>
+<meta http-equiv=content-type content="text/html; charset=utf-8">
+<title>DatePicker 示例</title>
+<link rel="stylesheet" type="text/css" href="decorator.css" />
+<script src="../scripts/boot-decorator.js"></script>
+</head>
+<body>
+<h1>DatePicker 示例</h1>
+<div class="group">
+	<h2>日期装饰器(弹出式)</h2>
+	<!-- 开始日期装饰器(弹出式) -->
+	<input d:class="datePicker" type="text" name="test2" />
+	<!-- 开始代码高亮显示 -->
+	<select style="margin-left:120px">
+	  <option>测试覆盖 IE Select元素</option>
+	</select>
+</div>
+<!-- 开始日期装饰器(内嵌式) -->
+
+<div class="group">
+    <h4>日期装饰器(内嵌式)</h4>
+    <input d:class="datePicker" d:type='inline' type="text" name="test1" />
+</div>
+
+
+<hr />
+<!-- 开始Include装饰器,包含装饰器菜单 --> 
+<a d:class="include" d:url='menu.xml' d:xslt="menu.xsl"></a>
+</body>
+</html>

@@ -1,0 +1,35 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="simple-format.js"></script>
+<script type="text/javascript">
+
+
+
+function doFormat(pattern,date,example,locale){
+	var text = format(pattern,date);
+    document.writeln("[date]:   \t\t"+date)
+    document.writeln("[pattern]:\t\t"+pattern)
+    document.writeln("[example]:\t\t"+example)
+	document.writeln("[output]: \t\t"+text);
+	document.writeln();
+    
+}
+var date = new Date();
+document.writeln("<pre>");
+doFormat("YYYY-MM-DDThh:mm:ss",date,"2001-07-04T12:08:56")//±hh:mm
+
+doFormat("YYYY-MM-DD 'T' hh:mm:ss",date,"2001-07-04 at 12:08:56")
+doFormat("YYYY/MM/DD 'T' hh:mm:ss",date,"2001/07/04 at 12:08:56")
+
+doFormat("YYYY年MM月DD日,周w",date,"2008年12月12日,周3")
+
+doFormat("hh:mm",date,"12:08")
+doFormat("hh点mm分ss.sss秒",date,"12点08分12.444秒")
+
+
+
+doFormat("YYYYMMDDhhmmss.sss",date,"010704120856.999")
+
+
+document.writeln("</pre>");
+
+</script>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GBK"?>
+<project name="JSISide" default="build" basedir="../">
+	<property name="version" value="2007-06-19" />
+
+    <target name="init">
+        <delete dir="build/temp">
+        </delete>
+        <mkdir dir="build/temp/scripts" />
+        <mkdir dir="build/dest" />
+    </target>
+    <target name="copyjsi">
+        <jar destfile="web/WEB-INF/lib/JSI.jar">
+            <fileset dir="../JSI2/web/WEB-INF/classes">
+                <include name="**/*.*" />
+            </fileset>
+        </jar>
+    </target>
+    <target name="build" depends="copyjsi">
+    </target>
+</project>

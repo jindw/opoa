@@ -1,0 +1,45 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="java-date-format.js"></script>
+<script type="text/javascript">
+
+
+
+function doFormat(pattern,date,example,locale){
+	var df = new JavaDateFormat(pattern,locale);
+    document.writeln("[date]:\t\t"+date)
+    document.writeln("[pattern]:\t\t"+pattern)
+    document.writeln("[example]:\t\t"+example)
+	document.writeln("[output]:\t\t"+df.format(date));
+	document.writeln();
+    
+}
+var date = new Date();
+document.writeln("<pre>");
+doFormat("yyyy.MM.dd 'at' HH:mm:ss",date,"2001.07.04 at 12:08:56")
+
+doFormat("E, MMM d, ''yy",date,"Wed, Jul 4, '01")
+doFormat("EE, MMM d, ''yy",date,"Wed, Jul 4, '01")
+doFormat("EEEE, MMM d, ''yy",date,"Wed, Jul 4, '01")
+
+doFormat("h:mm aa",date,"12:08 pm")
+
+doFormat("hh 'o''clock' a",date,"12 o'clock p")
+
+doFormat("yyyyy.MMMMM.dd hh:mm aaa",date,"2001.July.04 12:08 PM")
+
+doFormat("EEE, d MMM yyyy HH:mm:ss",date,"Wed, 4 Jul 2001 12:08:56")
+doFormat("EEEE, d MMM yyyy HH:mm:ss",date,"Wednesday, 4 Jul 2001 12:08:56")
+
+doFormat("yyMMddHHmmss",date,"010704120856")
+
+doFormat("'''ad'''yyyy'year'MM'month'dd''",date,"'ad'2007year06month16'")
+
+doFormat("MM'yyyy''yyyy'yyyy",date,"06yyyy'yyyy2007")
+
+////
+doFormat("EEEE, d MMMM yyyy HH:mm:ss",date,"Wed, 4 Jul 2001 12:08:56",'en')
+
+
+document.writeln("</pre>");
+
+</script>

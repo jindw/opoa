@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:d="http://www.xidea.org/taglib/decorator" xml:lang="zh_CN"
+  lang="zh_CN">
+<head>
+<meta http-equiv=content-type content="text/html; charset=utf-8">
+<script src="../scripts/boot-decorator.js"></script>
+<title>Drag Drop 示例</title>
+<link rel="stylesheet" type="text/css" href="../styles/decorator.css" />
+<style>
+.g1,.d1{
+    border:1px solid;
+    padding:40px;
+    width:80%;
+    height:60px;
+    clear:both;
+}
+.d1 div, .g1 div {
+    margin:8px;
+    width:30px;
+    height:30px;
+    /*float:left;*/
+    border:1px solid;
+}
+</style>
+</head>
+<body>
+<h1>Drag Drop 示例</h1>
+
+<h2>装饰效果</h2>
+<h3>拖放1组(拷贝式)</h3>
+<div class="group">
+    <div d:class="DropTarget" class="d1">
+        <div d:class="DragSource" d:group='g1'>
+        拖动句柄1
+        </div>
+        <div d:class="DragSource" d:group='g1'>
+        拖动句柄2
+        </div>
+        <div d:class="DragSource" d:group='g1'>
+        拖动句柄4
+        </div>
+    </div>
+    <div d:class="DropTarget" d:group='g1' d:on-drop="#{copyDrop}" class="d1">
+    释放容器
+    </div>
+</div>
+<h3>拖放2组(移动，可放回)</h3>
+<div class="group">
+    <div d:class="DropTarget" d:group='g2' class="d1">
+        <div d:class="DragSource" d:group='g2'>
+        拖动句柄1
+        </div>
+        <div d:class="DragSource" d:group='g2'>
+        拖动句柄2
+        </div>
+        <div d:class="DragSource" d:group='g2'>
+        拖动句柄4
+        </div>
+    </div>
+    <div d:class="DropTarget" d:group='g2' class="d1">
+    释放容器
+    </div>
+</div>
+<h3>拖放3组（禁止操作）</h3>
+<div class="group">
+    <div class="g1" d:group='g3'>
+        <div d:class="DragSource" d:group='g3'>
+        拖动句柄1
+        </div>
+        <div d:class="DragSource" d:group='g3'>
+        拖动句柄2
+        </div>
+        <div d:class="DragSource" d:group='g3'>
+        拖动句柄4
+        </div>
+    </div>
+    <div d:class="DropTarget" d:group='g3'
+     d:on-enter="#{function(draggable){E(draggable.id).style.cursor = 'no-drop';/*E(this.id).appendChild(E(draggable.id))*/}}"
+     d:on-drop="#{function(draggable){E(draggable.id).style.cursor = 'pointer'}}" 
+     d:on-leave="#{function(draggable){E(draggable.id).style.cursor = 'no-drop'}}" 
+     class="d1">
+    释放容器
+    </div>
+</div>
+<script>
+function E(id){
+    return document.getElementById(id)
+}
+function copyDrop(draggable){
+    //not move
+    var nn = E(draggable.id).cloneNode(true);
+    nn.id = nn.id + '_copy_'+new Date().getTime();
+    E(this.id).appendChild(nn)
+}
+</script>
+
+<hr />
+<a d:class="include" d:url='menu.xml' d:xslt="menu.xsl"></a>
+
+</body>
+</html>

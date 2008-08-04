@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?xml version="1.0" encoding="utf-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh-CN">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+<style>
+html{
+    width:100%;
+    height:100%;
+}
+body{
+    border:1px solid #9EBEFE;
+	font-size: 18px;
+	font-weight: normal;
+	-moz-user-select:none;
+	-khtml-user-select:none;
+	/*width:140px;*/
+	/*height:180px;*/
+	background-color:white;
+	padding: 0px;
+	margin: 0px;
+}
+#title{
+    background-color: #9EBEFE;
+    height:12%;
+    line-height:22px;
+    overflow:hidden;
+    margin: 3px;
+}
+#content{
+    height:68%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#footer{
+    padding:2px;
+    height:20%;
+    text-align: center;
+}
+table{
+    width: 100%;
+    height: 100%;
+}
+#content td{
+    cursor: hand;
+    cursor: pointer;
+}
+#content table, #content th{
+    border-bottom: 1px solid #ACA899;
+}
+.previousMonth{
+    width:10%;
+}
+.nextMonth{
+    width:10%;
+}
+.fields{
+    width:80%;
+}
+
+
+#content th,#title th{
+    font-size: 14px;
+    line-height:18px;
+    font-weight: normal;
+    text-align: center;
+}
+#content td{
+    font-size: 12px;
+    line-height:14px;
+    text-align: center;
+    padding: 1px;
+}
+
+#yearContainer,#monthContainer{
+    float:left;
+    position:relative;
+    top:0px;
+    width:49%;
+    text-align: center;
+    cursor:pointer;
+}
+#yearContainer .editor,#monthContainer .editor{
+    display:none;
+}
+#yearContainer.input .editor,#monthContainer.input .editor{
+    display:block;
+    text-align: right;
+}
+#yearContainer.input .text,#monthContainer.input .text{
+    display:none;
+}
+input{
+    width:50px;
+}
+select{
+    width:50px;
+}
+.spinner{
+    z-index: 2;
+    position:absolute;
+    top:2px;
+    right:0px;
+}
+
+.outer-date{
+    color:#DDDDDD;
+}
+.today-date{
+    border: 1px dotted #FFD700;
+}
+.current-date{
+    background:#FFD700;
+}
+</style>
+</head>
+<body onselectstart="return false;" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<div id="title">
+<table cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+    <tr>
+      <th class="previousMonth" onmouseout="clearMoveTimer();" onmouseover="stopEdit()"
+        onmouseup="clearMoveTimer();" onmousedown="setupMoveTimer(-1);"
+        onclick="changeMonth(-1)">&#9668;</th>
+      <th class="fields">
+      <div id="yearContainer" onclick="this.className='input'">
+      <div class="text" onmouseover="stopEdit()"></div>
+      <div class="editor"><input type="text"
+        onchange="changeYear(this)"
+        onblur="stopEdit()" />
+        <div class="spinner">
+        <div class="spinner-up"
+        onmouseover="this.className = 'spinner-up-over'"
+        onmouseout="this.className = 'spinner-up'"
+        onmousedown="this.className = 'spinner-up-click'"
+        onmouseup="this.className = 'spinner-up-over'"
+        onclick="changeYear(1)"
+        ></div>
+        <div class="spinner-down"
+        onmouseover="this.className = 'spinner-down-over'"
+        onmouseout="this.className = 'spinner-down'"
+        onmousedown="this.className = 'spinner-down-click'"
+        onmouseup="this.className = 'spinner-down-over'"
+        onclick="changeYear(-1)"
+        ></div>
+        </div>
+      </div>
+      </div>
+      <div id="monthContainer" onclick="this.className='input'">
+      <div class="text" onmouseover="stopEdit()"></div>
+      <div class="editor"><select onchange="changeMonth(this)"
+        onblur="stopEdit()">
+      </select></div>
+      </div>
+      </th>
+      <th class="nextMonth" onmouseout="clearMoveTimer();"
+        onmouseover="stopEdit()"
+        onmouseup="clearMoveTimer();" onmousedown="setupMoveTimer(1);"
+        onclick="changeMonth(1)">&#9658;</th>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div id="content" onmouseover="stopEdit()"></div>
+<div id="footer" onmouseover="stopEdit()">
+<button onclick="selectToday()">当天</button>
+<button onclick="decorator.setDate(null)">清空</button>
+</div>
+<script src="date-picker.js"></script>
+</body>
+</html>
