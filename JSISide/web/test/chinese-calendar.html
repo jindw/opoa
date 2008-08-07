@@ -1,0 +1,26 @@
+<script src="scripts/?path=boot.js" type="text/javascript"></script>
+<script>$import("org.jside.sandbox.*",true);</script>
+<script type="text/javascript">
+/*
+var year = 2008;
+var month = 8;
+var date = 7;
+$log.error(getLunarString(year,month,date),new ChineseDate(new Date(year,month,date)).toString());
+*/
+alert(new ChineseDate(new Date(2008,7,7)).toString())
+date = new Date(1921,1,8);
+var c = 12*40
+while(c--){
+   date.setDate(32); 
+   var d1 = findChineseDateInfo(date.getFullYear(),date.getMonth(),date.getDate());
+   var d2 = new ChineseDate(date).getData();
+   if(d1.year != d2.year ||
+       d1.month != d2.month ||
+       d1.date != d2.date){
+       $log.error(date.toLocaleString(),
+           new ChineseDate(date).toString(),
+           "====",
+           getLunarString(date.getFullYear(),date.getMonth(),date.getDate()))
+   }
+}
+</script>
