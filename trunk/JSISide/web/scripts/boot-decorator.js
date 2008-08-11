@@ -76,7 +76,7 @@
         //domready
         
         if(":debug"){
-            document.write("<script src='"+scripts.replace(/[^\\\/]+$/,'boot.js')+"'></script>")
+            document.write("<script src='"+scripts.replace(/[^\\\/]+$/,'?path=boot.js')+"'></script>")
         }
     }
 })();
