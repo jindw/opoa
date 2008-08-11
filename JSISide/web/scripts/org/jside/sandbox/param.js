@@ -24,3 +24,9 @@ function URI(){
     this.param = param;
     this.params = params;
 }
+
+
+var map = {};
+location.search.substr(1).replace(/([^&=]+)=?([^&]+)?&?/g,function(a,key,value){
+    map[decodeURIComponent(key)]=decodeURIComponent(value);
+});
