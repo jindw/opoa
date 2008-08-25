@@ -24,7 +24,9 @@ function Tween(second,transform,interval){
         this.interval = interval;
     }
 }
-
+function toEl(id){
+    return id instanceof String?document.getElementById(id):id;
+}
 Tween.prototype = {
     interval:40,
     transform:function(x){return 1-Math.pow(1-x,3)},
@@ -46,9 +48,11 @@ Tween.prototype = {
         var time = this.time;
         var end = transform(1);
         var t = 0;
-        return setInterval(callback,interval);
+        var task = setInterval(callback,interval);
+        return task;
     },
     moveBy : function(el,offsetX,offsetY,onFinish){
+        el = toEl(el);
         var x = el.offsetLeft;//+margin
         var y = el.offsetTop;//+margin
         var style = el.style;
@@ -68,7 +72,7 @@ Tween.prototype = {
         return this.start(onStep,onComplete);
     },
     opacity : function(el,begin,end,onFinish){
-        el = document.getElementById(el);
+        el = toEl(el);
         var inc = end - begin;
         var first = true;
         function onStep(rate){
