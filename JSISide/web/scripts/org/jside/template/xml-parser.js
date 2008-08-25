@@ -31,7 +31,7 @@ XMLParser.prototype.load = function(url){
 	    if(/\/xml/.test(xhr.getResponseHeader("Content-Type"))){//text/xml,application/xml...
 	        var doc = xhr.responseXML;
 	    }else{
-	        var doc =toDoc(xhr.responseText)
+	        var doc = toDoc(xhr.responseText)
 	    }
 	    if(pos>0){
 	        doc = selectNodes(doc,url.substr(pos+1));
@@ -46,8 +46,8 @@ XMLParser.prototype.load = function(url){
  */
 XMLParser.prototype.addParser(function(node,context){
     switch(node.nodeType){
-        case 1: //NODE_ELEMENT 
-            return parseElement(node,context)
+        //case 1: //NODE_ELEMENT 
+        //    return parseElement(node,context)
         case 2: //NODE_ATTRIBUTE                             
             return parseAttribute(node,context)
         case 3: //NODE_TEXT                                        
@@ -293,6 +293,7 @@ function parseOutTag(node,context){
 
 
 //parser element
+/*
 function parseElement(node,context){
     var next = node.attributes;
     context.append('<'+node.tagName);
@@ -478,7 +479,7 @@ function loadAttribute(node,setting){
     var i = attributes.length;
     var data = {};
     while(i--){
-        var item = attributes.item(i);
+        var item = attributes[i];//item 不行 htmlunit
         var key = item.name;
         if(key in setting){
             data[key] = item.value.replace(/^\s+|\s+$/g,'');
