@@ -85,7 +85,7 @@ XMLParser.prototype.addParser(function(node,context){
         var next = node.attributes;
         context.append('<'+node.tagName);
         for (var i=0; i<next.length; i++) {
-            context.parseNode(next.item(i),context)
+            context.parseNode(next[i],context)
         }
         if(htmlLeaf.test(node.tagName)){
             context.append('/>')
@@ -313,6 +313,7 @@ function parseElement(node,context){
     }
     return true;
 }
+*/
 //parser attribute
 function parseAttribute(node,context){
     var name = node.name;
@@ -546,14 +547,16 @@ function toDoc(text){
  */
 function selectNodes(doc,xpath){
     var docFragment = doc.createDocumentFragment();
-    if(document.all){
+    try{
         var nodes = doc.selectNodes(xpath);
         var buf = [];
         for (var i=0; i<nodes.length; i++) {
             buf.push(nodes.item(i))
         }
-    }else{
-        var xpe = new XPathEvaluator();
+    }catch(e){
+    }
+    if(!buf){
+        var xpe = doc.evaluate? doc: new XPathEvaluator();
         var nsResolver = xpe.createNSResolver(doc.documentElement);
         var result = xpe.evaluate(xpath, doc.documentElement, nsResolver, 5, null);
         var node;
