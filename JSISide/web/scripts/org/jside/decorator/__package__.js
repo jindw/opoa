@@ -20,8 +20,8 @@ this.addScript("tooltip.js",'Tooltip');
               
 this.addDependence("*",["org.jside.E","org.jside.Element"]);
 
-if(":debug"){//class 常量，放在一起方便混淆
+//if(":debug"){//class 常量，放在一起方便混淆
     this.addScript("constants.js",'*');
     this.addDependence("*","constants.js");
-}
+//}
 
