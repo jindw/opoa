@@ -18,7 +18,6 @@
     <target name="build" depends="copyjsi">
     </target>
 	<target name="compress">
-		<!--  classname="org.jside.jsi.tools.web.SimpleWebServer"-->
 		<java classname="org.jside.jsi.tools.export.ExportorAction">
 			<classpath>
 				<path location="../JST/classes"></path>
