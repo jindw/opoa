@@ -1,5 +1,4 @@
-var scriptBase = this.scriptBase
-var template = INLINE_LOAD_TEMPLATE("date-picker.xhtml");
+var template = new Template(this.scriptBase + "date-picker.xhtml");
 /**
  * @public
  * @decorator datepicker

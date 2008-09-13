@@ -12,6 +12,7 @@
         <jar destfile="web/WEB-INF/lib/JSI.jar">
             <fileset dir="../JSI2/web/WEB-INF/classes">
                 <include name="**/*.*" />
+                <exclude name="**/*Test*.*" />
             </fileset>
         </jar>
     </target>
@@ -39,9 +40,9 @@
 			<arg value="${basedir}/build/dest/exported.jar" />
 			<arg value="-ascii" />
 			<arg value="false" />
-			<arg value="example.*" />
 			<arg value="org.jside.*" />
 			<arg value="org.jside.decorator.*" />
+			<arg value="org.jside.template.*" />
 		</java>
 	</target>
 </project>

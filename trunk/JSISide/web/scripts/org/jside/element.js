@@ -61,7 +61,7 @@ var elementProperties = {
     uid:function(el){
         var id = el.id || el.uniqueID;
         if(!id){
-            target.id = id = "__$puid"+idSequence++;
+            el.id = id = "__$puid"+idSequence++;
         }
         return id;
     },
@@ -282,7 +282,7 @@ var elementProperties = {
      * @param <HTMLElement>el HTML元素对象（对于包装元素,自动生成的同名成员方法中，默认传入this无须显示指定）
      * @return  返回样式单信息
      */
-    toPix:function(e, text){
+    toPix:function(el, text){
         var value = text.replace(/(\d*).*/,'$1');
         var postfix = text.substr(value.length);
         switch(postfix.toLowerCase()){

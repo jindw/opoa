@@ -13,8 +13,7 @@
  * @param <String> path cookie路径
  * @param <boolean> secure cookie私有
  */
-function Cookie(name,expires,domain,path,secure)
-{
+function Cookie(name,expires,domain,path,secure){
     this.name = name;
     this.expires = expires;
     this.domain = domain;
@@ -23,38 +22,21 @@ function Cookie(name,expires,domain,path,secure)
 }
 
 /**
- * 构造用于写入的cookie字符串
- * @internal
+ * 
+ * 设置cookie的值
+ * @public
  * @param <String> path cookie路径
  * @param <String> expires cookie时间
  * @param <String> domain cookie域
  * @param <String> secure cookie私有
- * @return <String> cookie字符串
+ * @param <String> value cookie的值
  */
-buildCookiePostfix: function (domain, path, expires, secure) {
-    return 
+Cookie.setValue = function(name,value,path,expires,domain,secure){
+    document.cookie = encodeURIComponent(this.name) + "=" + encodeURIComponent(value) +
         (domain ? "; domain=" + domain : "") + 
         (path ? "; path=" + path : "") + 
         (expires ? "; expires=" + expires.toGMTString() : "") + 
         (secure ? "; secure=true" : '');
-}
-/**
- * Sets cookie
- * @param {String} name the name of cookie item
- * @param {String} value the value of cookie item
- */
-Cookie.setValue = function (name,value,path,expires,domain,secure){
-    
-}
-/**
- * 
- * 设置cookie的值
- * @public
- * @param <String> value cookie的值
- */
-Cookie.setValue = function(value){
-    document.cookie = encodeURIComponent(this.name) + "=" + encodeURIComponent(value) 
-      + buildCookiePostfix();
 }
 /**
  * Sets cookie
