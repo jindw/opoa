@@ -9,11 +9,11 @@ function Tooltip(){
 Tooltip.prototype.before = function(){
     var mouseout = buildMouseout(this);
     var container = this.getContainer();
-    var target = getTarget(container);
+    var target = E(getTarget(container));
     container.style.display = 'none';
-    EventUtil.addMouseoverListener(target,buildMouseover(this));
-    EventUtil.addMouseoutListener(target,mouseout);
-    EventUtil.addClickListener(target,mouseout);
+    target.detach("mouseover",buildMouseover(this));
+    target.detach("mouseout",mouseout);
+    target.detach("click",mouseout);
 }
 Tooltip.prototype.initialize = function(){
     this.initialize = null;
@@ -46,16 +46,18 @@ Tooltip.prototype.initialize = function(){
 }
 Tooltip.prototype.decorate = function(){
 }
-
-
+function getScrollAttribute(pos){
+	pos = 'scroll' +  pos;
+    return document.documentElement[pos] || document.body[pos] || 0;
+}
 function buildMouseover(tooltip){
     return function(event){
         if(tooltip.initialize){
             tooltip.initialize();
         }
         var container = tooltip.getContainer();
-        container.firstChild.style.left=event.clientX + StyleUtil.getScrollLeft()+'px';
-        container.firstChild.style.top=event.clientY +StyleUtil.getScrollTop()+'px';
+        container.firstChild.style.left=event.clientX + getScrollAttribute('Left')+'px';
+        container.firstChild.style.top=event.clientY +getScrollAttribute("Top")+'px';
         container.firstChild.style.display = 'block';
     }
 }

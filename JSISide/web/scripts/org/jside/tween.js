@@ -79,7 +79,7 @@ Tween.prototype = {
             rate = begin + inc*rate;
             if(el.style.filter != null){
                 //如果是浮点型是否有异常
-                el.style.filter = (opacity == 1) ? '' : "alpha(opacity=" + opacity * 100 + ")";
+                el.style.filter = (rate >0.999) ? '' : "alpha(opacity=" + rate * 100 + ")";
             }else{
                 el.style.opacity = rate;
             }

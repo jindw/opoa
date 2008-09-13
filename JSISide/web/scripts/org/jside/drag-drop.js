@@ -108,7 +108,7 @@ function beginDrag(draggable,event){
             //var xx = offset + offsetLeft+document.body.offsetLeft
             var x = movePosition.pageX - offsetX;
             var y = movePosition.pageY - offsetY
-            //$log.debug(moveEvent.clientX,moveEvent.clientY)
+            //$log.debug(movePosition.clientX,movePosition.clientY)
             var targetList = draggable.targetList;
             var i = targetList.length;
             if(!draggable.onDrag || draggable.onDrag(movePosition,x,y)!=false){
@@ -130,7 +130,7 @@ function beginDrag(draggable,event){
                             }
                             target.onEnter(draggable,movePosition);
                         }else{
-                            //target.onStep(moveEvent);
+                            //target.onStep(movePosition);
                         }
                         currentTarget = target;
                         break;
@@ -185,9 +185,10 @@ function beginDrag(draggable,event){
                 restore();
             }
         }finally{
-            moveBox = style = moveEvent = null;
+            moveBox = style = null;
             if(currentTarget){
                 currentTarget.onDrop(draggable,movePosition);
+                movePosition = null;
             }
         }
     }
