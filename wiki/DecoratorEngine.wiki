@@ -1,4 +1,4 @@
-#labels Featured
+#labels Featured,LoadOnDemand,JSI
 === 装饰引擎简介 ===
 
 JSISide装饰引擎是一个用于装饰朴素html元素的框架，使用简单的xml标记，标识期装饰行为，比如将一个不通的input装饰成一个日期输入控件。将一个textarea装饰成一个代码语法高亮显示区域，或一个wysiwyg html编辑器。 JSI启动后将采用异步方式，自动检查decorator标记，自动做相关类的寻找、导入并装饰页面。
