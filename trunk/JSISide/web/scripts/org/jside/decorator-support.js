@@ -36,8 +36,16 @@ var DecoratorEngine = {
         if(result.length){
             load(result);
         }
+    },
+    action:function(fnMap){
+    	var actionMap = {};
+	    for(var n in fnMap){
+	        actionMap[n] = buildCall(fnMap[n]);
+	    }
+	    return actionMap;
     }
 }
+var eventList = [];
 /**
  * LinkedHashMap
  */
@@ -49,6 +57,51 @@ var decoratorNamespace = 'http://www.xidea.org/taglib/decorator';
 var decoratorAttributeNameRegExp = /^[dD]\:/;
 var expressionRegExp=/^#\{([\s\S]+)\}$/;
 var inc = 1;
+
+
+
+var registerName = "$"+(new Date()+1).toString(32);
+/**
+ * 调用全局事件
+ */
+window[registerName] = function(i,thiz){
+    var event = eventList[i]
+    Array.prototype.splice.call(arguments,0,2);
+    return event.apply(thiz,arguments);
+}
+/**
+ * 添加一个全局事件
+ * @param <Function> fn
+ * @param <int> id
+ */
+function sign(fn){
+	var i = eventList.length;
+	var pos = i;
+	while(i--){
+		if(eventList[i] == null){
+			pos = i
+		}else if(eventList[i] == fn){
+			return i;
+		}
+	}
+    eventList[pos] = fn;
+    return pos;
+}
+function buildCall(id){
+    id = [registerName+"("+id+",this,event"];
+    return function(){
+        var result = fn.slice(0);
+        for(var i = 0;i<arguments.length;i++){
+            result.push(",");
+            result.push(JSON.serialize(arguments[i]));
+        }
+        result.push(");");
+        return result.join('') ;
+    }
+}
+
+
+
 function newDecoratorId(){
     return "$xidea_decorator$"+(inc++);
 }
@@ -129,7 +182,7 @@ function importCSS(stylePackage,className){
  */
 function applyDecorator(nodeInfo,decoratorClass){
     var htmlNode = nodeInfo.htmlNode;
-    var decorator = nodeInfo.decorator = new decoratorClass(nodeInfo.parentNode.decorator)
+    var decorator = nodeInfo.decorator = new decoratorClass(DecoratorEngine)
     var parentNode = nodeInfo.parentNode;
     var attributeMap = nodeInfo.attributeMap;
     for(var n in attributeMap){
@@ -138,7 +191,7 @@ function applyDecorator(nodeInfo,decoratorClass){
     //nodeInfo.parentNode 一定存在
     parentNode.childDecorators.push(decorator);
     delete nodeInfo.htmlNode;//delete
-    decorator.prepare && decorator.prepare(DecoratorEngine);
+    decorator.prepare && decorator.prepare(nodeInfo.parentNode.decorator);
     parentNode.task--;
     while(!nodeInfo.task && decorator){
         parentNode.task--;

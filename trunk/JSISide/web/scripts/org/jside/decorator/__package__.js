@@ -5,7 +5,6 @@
 /*
  * Decorator 处理相关
  */
-//this.addScript("test.js",['Test']);
 this.addScript("include.js",'Include',
               'org.jside.Request');
               
@@ -14,7 +13,7 @@ this.addScript("drag-drop.js",["DragSource","DropTarget"],'org/jside/drag-drop.j
 this.addScript("spinner.js",'Spinner');
 
 this.addScript("date-picker.js",'DatePicker',
-              'org.jside.Request');
+              'org.jside.Template');
               
 this.addScript("tooltip.js",'Tooltip');
               

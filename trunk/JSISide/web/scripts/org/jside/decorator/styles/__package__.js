@@ -11,6 +11,6 @@
  */
 
 this.addScript("base.css");
-this.addScript("form.css",['Spinner',"DatePicker"],"base.css");
-this.addScript("action.css",['DragSource',"DropTarget"]);
+this.addScript("form.css",['Spinner',"DatePicker"]);
+this.addScript("date-picker.css","DatePicker","form.css");
 

@@ -1,4 +1,4 @@
-var template = new Template(this.scriptBase + "date-picker.xhtml");
+var template = new Template(this.scriptBase + "html/date-picker.xhtml#//body");
 /**
  * @public
  * @decorator datepicker
@@ -26,7 +26,7 @@ DatePicker.prototype.decorate = function(){
     var table = new Element('table');
     var div = new Element("div");
     var iframe = new Element("iframe");
-    table.className = INLINE_CLASS_LAYOUT_+" "+INLINE_CLASS_DATE_PICKER;
+    table.className = "jside-layout- jside-date-picker";
     el.parentNode.insertBefore(table,el);
     var row = table.insertRow(0);
     var cell = row.insertCell(0); 

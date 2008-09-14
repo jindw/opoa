@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html>
+	<body onselectstart="return false;">
+		<div id="title">
+			<table cellspacing="0" cellpadding="0" border="0">
+				<tbody>
+					<tr>
+						<th class="previousMonth"
+							onmouseout="clearMoveTimer();" onmouseover="stopEdit()"
+							onmouseup="clearMoveTimer();" onmousedown="setupMoveTimer(-1);"
+							onclick="changeMonth(-1)">
+							&#9668;
+						</th>
+						<th class="fields">
+							<div id="yearContainer"
+								onclick="this.className='input'">
+								<div class="text"
+									onmouseover="stopEdit()">
+								</div>
+								<div class="editor">
+									<input type="text"
+										onchange="changeYear(this)" onblur="stopEdit()" />
+									<div class="spinner"
+											onmouseover="this.className = 'over-'"
+											onmousedown="this.className = 'click-'"
+											onmouseup="this.className = 'over-'"
+											onmouseout="this.className = ''">
+										<div class="spinner-up"
+											onclick="changeYear(1)">
+										</div>
+										<div class="spinner-down"
+											onclick="changeYear(-1)">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="monthContainer"
+								onclick="this.className='input'">
+								<div class="text"
+									onmouseover="stopEdit()">
+								</div>
+								<div class="editor">
+									<select onchange="changeMonth(this)"
+										onblur="stopEdit()">
+									</select>
+								</div>
+							</div>
+						</th>
+						<th class="nextMonth"
+							onmouseout="clearMoveTimer();" onmouseover="stopEdit()"
+							onmouseup="clearMoveTimer();" onmousedown="setupMoveTimer(1);"
+							onclick="changeMonth(1)">
+							&#9658;
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="content" onmouseover="stopEdit()">
+
+		</div>
+		<div id="footer" onmouseover="stopEdit()">
+			<button onclick="selectToday()">当天</button>
+			<button onclick="decorator.setDate(null)">清空</button>
+		</div>
+	</body>
+</html>

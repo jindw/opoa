@@ -1,6 +1,33 @@
+function replace(html,replaced){
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
  * css class 常量集
  */
+ /*
 var INLINE_CLASS_LAYOUT_ = "jside-layout-";
 
 
@@ -19,3 +46,4 @@ var INLINE_CLASS_SLIDER = "jside-slider";
 var INLINE_CLASS_SLIDER_HORIZONTAL = "jside-slider-horizontal";
 var INLINE_CLASS_SLIDER_VERTICAL = "jside-slider-vertical";
 var INLINE_CLASS_SLIDER_DISABLED = "jside-slider-disabled";
+* */
