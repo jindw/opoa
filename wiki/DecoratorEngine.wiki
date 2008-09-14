@@ -1,4 +1,4 @@
-#labels Featured,LoadOnDemand,JSI
+#labels Featured,JSI
 === 装饰引擎简介 ===
 
 JSISide装饰引擎是一个用于装饰朴素html元素的框架，使用简单的xml标记，标识期装饰行为，比如将一个不通的input装饰成一个日期输入控件。将一个textarea装饰成一个代码语法高亮显示区域，或一个wysiwyg html编辑器。 JSI启动后将采用异步方式，自动检查decorator标记，自动做相关类的寻找、导入并装饰页面。
@@ -19,3 +19,13 @@ xml标记随html一起被解析，唯一多出的开销就是查找页面的装�
     * FF: 50-70 毫秒。
 
 这点时间，用户是更本无法感知的，当能，如果你的页面非常非常复杂，哪可能要考虑别的办法了，JSI将在后续版本中提供解决方法。
+
+
+===装饰器结构===
+
+Constructor(decoratorEngine)
+#prepare(parentDecorator)
+#decorate(child1,child2,child3)
+
+先序方式遍历装饰节点，创建装饰器并执行prepare方法。
+深度优先方式遍历装饰器，执行decorate方法。
