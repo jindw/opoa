@@ -8,7 +8,7 @@
 function Spinner(){
 }
 
-Spinner.prototype.prepare = function(engine){
+Spinner.prototype.prepare = function(){
     this.start = parseInt(this.start)
     this.end = parseInt(this.end);
     this.step = parseInt(this.step)||1;

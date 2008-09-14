@@ -1,0 +1,101 @@
+html,body{
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0
+    border:1px solid #9EBEFE;
+	font-size: 18px;
+	font-weight: normal;
+	-moz-user-select:none;
+	-khtml-user-select:none;
+	background:white;
+}
+#title{
+    background: #9EBEFE;
+    height:12%;
+    line-height:22px;
+    overflow:hidden;
+    margin: 3px;
+}
+#content{
+    height:68%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#footer{
+    padding:2px;
+    height:20%;
+    text-align: center;
+}
+table{
+    width: 100%;
+    height: 100%;
+}
+#content td{
+    cursor: hand;
+    cursor: pointer;
+}
+#content table, #content th{
+    border-bottom: 1px solid #ACA899;
+}
+.previousMonth{
+    width:10%;
+}
+.nextMonth{
+    width:10%;
+}
+.fields{
+    width:80%;
+}
+#content th,#title th{
+    font-size: 14px;
+    line-height:18px;
+    font-weight: normal;
+    text-align: center;
+}
+#content td{
+    font-size: 12px;
+    line-height:14px;
+    text-align: center;
+    padding: 1px;
+}
+
+#yearContainer,#monthContainer{
+    float:left;
+    position:relative;
+    top:0px;
+    width:49%;
+    text-align: center;
+    cursor:pointer;
+}
+#yearContainer .editor,#monthContainer .editor{
+    display:none;
+}
+#yearContainer.input .editor,#monthContainer.input .editor{
+    display:block;
+    text-align: right;
+}
+#yearContainer.input .text,#monthContainer.input .text{
+    display:none;
+}
+input{
+    width:50px;
+}
+select{
+    width:50px;
+}
+.spinner{
+    z-index: 2;
+    position:absolute;
+    top:2px;
+    right:0px;
+}
+.outer-date{
+    color:#DDDDDD;
+}
+.today-date{
+    border: 1px dotted #FFD700;
+}
+.current-date{
+    background:#FFD700;
+}

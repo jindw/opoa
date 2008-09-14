@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html>
+	<body id="spinner">
+		<table class="layout- ${className}">
+			<tr>
+				<td>
+					<object />
+				</td>
+				<td class="spinner"
+					onmouseover="this.className = 'over-'"
+					onmousedown="this.className = 'click-'"
+					onmouseup="this.className = 'over-'"
+					onmouseout="this.className = ''">
+					<div class="spinner-up" onclick="${action.up()}">
+					</div>
+					<div class="spinner-down"
+						onclick="${action.down()}">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
