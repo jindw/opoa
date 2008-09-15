@@ -15,8 +15,13 @@ table.layout-{
 }
 table.layout- td{
     border:0;
-	padding:0px!important;
+	padding:0px;
 	margin:0px;
+}
+table.layout- table td{
+    border:auto;
+	padding:auto;
+	margin:auto;
 }
 img.layout-{
     width:0px!important;
@@ -26,6 +31,40 @@ img.layout-{
     font-size:0px;
     border:0px;
 }
+
+/* 八卦分图法 */
+/* 斜四相 */
+.quad-x-{
+    cursor:pointer;
+}
+.hover- .quad-x-{
+    background-position:right top;
+}
+.down- .quad-x-{
+    background-position:left bottom;
+}
+.disabled- .quad-x-{
+    background-position:right bottom;
+}
+/* 正四相 */
+.quad-y-{
+    cursor:pointer;
+    background-position:center top;
+}
+.hover- .quad-y-{
+    background-position:right center;
+}
+.down- .quad-y-{
+    background-position:left center;
+}
+.disabled- .quad-y-{
+    background-position:center bottom;
+}
+
+
+
+
+
 
 .jside-drag{
 }

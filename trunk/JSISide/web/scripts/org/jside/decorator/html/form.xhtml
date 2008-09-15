@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <html>
 	<body id="spinner">
-		<table class="layout- ${className}">
+		<table class="layout- jside-spinner">
 			<tr>
 				<td>
 					<object />
 				</td>
-				<td class="spinner"
-					onmouseover="this.className = 'over-'"
-					onmousedown="this.className = 'click-'"
-					onmouseup="this.className = 'over-'"
-					onmouseout="this.className = ''">
-					<div class="spinner-up" onclick="${action.up()}">
+				<td>
+					<div onmouseover="this.className = 'over-'"
+						onmousedown="this.className = 'down-'"
+						onmouseup="this.className = 'over-'"
+						onmouseout="this.className = ''">
+						<!-- 斜四相 -->
+						<div class="spinner-up- quad-x-"
+							onclick="${action.up()}">
+						</div>
 					</div>
-					<div class="spinner-down"
-						onclick="${action.down()}">
+					<div onmouseover="this.className = 'over-'"
+						onmousedown="this.className = 'down-'"
+						onmouseup="this.className = 'over-'"
+						onmouseout="this.className = ''">
+						<!-- 正四相 -->
+						<div class="spinner-down- quad-y-"
+							onclick="${action.down()}">
+						</div>
 					</div>
 				</td>
+
 			</tr>
 		</table>
 	</body>

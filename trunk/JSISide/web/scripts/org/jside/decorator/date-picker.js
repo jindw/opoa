@@ -1,4 +1,7 @@
-var template = new Template(this.scriptBase + "html/date-picker.xhtml#//body");
+var contentTemplate = new Template(this.scriptBase + "html/date-picker.xhtml#//*[@id='content']/*");
+var popupTemplate = new Template(this.scriptBase + "html/date-picker.xhtml#//*[@id='popup']/*");
+var inlineTemplate = new Template(this.scriptBase + "html/date-picker.xhtml#//*[@id='inline']/*");
+
 /**
  * @public
  * @decorator datepicker
@@ -10,116 +13,144 @@ function DatePicker(engine){
     this.engine = engine;
 }
 
-DatePicker.prototype.before = function(){
-    //type 约束处理
-    if(":debug"){
-        if(this.type && !/^(?:inline|popup)$/.test(this.type)){
-            $log.error("DataPicker 的type属性只能是 inline 或者 popup");
+DatePicker.prototype = {
+    type : "popup",
+    before : function(){
+        //type 约束处理
+        if(":debug"){
+            if(this.type && !/^(?:inline|popup)$/.test(this.type)){
+                $log.error("DataPicker 的type属性只能是 inline 或者 popup");
+            }
+        }
+        this.format = new ISODateFormat(this.pattern || 'Y-M-D');
+        this.type = this.type && this.type.toLowerCase() =='inline'?'inline':'popup'
+    },
+    decorate : function(){
+    	var wrapTemplate = this.type == 'inline'?inlineTemplate:popupTemplate;
+        var el = E(this.id);
+        var content = new Element("div");
+        applyTemplate(
+            el,
+            wrapTemplate.render({
+	            action:this.engine.action({
+	                popup : buildPopupListener(this)
+	            })
+	        }),el,content,content);
+        this.contentId = content.uid();
+        var initValue = buildInputChangeListener(this);
+        initValue();
+        this.actionMap = {
+            decorator:this,
+            today:createDateItem(new Date()),
+            action:this.engine.action({
+                pick:buildPickListener(this),
+                repaint : buildRepaintListener(this)
+            })
+        }
+        el.attach("change",initValue);
+        content.onclick = stopPropagation;
+        this.refresh();
+    },
+    refresh : function(){
+        var content = E(this.contentId);
+        var selectDate = this.selectDate|| new Date();
+        var actionMap = this.actionMap;
+        actionMap.dateList = createDateList(selectDate);
+        actionMap.selectDate = createDateItem(selectDate);
+        content.innerHTML = contentTemplate.render(actionMap);
+        //alert(content.innerHTML)
+    }
+};
+function buildInputChangeListener(picker){
+     return function(){
+          var input = E(picker.id);
+          try{
+              picker.selectDate = format.parser(input.value);
+              picker.refresh();
+          }catch(e){}
+     }
+}
+function buildRepaintListener(picker){
+     return function(event,year,month,date){
+          try{
+              picker.selectDate = new Date(year,month-1,date);
+              picker.refresh();
+          }catch(e){}
+     }
+}
+function buildPickListener(picker){
+    return function(event,year,month,date){
+        var input = E(picker.id);
+        if(year+month+date>0){
+            try{
+                picker.selectDate = new Date(year,month-1,date);
+                input.value = format.format(picker.selectDate);
+            }catch(e){return}
+        }else{
+            picker.selectDate = null;
+            input.value = '';
+        }
+        if(picker.clickHidden){
+             picker.clickHidden();
         }
     }
-    
-    this.type = this.type && this.type.toLowerCase() =='inline'?'inline':'popup'
-}
-
-DatePicker.prototype.decorate = function(){
-    var el = E(this.id);
-    var table = new Element('table');
-    var div = new Element("div");
-    var iframe = new Element("iframe");
-    table.className = "jside-layout- jside-date-picker";
-    el.parentNode.insertBefore(table,el);
-    var row = table.insertRow(0);
-    var cell = row.insertCell(0); 
-    var ele = table.nextSibling;
-    el.parentNode.removeChild(el);
-    cell.appendChild(ele);
-    cell = row.insertCell(1);
-    cell.appendChild(div);
-    //div.style.display = 'none'
-    if(this.type == 'popup'){
-        div.style.position = 'relative'
-        div.style.left = '0px'
-        var image = new Element('img');
-        image.className = INLINE_CLASS_LAYOUT_
-        image.onclick = buildPopup(this);
-        //image.style.margin="2px";
-        div.appendChild(image);
-        var div2 = new Element('div');
-        div2.style.position = 'absolute'
-        div2.style.top = '20px';
-        div2.style.left = '0px';
-        div2.style.zIndex = 2;
-        div2.style.display = 'none';
-        div.appendChild(div2);
-        div2.appendChild(iframe);
-    }else{
-        div.appendChild(iframe);
-        cell.previousSibling.style.display = 'none'; 
-    }
-    
-    iframe.contentWindow.decorator = this;
-    iframe.contentWindow.document.write(template);
-    alert(template)
-    //iframe.src =  scriptBase+ "styles/date-picker.html";
-    //alert(iframe.contentWindow)
-    iframe.contentWindow.decorator = this;
-    //alert(iframe.contentWindow.decorator)
-//    iframe.border = 0;
-    iframe.frameBorder = 0;
-//    iframe.scrolling="no";
-//    iframe.width = "140px"
-//    iframe.height = "180px"
-}
-DatePicker.prototype.getDate = function(){
-    var value = E(this.id).value;
-    if(value){
-        //TODO:DateFormat
-        value = value.split(/\/|-/);
-        return new Date(value[0],value[1]-1,value[2]);
-    }
-}
-DatePicker.prototype.setDate = function(date){
-    var input = E(this.id);
-    if(date){
-        //TODO:DateFormat
-        input.value = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
-    }else{
-        input.value = '';
-    }
-    if(this.type == 'popup'){
-        if(this.clickHidden){
-            this.clickHidden();
-        }
-    }
-}
-
-DatePicker.prototype.type = "popup";
-
-/**
- * @internal
- */
-function getIFrame (picker){
-    return E(picker.id).parentNode.parentNode.getElementsByTagName("iframe")[0];
 }
 /**
  * @internal
  */
-function buildPopup(picker){
+function buildPopupListener(picker){
     function clickHidden(){
         //document.title = "ckick:"+(i++)
-        getIFrame(picker).parentNode.style.display = 'none';
-        E(document).attach('click',clickHidden);
+        getPopup(picker).style.display = 'none';
+        E(document).detach('click',clickHidden);
         picker.clickHidden = null;
     }
-    return function(){
+    return function(event){
         //可能有泄漏
-        setTimeout(function(){
-            getIFrame(picker).parentNode.style.display = ''
-            if(picker.clickHidden == null){
-                picker.clickHidden = clickHidden;
-                E(document).attach('click',clickHidden);
-            }
-        },100);
-        return false;
+        getPopup(picker).style.display = 'block'
+        if(picker.clickHidden == null){
+            picker.clickHidden = clickHidden;
+            E(document).attach('click',clickHidden);
+        }
+	    stopPropagation(event);
     }
 }
+function getPopup(picker){
+	return E(E(picker.contentId).parentNode.parentNode);
+}
+
+function createDateList(date){
+    var list = [];
+    var begin = new Date( date.getFullYear(),date.getMonth(),date.getDate());
+    var selectedTime = date.getTime();
+    var todayTime = new Date((date = new Date()).getFullYear(),date.getMonth(),date.getDate()).getTime();
+    var selectedItem;
+    var i = 1;
+    begin.setDate(1);
+    begin.setDate(1-begin.getDay());
+    while(true){
+    	var item = createDateItem(begin);
+    	var date = begin.getDate();
+        list.push(item);
+        if(begin.getTime() == selectedTime){
+            item.className = "selected-";
+        }else if(begin.getTime() == todayTime){
+            item.className = "today-";
+        }else if(date>i || i>28 && date<7 ){
+        	item.className = "disabled-";
+        }
+        begin.setDate(date+1);
+        if(i == 42 || i==35 && begin.getDate()<10){
+            break;
+        }
+        i++
+    }
+    return list;
+}
+
+function createDateItem(date){
+    date = {year:date.getFullYear(),month:date.getMonth()+1,date:date.getDate(),day:date.getDay()};
+    date.key = [date.year,date.month,date.date].join('-');
+    return date;
+}
+

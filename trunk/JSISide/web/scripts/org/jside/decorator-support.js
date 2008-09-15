@@ -60,7 +60,7 @@ var inc = 1;
 
 
 
-var registerName = "$"+(new Date()+1).toString(32);
+var registerName = "$"+(new Date()*1).toString(32);
 /**
  * 调用全局事件
  */
@@ -87,13 +87,14 @@ function sign(fn){
     eventList[pos] = fn;
     return pos;
 }
-function buildCall(id){
-    id = [registerName+"("+id+",this,event"];
+function buildCall(fn){
+	fn = sign(fn);
+    fn = [registerName+"("+fn+",this,event"];
     return function(){
         var result = fn.slice(0);
         for(var i = 0;i<arguments.length;i++){
             result.push(",");
-            result.push(JSON.serialize(arguments[i]));
+            result.push(arguments[i]);
         }
         result.push(");");
         return result.join('') ;
