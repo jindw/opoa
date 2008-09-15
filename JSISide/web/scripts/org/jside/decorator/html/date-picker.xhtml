@@ -1,67 +1,148 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<html>
-	<body onselectstart="return false;">
-		<div id="title">
-			<table cellspacing="0" cellpadding="0" border="0">
-				<tbody>
+<html xmlns:c="#core">
+	<body id="popup">
+		<table class="jside-date-picker">
+			<tr>
+				<td>
+					<object />
+				</td>
+				<td>
+					<div style="position:relative;top:0;left:0">
+						<div class="quad-x- handle-"
+							style="width:16px;height:16px" onclick="${action.popup()}">
+						</div>
+						<div class="content-"
+							style="display:none;position:absolute;top:20px;left:0">
+							<!-- IE 的select覆盖hack -->
+							<div
+								style="position:absolute;width:100%;height:100%;left:0;top:0">
+								<iframe
+									style="width:100%;height:100%;border:0px;" />
+							</div>
+							<div
+								style="position:absolute;width:100%;height:100%;left:0;top:0">
+								<object />
+							</div>
+						</div>
+					</div>
+
+				</td>
+			</tr>
+		</table>
+	</body>
+	<body id="inline">
+		<table class="layout- jside-date-picker">
+			<tr>
+				<td>
+					<object />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="content-">
+						<object />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+	<body id="content">
+		<div onselectstart="return false;">
+			<div class="header-">
+				<table>
 					<tr>
-						<th class="previousMonth"
-							onmouseout="clearMoveTimer();" onmouseover="stopEdit()"
-							onmouseup="clearMoveTimer();" onmousedown="setupMoveTimer(-1);"
-							onclick="changeMonth(-1)">
+						<th class="previous-"
+							onclick="${action.repaint(selectDate.year,selectDate.month-1,selectDate.date)}">
 							&#9668;
 						</th>
-						<th class="fields">
-							<div id="yearContainer"
-								onclick="this.className='input'">
-								<div class="text"
-									onmouseover="stopEdit()">
+						<th>
+							<div class="year-">
+								<div class="text-"
+									onclick="this.parentNode.className='year- input-'">
+									${selectDate.year}年
 								</div>
-								<div class="editor">
-									<input type="text"
-										onchange="changeYear(this)" onblur="stopEdit()" />
-									<div class="spinner"
-											onmouseover="this.className = 'over-'"
-											onmousedown="this.className = 'click-'"
-											onmouseup="this.className = 'over-'"
-											onmouseout="this.className = ''">
-										<div class="spinner-up"
-											onclick="changeYear(1)">
-										</div>
-										<div class="spinner-down"
-											onclick="changeYear(-1)">
-										</div>
-									</div>
+								<div class="editor-">
+									<table
+										class="layout- jside-spinner">
+										<tr>
+											<td>
+												<input type="text"
+													value="${selectDate.year}" onchange="changeYear(this)"
+													onblur="${action.repaint('this.value',selectDate.month-1,selectDate.date)}" />
+											</td>
+											<td>
+												<div class="spinner-up-"
+													onmouseover="this.className = 'over-'"
+													onmousedown="this.className = 'click-'"
+													onmouseup="this.className = 'over-'"
+													onmouseout="this.className = ''" onclick="changeYear(1)">
+												</div>
+												<div
+													class="spinner-down-"
+													onmouseover="this.className = 'over-'"
+													onmousedown="this.className = 'click-'"
+													onmouseup="this.className = 'over-'"
+													onmouseout="this.className = ''"
+													onclick="changeYear(-1)">
+												</div>
+											</td>
+										</tr>
+									</table>
 								</div>
 							</div>
-							<div id="monthContainer"
-								onclick="this.className='input'">
-								<div class="text"
-									onmouseover="stopEdit()">
+							<div class="month-">
+								<div class="text-"
+									onclick="this.parentNode.className='year- input-'">
+									${selectDate.month}月
 								</div>
-								<div class="editor">
+								<div class="editor-">
 									<select onchange="changeMonth(this)"
-										onblur="stopEdit()">
+										onblur="${action.repaint(selectDate.year,selectDate.month-1,selectDate.date)}">
 									</select>
 								</div>
 							</div>
 						</th>
-						<th class="nextMonth"
-							onmouseout="clearMoveTimer();" onmouseover="stopEdit()"
-							onmouseup="clearMoveTimer();" onmousedown="setupMoveTimer(1);"
-							onclick="changeMonth(1)">
+						<th class="next-"
+							onclick="${action.repaint(selectDate.year,selectDate.month+1,selectDate.date)}">
 							&#9658;
 						</th>
 					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div id="content" onmouseover="stopEdit()">
-
-		</div>
-		<div id="footer" onmouseover="stopEdit()">
-			<button onclick="selectToday()">当天</button>
-			<button onclick="decorator.setDate(null)">清空</button>
+				</table>
+			</div>
+			<div class="grid-">
+				<table width="100%">
+					<c:var name="index" value="${0}" />
+					<tr>
+						<c:for var="item"
+							items="${'日一二三四五六'.split('')}">
+							<th width="14.2%">${item}</th>
+						</c:for>
+					</tr>
+					<c:for var="row"
+						items="${new Array(dateList.length/7)}">
+						<tr>
+							<c:for var="col"
+								items="${[0,1,2,3,4,5,6]}">
+								<c:var name="item"
+									value="${dateList[index++]}" />
+								<td class="${item.className}"
+									onclick="${action.pick(item.year,item.month,item.date)}"
+									onmouseover="${action.overDate()}"
+									onmouseout="${action.outDate()}">
+									${item.date}
+								</td>
+							</c:for>
+						</tr>
+					</c:for>
+				</table>
+			</div>
+			<div class="footer-" onmouseover="${action.stopEdit()}">
+				<button
+					onclick="${action.pick(today.year,today.month,today.date)}">
+					当天
+				</button>
+				<button onclick="${action.pick()}">清空</button>
+			</div>
 		</div>
 	</body>
 </html>

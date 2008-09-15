@@ -11,9 +11,9 @@ Tooltip.prototype.before = function(){
     var container = this.getContainer();
     var target = E(getTarget(container));
     container.style.display = 'none';
-    target.detach("mouseover",buildMouseover(this));
-    target.detach("mouseout",mouseout);
-    target.detach("click",mouseout);
+    target.attach("mouseover",buildMouseover(this));
+    target.attach("mouseout",mouseout);
+    target.attach("click",mouseout);
 }
 Tooltip.prototype.initialize = function(){
     this.initialize = null;

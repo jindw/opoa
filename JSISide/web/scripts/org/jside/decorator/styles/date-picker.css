@@ -1,101 +1,120 @@
-html,body{
-    width:100%;
-    height:100%;
-    margin:0;
-    padding:0
-    border:1px solid #9EBEFE;
-	font-size: 18px;
-	font-weight: normal;
+/*=== date-picker(日期选择器) 装饰器样式定义 ===*/
+.jside-date-picker {
+}
+.jside-date-picker td{
+    vertical-align:middle;
+}
+
+.jside-date-picker .handle-{
+    margin:2px;
+    background-repeat: no-repeat;
+    background-image: url(date-picker.gif);
+}
+
+
+.jside-date-picker .content-{
+    font-size: 18px;
+    font-weight: normal;
+	border:1px solid red;
+	width: 180px; 
+	height: 180px;
+	background:#FFF;
 	-moz-user-select:none;
 	-khtml-user-select:none;
-	background:white;
+	filter:expression(this.onselectstart='return false');
 }
-#title{
-    background: #9EBEFE;
-    height:12%;
+
+.jside-date-picker .content- table{
+    display:block;
+	border:0;
+    margin:0px;
+	border-spacing:0;
+    padding:auto;
+}
+
+/* 头部信息 */
+.jside-date-picker .header-{
+    padding:4px;
+}
+.jside-date-picker .header- table{
+    height:22px;
     line-height:22px;
+    background: #9EBEFE;
     overflow:hidden;
-    margin: 3px;
 }
-#content{
+.jside-date-picker .header- th{
+    height:20px;
+    line-height:22px;
+
+} 
+.jside-date-picker .previous-,.jside-date-picker .next-{
+    cursor:pointer;
+    width:10%;
+}
+.jside-date-picker th .year-,.jside-date-picker th .month-{
+    font-size: 15px;
+    line-height:16px;
+    font-weight: normal;
+    width:60%;
+    float:left;
+    top:0px;
+    text-align: center;
+    cursor:pointer;
+}
+.jside-date-picker th .month-{
+    width:38%;
+}
+.jside-date-picker .editor-,.jside-date-picker .input- .text-{
+    display:none;
+}
+.jside-date-picker .input- .editor-{
+    display:block;
+}
+.jside-date-picker .header- input, .jside-date-picker .header- select{
+    width:50px;
+}
+
+/* 中间信息 */
+.jside-date-picker .grid-{
     height:68%;
+    text-align:center;
     padding-left: 10px;
     padding-right: 10px;
 }
-#footer{
-    padding:2px;
-    height:20%;
-    text-align: center;
-}
-table{
-    width: 100%;
-    height: 100%;
-}
-#content td{
+.jside-date-picker .content- td{
     cursor: hand;
     cursor: pointer;
 }
-#content table, #content th{
-    border-bottom: 1px solid #ACA899;
+.jside-date-picker .grid- table,.jside-date-picker .grid- th{
+    border-bottom: 1px solid #ACA899!important;
+    margin-bottom:4px;
 }
-.previousMonth{
-    width:10%;
-}
-.nextMonth{
-    width:10%;
-}
-.fields{
-    width:80%;
-}
-#content th,#title th{
+
+.jside-date-picker .grid- th{
     font-size: 14px;
     line-height:18px;
     font-weight: normal;
     text-align: center;
 }
-#content td{
+.jside-date-picker .grid- td{
     font-size: 12px;
     line-height:14px;
     text-align: center;
-    padding: 1px;
 }
 
-#yearContainer,#monthContainer{
-    float:left;
-    position:relative;
-    top:0px;
-    width:49%;
-    text-align: center;
-    cursor:pointer;
-}
-#yearContainer .editor,#monthContainer .editor{
-    display:none;
-}
-#yearContainer.input .editor,#monthContainer.input .editor{
-    display:block;
-    text-align: right;
-}
-#yearContainer.input .text,#monthContainer.input .text{
-    display:none;
-}
-input{
-    width:50px;
-}
-select{
-    width:50px;
-}
-.spinner{
-    z-index: 2;
-    position:absolute;
-    top:2px;
-    right:0px;
-}
-.outer-date{
+.jside-date-picker .disabled-{
     color:#DDDDDD;
 }
-.today-date{
+.jside-date-picker .today-{
     border: 1px dotted #FFD700;
 }
-.current-date{
+.jside-date-picker .selected-{
     background:#FFD700;
+}
+
+/* 尾巴 */
+.jside-date-picker .footer-{
+    padding:2px;
+    height:20%;
+    text-align: center;
 }

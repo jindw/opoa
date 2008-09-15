@@ -12,8 +12,12 @@ this.addScript("tween-rule.js",'TweenRuleSample');
 /*
  * IO类操作,如Http请求,Cookie访问,以及以后可能添加的userData访问功能
  */
+
+this.addScript("json.js",['JSON']);
 this.addScript("cookie.js",'Cookie');
 this.addScript("request.js",'Request');
+
+this.addScript("date-format.js","ISODateFormat");
 
 /*
  * 模版实现
@@ -22,5 +26,5 @@ this.addScript("template.js",['Template']);
 /*
  * DecoratorEngine 相关
  */
-this.addScript("decorator-support.js",'DecoratorEngine');
+this.addScript("decorator-support.js",'DecoratorEngine','JSON');
 
