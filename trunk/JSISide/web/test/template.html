@@ -1,22 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:d="http://www.xidea.org/taglib/decorator" xml:lang="zh_CN"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh_CN"
   lang="zh_CN">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<script src="../scripts/boot.js"></script>
+	<script src="../scripts/?path=boot.js"></script>
+    <script>
+    $import("org.jside.decorator.applyTemplate",true);
+    //$import("org.jside.Template",true);
+    //$import("org.jside.template.*",true);
+    </script>
 </head>
 <body>
+<input id="a"/>
     <script>
-    $import("org.jside.Template",true);
-    $import("org.jside.template.*",true);
-    </script>
-
-    <script>
-    var t = new Template("template.xhtml#//*[@id='ascii']/*",'');
-    var border = '13';
-    document.write(t.render( {'name':"金大为",info:"alert(2222222)"}))
+    applyTemplate("<table border='1'><tr><td><object/></td><td><object/></td></tr></table>",document.getElementById('a'));
+    //var t = new Template("template.xhtml#//*[@id='ascii']/*");
+    //var border = '13';
+    //document.write(t.render( {'name':"金大为",info:"alert(2222222)"}))
     </script>
 
 </body>
