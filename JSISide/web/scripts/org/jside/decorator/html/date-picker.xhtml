@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <html xmlns:c="#core">
 	<body id="popup">
-		<table class="jside-date-picker">
+		<table class="layout- jside-date-picker">
 			<tr>
 				<td>
 					<object />
@@ -49,73 +49,33 @@
 	<body id="content">
 		<div onselectstart="return false;">
 			<div class="header-">
-				<table>
+				<table width="100%">
 					<tr>
 						<th class="previous-"
-							onclick="${action.repaint(selectDate.year,selectDate.month-1,selectDate.date)}">
+							onclick="${action.repaint(selectedDate.year,selectedDate.month-1,selectedDate.date)}">
 							&#9668;
 						</th>
 						<th>
-							<div class="year-">
-								<div class="text-"
-									onclick="this.parentNode.className='year- input-'">
-									${selectDate.year}年
-								</div>
-								<div class="editor-">
-									<table
-										class="layout- jside-spinner">
-										<tr>
-											<td>
-												<input type="text"
-													value="${selectDate.year}" onchange="changeYear(this)"
-													onblur="${action.repaint('this.value',selectDate.month-1,selectDate.date)}" />
-											</td>
-											<td>
-												<div class="spinner-up-"
-													onmouseover="this.className = 'over-'"
-													onmousedown="this.className = 'click-'"
-													onmouseup="this.className = 'over-'"
-													onmouseout="this.className = ''" onclick="changeYear(1)">
-												</div>
-												<div
-													class="spinner-down-"
-													onmouseover="this.className = 'over-'"
-													onmousedown="this.className = 'click-'"
-													onmouseup="this.className = 'over-'"
-													onmouseout="this.className = ''"
-													onclick="changeYear(-1)">
-												</div>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</div>
+							<div class="year-">${selectedDate.year}年</div>
 							<div class="month-">
-								<div class="text-"
-									onclick="this.parentNode.className='year- input-'">
-									${selectDate.month}月
-								</div>
-								<div class="editor-">
-									<select onchange="changeMonth(this)"
-										onblur="${action.repaint(selectDate.year,selectDate.month-1,selectDate.date)}">
-									</select>
-								</div>
+								${selectedDate.month}月
 							</div>
 						</th>
 						<th class="next-"
-							onclick="${action.repaint(selectDate.year,selectDate.month+1,selectDate.date)}">
+							onclick="${action.repaint(selectedDate.year,selectedDate.month+1,selectedDate.date)}">
 							&#9658;
 						</th>
 					</tr>
 				</table>
 			</div>
 			<div class="grid-">
-				<table width="100%">
+				<table>
+				<tbody>
 					<c:var name="index" value="${0}" />
-					<tr>
+					<tr style="table-layout:fixed;width:100%">
 						<c:for var="item"
 							items="${'日一二三四五六'.split('')}">
-							<th width="14.2%">${item}</th>
+							<th>${item}</th>
 						</c:for>
 					</tr>
 					<c:for var="row"
@@ -134,6 +94,7 @@
 							</c:for>
 						</tr>
 					</c:for>
+					</tbody>
 				</table>
 			</div>
 			<div class="footer-" onmouseover="${action.stopEdit()}">

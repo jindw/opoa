@@ -15,7 +15,7 @@ function DatePicker(engine){
 
 DatePicker.prototype = {
     type : "popup",
-    before : function(){
+    prepare : function(){
         //type 约束处理
         if(":debug"){
             if(this.type && !/^(?:inline|popup)$/.test(this.type)){
@@ -37,26 +37,36 @@ DatePicker.prototype = {
 	            })
 	        }),el,content,content);
         this.contentId = content.uid();
-        var initValue = buildInputChangeListener(this);
-        initValue();
         this.actionMap = {
             decorator:this,
             today:createDateItem(new Date()),
             action:this.engine.action({
                 pick:buildPickListener(this),
+                overDate:Function.prototype,
+                outDate:Function.prototype,
+                out:buildPickListener(this),
                 repaint : buildRepaintListener(this)
             })
         }
-        el.attach("change",initValue);
+        el.attach("change",buildInputChangeListener(this));
         content.onclick = stopPropagation;
-        this.refresh();
+        try{
+        	if(el.value){
+                this.selectedDate = this.format.parse(el.value);
+        	}
+            if(this.type == "inline"){
+                this.refresh();
+            }
+        }catch(e){
+          	 throw e;
+        }
     },
     refresh : function(){
         var content = E(this.contentId);
-        var selectDate = this.selectDate|| new Date();
+        var selectedDate = this.selectedDate|| new Date();
         var actionMap = this.actionMap;
-        actionMap.dateList = createDateList(selectDate);
-        actionMap.selectDate = createDateItem(selectDate);
+        actionMap.selectedDate = createDateItem(selectedDate);
+        actionMap.dateList = createDateList(selectedDate);
         content.innerHTML = contentTemplate.render(actionMap);
         //alert(content.innerHTML)
     }
@@ -65,15 +75,18 @@ function buildInputChangeListener(picker){
      return function(){
           var input = E(picker.id);
           try{
-              picker.selectDate = format.parser(input.value);
-              picker.refresh();
-          }catch(e){}
+               picker.selectedDate = picker.format.parse(input.value);
+               picker.refresh();
+          }catch(e){
+          	  $log.error(e);
+          	  throw e;
+          }
      }
 }
 function buildRepaintListener(picker){
      return function(event,year,month,date){
           try{
-              picker.selectDate = new Date(year,month-1,date);
+              picker.selectedDate = new Date(year,month-1,date);
               picker.refresh();
           }catch(e){}
      }
@@ -83,11 +96,16 @@ function buildPickListener(picker){
         var input = E(picker.id);
         if(year+month+date>0){
             try{
-                picker.selectDate = new Date(year,month-1,date);
-                input.value = format.format(picker.selectDate);
-            }catch(e){return}
+                picker.selectedDate = new Date(year,month-1,date);
+                input.value = picker.format.format(picker.selectedDate);
+                if(picker.type == 'inline'){
+                    picker.refresh();
+                }
+            }catch(e){
+            	return
+            }
         }else{
-            picker.selectDate = null;
+            picker.selectedDate = null;
             input.value = '';
         }
         if(picker.clickHidden){
@@ -112,6 +130,7 @@ function buildPopupListener(picker){
             picker.clickHidden = clickHidden;
             E(document).attach('click',clickHidden);
         }
+        picker.refresh();
 	    stopPropagation(event);
     }
 }
@@ -122,7 +141,7 @@ function getPopup(picker){
 function createDateList(date){
     var list = [];
     var begin = new Date( date.getFullYear(),date.getMonth(),date.getDate());
-    var selectedTime = date.getTime();
+    var selectedTime = begin.getTime();
     var todayTime = new Date((date = new Date()).getFullYear(),date.getMonth(),date.getDate()).getTime();
     var selectedItem;
     var i = 1;
