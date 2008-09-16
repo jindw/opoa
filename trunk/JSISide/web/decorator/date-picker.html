@@ -12,10 +12,10 @@
 <body>
 <h1>DatePicker 示例</h1>
 <div class="group">
-	<h2>日期装饰器(弹出式)</h2>
+	<h2>日期装饰器(弹出式、自定义日期格式)</h2>
 	<!-- 开始日期装饰器(弹出式) -->
-	<input d:class="datePicker" type="text" name="test2" />
-	<!-- 开始代码高亮显示 -->
+	<input d:class="datePicker" type="text" d:pattern="YYYY年MM月DD日" name="test2" />
+	<br>
 	<select style="margin-left:120px">
 	  <option>测试覆盖 IE Select元素</option>
 	</select>
