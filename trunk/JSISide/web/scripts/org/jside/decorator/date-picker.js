@@ -155,11 +155,13 @@ function createDateList(date){
             item.className = "selected-";
         }else if(begin.getTime() == todayTime){
             item.className = "today-";
-        }else if(date>i || i>28 && date<7 ){
+        }else if(date>i || i>28 && date<15 ){
         	item.className = "disabled-";
         }
         begin.setDate(date+1);
-        if(i == 42 || i==35 && begin.getDate()<10){
+        if(i == 42 
+              //|| i==35 && begin.getDate()<10
+              ){
             break;
         }
         i++
