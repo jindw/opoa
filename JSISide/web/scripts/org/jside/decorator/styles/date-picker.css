@@ -1,6 +1,8 @@
 /*=== date-picker(日期选择器) 装饰器样式定义 ===*/
 .jside-date-picker {
 }
+body{
+}
 .jside-date-picker td{
     vertical-align:middle;
 }
@@ -16,14 +18,14 @@
     font-size: 18px;
     font-weight: normal;
 	width: 140px; 
-	height: 180px;
+	height: 186px;
 	background:#FFF;
 	border: 1px solid blue;
 	-moz-user-select:none;
 	-khtml-user-select:none;
-	filter:expression(this.onselectstart='return false');
+	/*filter:expression("this.onselectstart='return false'");*/
 }
-/**/
+/*  */
 
 
 .jside-date-picker .content- table{
@@ -43,19 +45,20 @@
     padding:4px;
 }
 .jside-date-picker .header- table{
-    height:22px;
-    line-height:22px;
+    height:18px;
     background: #9EBEFE;
     overflow:hidden;
 }
 .jside-date-picker .header- th{
-    height:20px;
-    line-height:22px;
+    height:18px;
+    line-height:18px;
 
 } 
 .jside-date-picker .previous-,.jside-date-picker .next-{
+    font-size: 15px;
+    line-height:16px;
     cursor:pointer;
-    width:10%;
+    width:16px;
 }
 .jside-date-picker th .year-,.jside-date-picker th .month-{
     font-size: 15px;
@@ -65,7 +68,6 @@
     float:left;
     top:0px;
     text-align: center;
-    cursor:pointer;
 }
 .jside-date-picker th .month-{
     width:38%;
@@ -85,11 +87,15 @@
     text-align:center;
     padding-left: 10px;
     padding-right: 10px;
+    height:68%;
+    overflow:hidden;
     cursor: pointer;
 }
 .jside-date-picker .grid- table,.jside-date-picker .grid- th{
+	border:0;
+    margin:0px;
+    padding:0px;
     border-bottom: 1px solid #ACA899!important;
-    height:78%;
     margin-bottom:4px;
 }
 

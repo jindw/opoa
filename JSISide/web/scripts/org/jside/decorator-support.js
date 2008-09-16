@@ -164,11 +164,13 @@ function importCSS(stylePackage,className){
         while(!importedCSSMap[className] && className){
             importedCSSMap[className] = 1;//hack for true;
             var link = document.createElement("link");
-            document.documentElement.appendChild(link);
             //<link  type="text/css" href="css/global.css" rel="stylesheet" media="screen" />
             link.type = "text/css";
             link.href = className;
             link.rel = "stylesheet";
+            var header = document.getElementsByTagName("head");
+            (header && header[0] || document.documentElement).appendChild(link);
+            //alert(header[0].innerHTML)
             className = dependenceList && dependenceList.length
                   && cssBase+ dependenceList.pop()[1];
         }
