@@ -49,7 +49,7 @@
 	<body id="content">
 		<div onselectstart="return false;">
 			<div class="header-">
-				<table width="100%">
+				<table>
 					<tr>
 						<th class="previous-"
 							onclick="${action.repaint(selectedDate.year,selectedDate.month-1,selectedDate.date)}">
@@ -72,7 +72,7 @@
 				<table>
 				<tbody>
 					<c:var name="index" value="${0}" />
-					<tr style="table-layout:fixed;width:100%">
+					<tr>
 						<c:for var="item"
 							items="${'日一二三四五六'.split('')}">
 							<th>${item}</th>
@@ -97,7 +97,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="footer-" onmouseover="${action.stopEdit()}">
+			<div class="footer-">
 				<button
 					onclick="${action.pick(today.year,today.month,today.date)}">
 					当天
