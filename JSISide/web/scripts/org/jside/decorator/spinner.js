@@ -1,4 +1,6 @@
 var spinnerTemplate = new Template(this.scriptBase + "html/form.xhtml#//*[@id='spinner']/*");
+var sliderTemplate = new Template(this.scriptBase + "html/form.xhtml#//*[@id='slider']/*");
+
 /**
  * @public
  * @decorator spinner
@@ -20,8 +22,8 @@ Spinner.prototype.decorate = function(){
     var el = E(this.id);
     applyTemplate(el,spinnerTemplate.render({
     	action:this.engine.action({
-	    	up:buildMouseHandle(this,1),
-	    	down:buildMouseHandle(this,-1)
+	    	up:buildSpinnerMouseHandle(this,1),
+	    	down:buildSpinnerMouseHandle(this,-1)
     	})
     }),el);
 }
@@ -39,7 +41,7 @@ Spinner.prototype.jump = function(offset){
 /**
  * @internal
  */
-function buildMouseHandle(spinner,offset){
+function buildSpinnerMouseHandle(spinner,offset){
     return function(event){
         offset && spinner.jump(offset);
         event.stopPropagation() 
@@ -53,15 +55,28 @@ function Slider(){
 }
 
 Slider.prototype.prepare = function(engine){
-    this.start = parseInt(this.start) || 0
+	this.length = parseInt(this.length) || 50;
+    this.start = parseInt(this.start) || 0;
     this.end = parseInt(this.end) || 100;
     this.step = parseInt(this.step) || 1;
     this.value = parseInt(this.value || E(this.id).value) || 0;
+    this.orientation = /^v/.test(this.orientation)?"vertical":"horizontal";
 }
 
 Slider.prototype.decorate = function(){
     var el = E(this.id);
-
+    var sliderElement = new Element("div");
+    sliderElement.className ="jside-slider-handle-";
+    applyTemplate(el,sliderTemplate.render({
+    	orientation:this.orientation,
+    	action:this.engine.action({
+	    	active:buildSliderActiveListener(this)
+    	})
+    }),el,sliderElement);
+    var dragable = new Dragable(sliderElement,sliderElement.parentNode);
+    dragable
 }
-Slider.prototype.jump = function(offset){
+function buildSliderActiveListener(slider){
+	return function(){
+	}
 }

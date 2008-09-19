@@ -41,10 +41,10 @@ img.layout-{
     background-position:right top;
 }
 .down- .quad-x-{
-    background-position:left bottom;
+    background-position:right bottom;
 }
 .disabled- .quad-x-{
-    background-position:right bottom;
+    background-position:left bottom;
 }
 /* 正四相 */
 .quad-y-{
@@ -55,10 +55,10 @@ img.layout-{
     background-position:right center;
 }
 .down- .quad-y-{
-    background-position:left center;
+    background-position:center bottom;
 }
 .disabled- .quad-y-{
-    background-position:center bottom;
+    background-position:left center;
 }
 
 
