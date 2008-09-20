@@ -6,6 +6,10 @@
         <p>Spinner控件（window时间日期管理中，年份调节的控件），参照backbase 的 Spinner标签</p>
     </li>
     <li>
+        <a href="slider.html">Slider</a>
+        <p>Slider控件（常见于音量调节按钮），参照backbase 的 Slider标签</p>
+    </li>
+    <li>
         <a href="include.html">Include</a>
         <p>片断包含标签，支持xpath选取文档片断，支持xslt转换</p>
     </li>

@@ -9,8 +9,7 @@ var inlineTemplate = new Template(this.scriptBase + "html/date-picker.xhtml#//*[
  * @attribute value eg:2004/12/12
  * @attribute pattern eg:yyyy/MM/dd
  */
-function DatePicker(engine){
-    this.engine = engine;
+function DatePicker(){
 }
 
 DatePicker.prototype = {
@@ -32,7 +31,7 @@ DatePicker.prototype = {
         applyTemplate(
             el,
             wrapTemplate.render({
-	            action:this.engine.action({
+	            action:createActionMap({
 	                popup : buildPopupListener(this)
 	            })
 	        }),el,content,content);
@@ -40,7 +39,7 @@ DatePicker.prototype = {
         this.actionMap = {
             decorator:this,
             today:createDateItem(new Date()),
-            action:this.engine.action({
+            action:createActionMap({
                 pick:buildPickListener(this),
                 overDate:Function.prototype,
                 outDate:Function.prototype,

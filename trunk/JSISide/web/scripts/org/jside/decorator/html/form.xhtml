@@ -34,17 +34,13 @@
 			<tr>
 				<td>
 					<object />
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<div onmouseover="this.className = 'over-'"
 						onmousedown="this.className = 'down-'"
 						onmouseup="this.className = 'over-'"
 						onmouseout="this.className = ''">
-						<div class="spinner-container-"
+						<div class="${orientation}-"
 							onclick="${action.active()}">
-							<div class="quad-${orientation='vertical'?'x':'y'}- jside-slider-handle-">
+							<div class="quad-${orientation='vertical'?'x':'y'}- slider-handle-">
 							<object/>
 							</div>
 						</div>

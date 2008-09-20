@@ -8,8 +8,7 @@ var sliderTemplate = new Template(this.scriptBase + "html/form.xhtml#//*[@id='sl
  * @attribute end 
  * @attribute step
  */
-function Spinner(engine){
-	this.engine = engine;
+function Spinner(){
 }
 
 Spinner.prototype.prepare = function(){
@@ -21,7 +20,7 @@ Spinner.prototype.prepare = function(){
 Spinner.prototype.decorate = function(){
     var el = E(this.id);
     applyTemplate(el,spinnerTemplate.render({
-    	action:this.engine.action({
+    	action:createActionMap({
 	    	up:buildSpinnerMouseHandle(this,1),
 	    	down:buildSpinnerMouseHandle(this,-1)
     	})
@@ -54,7 +53,7 @@ function buildSpinnerMouseHandle(spinner,offset){
 function Slider(){
 }
 
-Slider.prototype.prepare = function(engine){
+Slider.prototype.prepare = function(){
 	this.length = parseInt(this.length) || 50;
     this.start = parseInt(this.start) || 0;
     this.end = parseInt(this.end) || 100;
@@ -66,14 +65,13 @@ Slider.prototype.prepare = function(engine){
 Slider.prototype.decorate = function(){
     var el = E(this.id);
     var sliderElement = new Element("div");
-    sliderElement.className ="jside-slider-handle-";
     applyTemplate(el,sliderTemplate.render({
     	orientation:this.orientation,
-    	action:this.engine.action({
+    	action:createActionMap({
 	    	active:buildSliderActiveListener(this)
     	})
     }),el,sliderElement);
-    var dragable = new Dragable(sliderElement,sliderElement.parentNode);
+    var dragable = new Draggable(sliderElement,sliderElement.parentNode);
     dragable
 }
 function buildSliderActiveListener(slider){
