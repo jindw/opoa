@@ -54,7 +54,7 @@ function Slider(){
 }
 
 Slider.prototype.prepare = function(){
-	this.length = parseInt(this.length) || 50;
+	this.length = parseInt(this.length) || 120;
     this.start = parseInt(this.start) || 0;
     this.end = parseInt(this.end) || 100;
     this.step = parseInt(this.step) || 1;
@@ -64,15 +64,46 @@ Slider.prototype.prepare = function(){
 
 Slider.prototype.decorate = function(){
     var el = E(this.id);
-    var sliderElement = new Element("div");
-    applyTemplate(el,sliderTemplate.render({
+    var handleId ="$slider_"+(new Date()*1);
+    var modle = {
+    	length:this.length,
     	orientation:this.orientation,
+    	handleId :handleId,
     	action:createActionMap({
 	    	active:buildSliderActiveListener(this)
     	})
-    }),el,sliderElement);
-    var dragable = new Draggable(sliderElement,sliderElement.parentNode);
-    dragable
+    }
+    applyTemplate(el,sliderTemplate.render(modle),el);
+    var pos = this.value * this.length;
+    var dragable = new Draggable(handleId,handleId);
+    this.handleId = handleId;
+    dragable.onStep = buildSliderStepListener(this,handleId);
+    dragable.onStep(null,pos,pos);
+    dragable.onFinish = buildSliderChangeListener(this);
+}
+Slider.prototype.setValue = function(value){
+	E(this.id).value = value;
+	E(this.handleId).title = value;
+	value = (value-this.start)*this.length/(this.end -this.start)
+	E(this.handleId).style[this.orientation == "vertical"?'top':'left'] = value + 'px';
+}
+function buildSliderStepListener(slider,handle){
+	return function(event,x,y){
+		if("vertical" == slider.orientation){
+			x = y;
+		}
+		var pos = Math.floor(Math.max(Math.min(x,slider.length),0));
+		pos = pos*(slider.end -slider.start)/slider.length;
+		//step
+		pos = Math.floor(pos/slider.step)*slider.step;
+		slider.setValue(pos);
+		return false;
+    }
+}
+function buildSliderChangeListener(slider){
+	return function(){
+        return true;
+	}
 }
 function buildSliderActiveListener(slider){
 	return function(){

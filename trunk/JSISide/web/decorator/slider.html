@@ -7,6 +7,11 @@
 <script src="../scripts/boot-decorator.js"></script>
 <title>Slider 示例</title>
 <link rel="stylesheet" type="text/css" href="../styles/decorator.css" />
+<style>
+.slider,.slider input{
+    margin:10px;
+}
+</style>
 </head>
 <body>
 <h1>Spinner 示例</h1>
@@ -15,12 +20,17 @@
 
 <div class="group">
 	<h4>示例1</h4>
-	<input d:class="slider" type="text" name="test1" value='10'  style="width:42px"/>宽42px
+	<div class="slider">
+	<input d:class="slider" type="text" name="test1" value='10'  style="width:42px"/>
+	</div>
+	宽42px
 </div>
 
 <div class="group">
-	<h4>示例2(start='0' end='8' step='2')</h4>
-    <input d:class="slider" d:start='0' d:end='8' d:step='2' type="text" name="test2" value='0'  style="width:42px"/>
+	<h4>示例2(start='0' end='100' step='5')</h4>
+	<div class="slider">
+    <input d:class="slider" d:orientation="vertical" d:start='0' d:end='100' d:step='5' type="text" name="test2" value='0'  style="width:42px"/>
+	</div>
 </div>
 
 
