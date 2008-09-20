@@ -2,26 +2,61 @@
 <project name="JSISide" default="build" basedir="../">
 	<property name="version" value="2007-06-19" />
 
-    <target name="init">
-        <delete dir="build/temp">
-        </delete>
-        <mkdir dir="build/temp/scripts" />
-        <mkdir dir="build/dest" />
-    </target>
-    <target name="copyjsi">
-        <jar destfile="web/WEB-INF/lib/JSI.jar">
-            <fileset dir="../JSI2/web/WEB-INF/classes">
-                <include name="**/*.*" />
-                <exclude name="**/*Test*.*" />
-            </fileset>
-        </jar>
-    </target>
-    <target name="build" depends="copyjsi">
-    </target>
+	<target name="init">
+		<delete dir="build/temp">
+		</delete>
+		<mkdir dir="build/temp/scripts" />
+		<mkdir dir="build/dest" />
+	</target>
+	<target name="copyjsi">
+		<jar destfile="web/WEB-INF/lib/JSI.jar">
+			<fileset dir="../JSI2/web/WEB-INF/classes">
+				<include name="**/*.*" />
+				<exclude name="**/*Test*.*" />
+			</fileset>
+		</jar>
+	</target>
+	<target name="build" depends="">
+		<java classname="org.jside.jsi.tools.JSAToolkit">
+			<classpath>
+				<path location="../JSA-CORE/classes">
+				</path>
+				<fileset dir="../JST/lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<arg value="${basedir}/build/dest/boot.js" />
+			<arg value="${basedir}/web/scripts/boot-decorator.js" />
+			<arg value="-encoding" />
+			<arg value="utf-8" />
+			<arg value="-output" />
+			<arg value="${basedir}/build/dest/boot-decorator.js" />
+		</java>
+		<zip destfile="build/dest/jsiside.zip">
+			<zipfileset src="build/dest/exported.jar" prefix="scripts">
+				<include name="**/*.*" />
+			</zipfileset>
+			<zipfileset file="build/dest/boot.js" prefix="scripts">
+			</zipfileset>
+			<zipfileset file="build/dest/boot-decorator.js" prefix="scripts">
+			</zipfileset>
+			<zipfileset dir="web">
+				<exclude name="scripts/**/" />
+				<exclude name="WEB-INF/**/" />
+			</zipfileset>
+			<zipfileset dir="web">
+				<include name="scripts/**/styles/*.gif" />
+				<include name="WEB-INF/**/styles/*.css" />
+			</zipfileset>
+		</zip>
+	</target>
 	<target name="compress">
 		<java classname="org.jside.jsi.tools.export.ExportorAction">
 			<classpath>
-				<path location="../JST/classes"></path>
+				<path location="../JSA-CORE/classes">
+				</path>
+				<path location="../JST/classes">
+				</path>
 				<fileset dir="../JST/lib">
 					<include name="**/*.jar" />
 				</fileset>
@@ -35,14 +70,17 @@
 			<arg value="-outputExported" />
 			<arg value="${basedir}/build/dest/exported.js" />
 			<arg value="-outputXML" />
-			<arg value="${basedir}/build/dest/exported.xml"/>
+			<arg value="${basedir}/build/dest/exported.xml" />
 			<arg value="-outputJAR" />
 			<arg value="${basedir}/build/dest/exported.jar" />
 			<arg value="-ascii" />
 			<arg value="false" />
+			<arg value="-bootPackage" />
+			<arg value="org.jside.decorator.styles" />
 			<arg value="org.jside.*" />
 			<arg value="org.jside.decorator.*" />
 			<arg value="org.jside.template.*" />
 		</java>
+		<replace file="${basedir}/build/dest/boot.js" encoding="utf-8"  token="var $JSI={}" value="var $JSI={scriptBase:'/scripts/'}"></replace>
 	</target>
 </project>
