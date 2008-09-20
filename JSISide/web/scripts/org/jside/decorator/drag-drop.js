@@ -22,9 +22,9 @@ DragSource.prototype.decorate = function(){
             return decorator.onStart.apply(this,arguments);
         }
     }
-    draggable.onDrag = function(){
-        if(decorator.onDrag){
-            return decorator.onDrag.apply(this,arguments);
+    draggable.onStep = function(){
+        if(decorator.onStep){
+            return decorator.onStep.apply(this,arguments);
         }
     }
     draggable.onFinish = function(){

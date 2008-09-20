@@ -122,7 +122,7 @@ function beginDrag(draggable,event){
                     var targetId = target.id;
                     var el = E(targetId);
                     var region = regionMap[targetId] || (regionMap[targetId] = el.getRegion());
-                    var inRegion = containsPoint(region,movePosition.pageX,movePosition.pageY) && target.accept(draggable,x,y);
+                    var inRegion = containsPoint(region,movePosition.clientX,movePosition.clientY) && target.accept(draggable,x,y);
                     if(inRegion){
                         if(currentTarget != target){
                             if(currentTarget){

@@ -39,9 +39,10 @@
 						onmouseup="this.className = 'over-'"
 						onmouseout="this.className = ''">
 						<div class="${orientation}-"
+							style="${orientation == 'vertical'?'height:'+length:'width:'+length}px"
 							onclick="${action.active()}">
-							<div class="quad-${orientation='vertical'?'x':'y'}- slider-handle-">
-							<object/>
+							<div id="${handleId}"
+								class="quad-${orientation=='vertical'?'y':'x'}- slider-handle-">
 							</div>
 						</div>
 					</div>
