@@ -17,38 +17,35 @@
 
 
 /*=== slider(滑块) 装饰器样式定义 ===*/
-/*
-#B9CFD8
-#003767
-*/
 .jside-slider {
-    position: relative;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
 }
 
-.jside-slider-horizontal {
-    width: 150px;
-    height: 11px;
-    background-image: url(slider-horizontal-background.gif);
-    background-repeat: repeat-x;
+.jside-slider .horizontal- ,.jside-slider .vertical-{
+    width: 100px;
+    height: 10px;
+    background: #B9CFD8;
+    border-bottom:1px solid #003767;
+    position:relative;
+    top:0px;
+    left:0px;
 }
-.jside-slider-vertical img{
-    background-image: url(slider-horizontal-grippy.gif);
+.jside-slider .vertical-{
+    width: 10px;
+    height: 100px;
+    border:0;
+    border-left:1px solid #003767;
 }
-.jside-slider-vertical {
-    width: 11px;
-    height: 150px;
-    background-image: url(slider-vertical-background.gif);
-    background-repeat: repeat-y;
+.jside-slider .slider-handle- {
+    position:absolute;
+    background-image: url(slider.gif);
 }
-.jside-slider-vertical img{
-    background-image: url(slider-vertical-grippy.gif);
+.jside-slider .horizontal- .slider-handle- {
+    top:-6px;
+    width:9px;
+    height:13px;
 }
-.jside-slider-disabled {
-    background-color: #ECE9D8;
-}
-.jside-slider-disabled img {
-    cursor: default !important;
+.jside-slider .vertical- .slider-handle- {
+    left:-6px;
+    width:13px;
+    height:9px;
 }

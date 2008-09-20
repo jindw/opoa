@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:d="http://www.xidea.org/taglib/decorator" xml:lang="zh_CN"
+  lang="zh_CN">
+<head>
+<script src="../scripts/boot-decorator.js"></script>
+<title>Slider 示例</title>
+<link rel="stylesheet" type="text/css" href="../styles/decorator.css" />
+</head>
+<body>
+<h1>Spinner 示例</h1>
+
+<h2>装饰效果</h2>
+
+<div class="group">
+	<h4>示例1</h4>
+	<input d:class="slider" type="text" name="test1" value='10'  style="width:42px"/>宽42px
+</div>
+
+<div class="group">
+	<h4>示例2(start='0' end='8' step='2')</h4>
+    <input d:class="slider" d:start='0' d:end='8' d:step='2' type="text" name="test2" value='0'  style="width:42px"/>
+</div>
+
+
+<hr />
+<a d:class="include" d:url='menu.xml' d:xslt="menu.xsl"></a>
+</body>
+</html>

@@ -16,7 +16,7 @@
  * @param onFinish 释放响应事件
  * @author 金大为
  */
-function Draggable(handle,moveBox,onStart,onDrag,onFinish){
+function Draggable(handle,moveBox,onStart,onStep,onFinish){
     initializeDraggable(this,E(handle),E(moveBox || handle));
     
     /**
@@ -50,7 +50,7 @@ function Draggable(handle,moveBox,onStart,onDrag,onFinish){
      * @param y y点坐标
      * @return <boolean> 是否禁止默认的移动操作[true 禁止,其余允许]
      */
-    this.onDrag = onDrag;
+    this.onStep = onStep;
     /**
      * 拖放结速,释放响应事件
      * @public
@@ -111,7 +111,7 @@ function beginDrag(draggable,event){
             //$log.debug(movePosition.clientX,movePosition.clientY)
             var targetList = draggable.targetList;
             var i = targetList.length;
-            if(!draggable.onDrag || draggable.onDrag(movePosition,x,y)!=false){
+            if(!draggable.onStep || draggable.onStep(movePosition,x,y)!=false){
                 //$log.trace ([x,y,movePosition.clientX,movePosition.clientY])
                 setAbsolute(x,y);
             }

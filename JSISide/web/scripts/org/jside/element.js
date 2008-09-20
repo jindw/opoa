@@ -251,14 +251,11 @@ var elementProperties = {
         do {
             left += el.offsetLeft || 0;
             top += el.offsetTop || 0;
-            //TODO:-margin bug cm pt %???
             var runtimeStyle = this.getRuntimeStyle(el);
-            left -= parseInt(runtimeStyle.marginLeft) || 0;
-            top -= parseInt(runtimeStyle.marginTop) || 0;
-            
+            left -= toPix(runtimeStyle.marginLeft);
+            top -= toPix(runtimeStyle.marginTop);
         } while (el = el.offsetParent);
-        //相差margin
-        return  {left:left,top:top};
+        return  {left:Math.floor(left),top:Math.floor(top)};
     },
     getRegion : function(el){
         if(el.getBoundingClientRect){
@@ -267,37 +264,12 @@ var elementProperties = {
             var position = this.getPosition(el);
             var runtimeStyle = this.getRuntimeStyle(el);
             //hack y = x+=t ==> x+=t;y=x;
-            var base = position.top += parseInt(runtimeStyle.marginLeft) || 0;
-            position.bottom = base + el.offsetHeight
-            base = position.left += parseInt(runtimeStyle.marginLeft) || 0;
+            var base = position.top += toPix(runtimeStyle.marginTop) ;
+            position.bottom = base + el.offsetHeight;
+            
+            base = position.left += toPix(runtimeStyle.marginLeft);
             position.right =base + el.offsetWidth;
             return position;
-        }
-    },
-    /**
-     * 获取运行时样式（从非内联样式中获取的）
-     * @public
-     * @unpublished
-     * @owner Element
-     * @param <HTMLElement>el HTML元素对象（对于包装元素,自动生成的同名成员方法中，默认传入this无须显示指定）
-     * @return  返回样式单信息
-     */
-    toPix:function(el, text){
-        var value = text.replace(/(\d*).*/,'$1');
-        var postfix = text.substr(value.length);
-        switch(postfix.toLowerCase()){
-            case '%':
-                return el.offsetParent.clientWidth * 100 / value;
-            case '':
-            case 'px':
-                return value*1;
-            default:
-                var div = new Element("div")
-                document.body.appendChild(div);
-                div.style.width = text;
-                value = div.clientWidth;
-                document.body.removeChild(div);
-                return value;
         }
     }
 };
@@ -309,6 +281,7 @@ var elementPrototype = Element.prototype = {
      */
     wrapVersion :0
 }
+var lengMap = {}
 function initializeProperty(n,staticMethod){
     Element[n] = staticMethod;
     elementPrototype[n] = function(){
@@ -316,6 +289,47 @@ function initializeProperty(n,staticMethod){
         args.push.apply(args,arguments);
         return staticMethod.apply(Element,args);
     }
+}
+
+/**
+ * 获取运行时样式（从非内联样式中获取的）
+ * @internal
+ * @param <HTMLElement>el HTML元素对象（对于包装元素,自动生成的同名成员方法中，默认传入this无须显示指定）
+ * @return  返回样式单信息
+ */
+function toPix(el, text){
+    if(text && text.charAt(0) != '0'){
+        var value = text.replace(/(\d*).*/,'$1');
+        var unit = text.substr(value.length).toLowerCase();
+        switch(unit){
+            case '%':
+                value = el.offsetParent.clientWidth * 100 / value;
+                break;
+            case 'px':
+                value = value*1;
+                break;
+            default:
+                return value * getLengthRate(unit);
+        }
+        return parseInt(value,10) || 0;
+    }
+    return 0;
+}
+
+/**
+ * 获取运行时其他长度单位与象素大小的比例
+ * @internal
+ */
+function getLengthRate(unit){
+    var rate = lengMap[unit];
+    if(!rate){
+        var div = new Element("div")
+        document.body.appendChild(div);
+        div.style.width = 128+unit;
+        rate = lengMap[unit] = div.clientWidth/128;
+        document.body.removeChild(div);
+    }
+    return rate;
 }
 /**
  * @public

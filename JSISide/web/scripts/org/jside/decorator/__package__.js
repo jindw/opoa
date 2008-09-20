@@ -20,5 +20,6 @@ this.addScript("tooltip.js",'Tooltip');
 this.addDependence("*",["org.jside.E","org.jside.Element"]);
 
 this.addScript("utils.js",'*');
+this.addDependence("Slider","org.jside.Draggable",true);
 this.addDependence("*","utils.js");
 
