@@ -13,7 +13,7 @@ this.addScript("drag-drop.js",["DragSource","DropTarget"],'org/jside/drag-drop.j
 this.addScript("spinner.js",['Spinner','Slider'],["org.jside.Template"]);
 
 this.addScript("date-picker.js",'DatePicker',
-              ['org.jside.Template',"org.jside.ISODateFormat"]);
+              ['org.jside.Template',"org.jside.DateFormat"]);
               
 this.addScript("tooltip.js",'Tooltip');
               
