@@ -259,7 +259,13 @@ var elementProperties = {
     },
     getRegion : function(el){
         if(el.getBoundingClientRect){
-            return el.getBoundingClientRect();
+            var position = el.getBoundingClientRect();
+            var left = scrollElement.scrollLeft;
+            var top = scrollElement.scrollTop;
+            position.left +=left;
+            position.right +=left;
+            position.top +=top;
+            position.bottom +=top;
         }else{
             var position = this.getPosition(el);
             var runtimeStyle = this.getRuntimeStyle(el);
@@ -269,11 +275,11 @@ var elementProperties = {
             
             base = position.left += toPix(runtimeStyle.marginLeft);
             position.right =base + el.offsetWidth;
-            return position;
         }
+        return position;
     }
 };
-
+var scrollElement = document.documentElement;
 var elementPrototype = Element.prototype = {
     /**
      * 包装器版本信息

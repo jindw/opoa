@@ -121,8 +121,8 @@ function beginDrag(draggable,event){
                     var target = targetList[i];
                     var targetId = target.id;
                     var el = E(targetId);
-                    var region = regionMap[targetId] || (regionMap[targetId] = el.getRegion());
-                    var inRegion = containsPoint(region,movePosition.clientX,movePosition.clientY) && target.accept(draggable,x,y);
+                    var region = el.getRegion();//regionMap[targetId] || (regionMap[targetId] = el.getRegion());
+                    var inRegion = containsPoint(region,movePosition.pageX,movePosition.pageY) && target.accept(draggable,x,y);
                     if(inRegion){
                         if(currentTarget != target){
                             if(currentTarget){
@@ -201,7 +201,7 @@ function markPosition(event){
     var scrollTop = document.documentElement.scrollTop;//standard
     //var offsetX = Math.max(document.documentElement.scrollLeft,document.body.scrollLeft);//quirks
     //var offsetY = Math.max(document.documentElement.scrollTop,document.body.scrollTop);//quirks
-    //$log.debug(event.clientX + offsetX)
+    //$log.trace(event.clientY + scrollTop,event.pageY);
     return {
             clientX : event.clientX,
             clientY :  event.clientY,
