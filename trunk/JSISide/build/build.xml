@@ -73,6 +73,8 @@
 			<arg value="-features"/>
 			<arg value="org.xidea.jsi.boot:col"/>
 			-->
+			<arg value="-+features"/>
+			<arg value=":IE7LocalFileAccessFix"/>
 			<!--
 			<arg value="-bootCached" />
 			<arg value="org.jside.DecoratorEngine" />

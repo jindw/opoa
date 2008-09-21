@@ -8,7 +8,13 @@ function Include(){
 }
 
 Include.prototype.prepare = function(){
-	this.url = this.url || el.href;
+	this.url = this.url || E(this.id).href;
+	if(":IE7LocalFileAccessFix"){
+		if(location.protocol == "file:"){//ie7 bug
+			this.url = location.href.replace(/\/[^\/]*$/,"/"+this.url)
+			this.url = this.xslt && location.href.replace(/\/[^\/]*$/,"/"+this.url)
+		}
+	}
 	//this.xslt = this.xslt;
     //alert(E(this.id).innerHTML)
 }

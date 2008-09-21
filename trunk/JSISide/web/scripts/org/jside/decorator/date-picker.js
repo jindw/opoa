@@ -62,8 +62,11 @@ DatePicker.prototype = {
     },
     refresh : function(){
         var content = E(this.contentId);
-        var selectedDate = this.selectedDate|| new Date();
+        var selectedDate = this.selectedDate || new Date();
         var actionMap = this.actionMap;
+		if(isNaN(selectedDate.getTime())){
+			selectedDate = new Date();
+		}
         actionMap.selectedDate = createDateItem(selectedDate);
         actionMap.dateList = createDateList(selectedDate);
         content.innerHTML = contentTemplate.render(actionMap);
