@@ -38,6 +38,8 @@
 }
 .jside-slider .slider-handle- {
     position:absolute;
+    line-height:0px;
+    font-size:0;
     background-image: url(slider.gif);
 }
 .jside-slider .horizontal- .slider-handle- {

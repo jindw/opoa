@@ -1,6 +1,6 @@
 var spinnerTemplate = new Template(this.scriptBase + "html/form.xhtml#//*[@id='spinner']/*");
 var sliderTemplate = new Template(this.scriptBase + "html/form.xhtml#//*[@id='slider']/*");
-
+var idseq = new Date()*1;
 /**
  * @public
  * @decorator spinner
@@ -64,7 +64,7 @@ Slider.prototype.prepare = function(){
 
 Slider.prototype.decorate = function(){
     var el = E(this.id);
-    var handleId ="$slider_"+(new Date()*1);
+    var handleId ="$slider_"+(idseq++);
     var modle = {
     	length:this.length,
     	orientation:this.orientation,
@@ -85,18 +85,21 @@ Slider.prototype.setValue = function(value){
 	E(this.id).value = value;
 	E(this.handleId).title = value;
 	value = (value-this.start)*this.length/(this.end -this.start)
+	//E(this.handleId).style['left'] = value + 'px';
 	E(this.handleId).style[this.orientation == "vertical"?'top':'left'] = value + 'px';
 }
 function buildSliderStepListener(slider,handle){
 	return function(event,x,y){
-		if("vertical" == slider.orientation){
-			x = y;
-		}
-		var pos = Math.floor(Math.max(Math.min(x,slider.length),0));
-		pos = pos*(slider.end -slider.start)/slider.length;
-		//step
-		pos = Math.floor(pos/slider.step)*slider.step;
-		slider.setValue(pos);
+	    try{
+    		if("vertical" == slider.orientation){
+    			x = y;
+    		}
+    		var pos = Math.floor(Math.max(Math.min(x,slider.length),0));
+    		pos = pos*(slider.end -slider.start)/slider.length;
+    		//step
+    		pos = Math.floor(pos/slider.step)*slider.step;
+    		slider.setValue(pos);
+	    }catch(e){}
 		return false;
     }
 }
