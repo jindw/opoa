@@ -32,15 +32,17 @@
 			<arg value="-output" />
 			<arg value="${basedir}/build/dest/boot-decorator.js" />
 		</java>
+		<echo file="build/dest/lazy-trigger.js" message="$import()"></echo>
 		<zip destfile="build/dest/jsiside.zip">
 			<zipfileset src="build/dest/exported.jar" prefix="scripts">
 				<include name="**/*.*" />
 			</zipfileset>
 			<zipfileset src="web/WEB-INF/lib/JSI.jar" prefix="scripts">
-				<include name="lazy-trigger.js"/>
 				<include name="example/**/*.*"/>
 			</zipfileset>
-			<zipfileset file="build/dest/boot.js" prefix="scripts">
+			<zipfileset dir="build/dest/" prefix="scripts">
+				<include name="boot.js"/>
+				<include name="lazy-trigger.js"/>
 			</zipfileset>
 			<zipfileset file="build/dest/boot-decorator.js" prefix="scripts">
 			</zipfileset>
