@@ -50,7 +50,7 @@
 			</zipfileset>
 			<zipfileset dir="web">
 				<include name="scripts/**/styles/*.gif" />
-				<include name="WEB-INF/**/styles/*.css" />
+				<include name="scripts/**/styles/*.css" />
 			</zipfileset>
 		</zip>
 	</target>
