@@ -37,7 +37,8 @@
 					<div onmouseover="this.className = 'over-'"
 						onmousedown="this.className = 'down-'"
 						onmouseup="this.className = 'over-'"
-						onmouseout="this.className = ''">
+						onmouseout="this.className = ''"
+						onselectstart="return false">
 						<div class="${orientation}-"
 							style="${orientation == 'vertical'?'height:'+length:'width:'+length}px"
 							onclick="${action.active()}">
