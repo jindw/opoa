@@ -101,7 +101,7 @@ function beginDrag(draggable,event){
     var offsetX = position.left;//+moveBox.marginTop;//moveBox.offsetLeft -document.body.offsetLeft;
     var offsetY = position.top;//+moveBox.marginLeft;//moveBox.offsetTop -document.body.offsetTop;
     var movePosition =  markPosition(event);//set null later
-    var regionMap = {};
+    //var regionMap = {};
     var currentTarget;
     var moveInterval = setInterval(function(){
         if(movePosition){
