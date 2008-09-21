@@ -43,7 +43,7 @@ Spinner.prototype.jump = function(offset){
 function buildSpinnerMouseHandle(spinner,offset){
     return function(event){
         offset && spinner.jump(offset);
-        event.stopPropagation() 
+        stopPropagation(event);
         return false;
     }
 }

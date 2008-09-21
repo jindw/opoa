@@ -47,7 +47,7 @@
  * @author a9text May.2007
  * @author jindw 2008-07
  */
-function ISODateFormat(pattern){
+function DateFormat(pattern){
     var match;
     var result = [];
     var keys = ["s+[\.,]s+|"];
@@ -70,7 +70,7 @@ function ISODateFormat(pattern){
     //alert(result)
 }
 
-ISODateFormat.prototype = {
+DateFormat.prototype = {
     /**
      * 格式化函数
      * @public
@@ -139,7 +139,7 @@ ISODateFormat.prototype = {
             return formatNumber(date.getMinutes(),format);
         },
         's' : function(date,format){
-            if("com.baidu.ue.text:ISODateFormat#ms"){
+            if("com.baidu.ue.text:DateFormat#ms"){
                 var index = format.search(/[,\.]/);
                 if(index>0){
                     return formatNumber(date.getSeconds(),format.substr(0,index))
@@ -180,7 +180,7 @@ ISODateFormat.prototype = {
             return text;
         },
         's' : function(text,format,date){
-            if("com.baidu.ue.text:ISODateFormat#ms"){
+            if("com.baidu.ue.text:DateFormat#ms"){
                 var index = format.search(/[,\.]/);
                 if(index>0){
                     text =text.match(/(\d+)[,\.](\d+)/);
@@ -205,13 +205,13 @@ function parseNumber(text,format){
     text =  text.replace(/[^\d][\d\D]*$/,''); ///^\d+/.exec(text)[0]
     return format ==  1 ? text : text.substr(0,format)
 }
-var defaultTimeFormat = new ISODateFormat("YYYY-MM-DDThh:mm:ss");
-var defaultDateFormat = new ISODateFormat("YYYY-MM-DD");
+var defaultTimeFormat = new DateFormat("YYYY-MM-DDThh:mm:ss");
+var defaultDateFormat = new DateFormat("YYYY-MM-DD");
 
-ISODateFormat.format = function(date){
+DateFormat.format = function(date){
     return defaultDateFormat.format(date)
 }
 
-ISODateFormat.parse = function(text){
+DateFormat.parse = function(text){
     return defaultTimeFormat.parse(text)
 }

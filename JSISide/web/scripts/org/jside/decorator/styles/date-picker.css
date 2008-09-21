@@ -54,10 +54,10 @@
     width:16px;
 }
 .jside-date-picker th .year-,.jside-date-picker th .month-{
-    font-size: 15px;
+    font-size: 14px;
     line-height:16px;
     font-weight: normal;
-    width:50%;
+    width:60%;
     float:left;
     top:0px;
     text-align: center;
