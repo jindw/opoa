@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="GBK"?>
 <project name="JSISide" default="build" basedir="../">
-	<property name="version" value="2007-06-19" />
 
+	<tstamp>
+		<format property="version" pattern="yyyyMMdd"/>
+	</tstamp>
 	<target name="init">
 		<delete dir="build/temp">
 		</delete>
@@ -33,7 +35,7 @@
 			<arg value="${basedir}/build/dest/boot-decorator.js" />
 		</java>
 		<echo file="build/dest/lazy-trigger.js" message="$import()"></echo>
-		<zip destfile="build/dest/jsiside.zip">
+		<zip destfile="build/dest/jsiside_${version}.zip">
 			<zipfileset src="build/dest/exported.jar" prefix="scripts">
 				<include name="**/*.*" />
 			</zipfileset>
