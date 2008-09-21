@@ -21,7 +21,7 @@ DatePicker.prototype = {
                 $log.error("DataPicker 的type属性只能是 inline 或者 popup");
             }
         }
-        this.format = new ISODateFormat(this.pattern || 'Y-M-D');
+        this.format = new DateFormat(this.pattern || 'Y-M-D');
         this.type = this.type && this.type.toLowerCase() =='inline'?'inline':'popup'
     },
     decorate : function(){

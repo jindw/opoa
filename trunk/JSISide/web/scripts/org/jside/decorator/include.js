@@ -4,9 +4,12 @@
  * @decorator
  */
 function Include(){
+	
 }
 
 Include.prototype.prepare = function(){
+	this.url = this.url || el.href;
+	//this.xslt = this.xslt;
     //alert(E(this.id).innerHTML)
 }
 Include.prototype.decorate = function(){
@@ -17,7 +20,7 @@ Include.prototype.decorate = function(){
      * @attribute
      * @id Include.this.url
      */
-    var url = this.url || el.href;
+    var url = this.url;
     
     /**
      * xpath表达式[可选属性]

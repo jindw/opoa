@@ -17,7 +17,7 @@ this.addScript("json.js",['JSON']);
 this.addScript("cookie.js",'Cookie');
 this.addScript("request.js",'Request');
 
-this.addScript("date-format.js","ISODateFormat");
+this.addScript("date-format.js","DateFormat");
 
 /*
  * 模版实现
