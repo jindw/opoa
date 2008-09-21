@@ -1,14 +1,14 @@
 
 (function(){
-    if(":debug"){
-        var scripts = document.getElementsByTagName("script");
-        scripts = scripts[scripts.length-1].getAttribute('src');
-    }else{
-        $import("org.jside.DecoratorEngine",true);
-    }
     var el = document.documentElement;//html
     var value = el.getAttribute("xmlns:d");
     if(value || (value = document.namespaces) && value["d"]){
+    	if(":debug"){
+	        var scripts = document.getElementsByTagName("script");
+	        scripts = scripts[scripts.length-1].getAttribute('src');
+	    }else{
+	        $import("org.jside.DecoratorEngine",true);
+	    }
         function ready(){
             if(ready){
             	ready = 0;
@@ -25,8 +25,6 @@
 	            }
             }
         }
-        
-        
         //domready
         if(document.addEventListener){//这个判断极其危险,很多人有扩展ie兼容标准的习惯(改称ActiveXObject能稳妥些),其他地方不可效仿.JSI也只能在引导文件中如此
             //Mozilla or Opera : if(BrowserInfo.isGecko(20020826)|| BrowserInfo.isOpera(9)){//Mozilla 1.0.1 支持 DOMContentLoaded
