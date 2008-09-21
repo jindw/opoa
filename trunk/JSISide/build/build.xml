@@ -97,6 +97,6 @@
 			<arg value="org.jside.decorator.*" />
 			<arg value="org.jside.template.*" />
 		</java>
-		<replace file="${basedir}/build/dest/boot.js" encoding="utf-8"  token="var $JSI={}" value="var $JSI={scriptBase:'/scripts/'}"></replace>
+		<replace file="${basedir}/build/dest/boot.js" encoding="utf-8"  token="var $JSI={}" value="var $JSI={scriptBase:'http://www.xidea.org/project/jsiside/scripts/'}"></replace>
 	</target>
 </project>
