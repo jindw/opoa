@@ -31,7 +31,9 @@ img.layout-{
     font-size:0px;
     border:0px;
 }
-
+html{
+    filter: expression(document.execCommand('BackgroundImageCache', false, true))
+}
 /* 八卦分图法 */
 /* 斜四相 */
 .quad-x-{
