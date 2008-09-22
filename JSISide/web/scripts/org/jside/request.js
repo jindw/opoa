@@ -79,18 +79,16 @@ Request.prototype = {
         sync = sync || options.sync;
         if (/post/i.test(options.method)) {
             //headers['Content-type'] = this.options.contentType;
-            /* Force "Connection: close" for Mozilla browsers to work around
-             * a bug where XMLHttpReqeuest sends an incorrect Content-length
-             * header. See Mozilla Bugzilla #246651.
-             */
-            if (this.xhr.overrideMimeType){
+            //Force "Connection: close" for Mozilla browsers to work around
+            // a bug where XMLHttpReqeuest sends an incorrect Content-length
+            // header. See Mozilla Bugzilla #246651.
+            if (this.xhr.overrideMimeType && /Gecko\/200[0-4]/.test(navigator.userAgent)){
                 headers['Connection'] = 'close';
             }
         }
         this.xhr.open(options.method, options.url,!sync);
         this.xhr.onreadystatechange = this.onreadystatechange;
         for(var n in headers){
-            //$log.debug(n,headers[n]);
             this.xhr.setRequestHeader(n,headers[n]);
         }
         this.xhr.send(params);

@@ -33,7 +33,7 @@
                 var interval = setInterval(function(){//safari
                     if (/complete|loaded/.test(document.readyState)) {
                         clearInterval(interval);
-                        ready();
+                        ready && ready();
                     }
                 },10);
             }
