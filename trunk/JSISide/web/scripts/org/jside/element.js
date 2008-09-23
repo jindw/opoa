@@ -259,13 +259,15 @@ var elementProperties = {
     },
     getRegion : function(el){
         if(el.getBoundingClientRect){
-            var position = el.getBoundingClientRect();
+            var rect = el.getBoundingClientRect();
             var left = scrollElement.scrollLeft;
             var top = scrollElement.scrollTop;
-            position.left +=left;
-            position.right +=left;
-            position.top +=top;
-            position.bottom +=top;
+            var position = {
+                left:rect.left +left,
+                right : rect.right +left,
+                top : rect.top +top,
+                bottom : rect.bottom +top
+            };
         }else{
             var position = this.getPosition(el);
             var runtimeStyle = this.getRuntimeStyle(el);
