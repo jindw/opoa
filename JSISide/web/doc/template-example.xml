@@ -1,0 +1,8 @@
+<xml xmlns:c="http://www.xidea.org/ns/template/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.xidea.org/ns/template/core template.xsd"
+	elementFormDefault="qualified">
+
+	<c:for items="${}"></c:for>
+	<c:if test="${2}"></c:if>
+</xml>

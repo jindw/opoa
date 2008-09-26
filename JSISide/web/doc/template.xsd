@@ -1,13 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="http://www.xidea.org/ns/template/core">
-  <xs:element name="for">
-    <xs:complexType>
-      <xs:attribute name="items" type="xs:NMTOKEN" use="required" />
-      <xs:attribute name="var" type="xs:NMTOKEN" use="required" />
-      <xs:attribute name="begin" type="xs:string" use="required" />
-      <xs:attribute name="end" type="xs:string" use="required" />
-    </xs:complexType>
-  </xs:element>
+	targetNamespace="http://www.xidea.org/ns/template/core"
+	xmlns="http://www.xidea.org/ns/template/core" elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation>JSISide 模板引擎xml语法描述文档</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="EL" id="EL">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="$\w{0,9}\{[.]*\}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="for">
+		<xs:annotation>
+			<xs:documentation>循环标签</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+			</xs:sequence>
+			<xs:attribute name="items" type="EL" use="required" />
+			<xs:attribute name="var" type="xs:NMTOKEN" use="required" />
+			<xs:attribute name="begin" type="xs:string" use="optional" />
+			<xs:attribute name="end" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="if">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+			</xs:sequence>
+			<xs:attribute name="test" type="EL" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="else">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+			</xs:sequence>
+			<xs:attribute name="test" type="EL" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="choose">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="when">
+		<xs:complexType>
+			<xs:attribute name="test" type="EL" use="optional" />
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
