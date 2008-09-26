@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://www.xidea.org/ns/template/core">
+  <xs:element name="for">
+    <xs:complexType>
+      <xs:attribute name="items" type="xs:NMTOKEN" use="required" />
+      <xs:attribute name="var" type="xs:NMTOKEN" use="required" />
+      <xs:attribute name="begin" type="xs:string" use="required" />
+      <xs:attribute name="end" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
