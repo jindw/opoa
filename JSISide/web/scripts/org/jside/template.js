@@ -16,7 +16,7 @@
  */
 function Template(data,type){
     if("org.jside.template:compile"){
-        if(data.constructor == String){
+        if(!(data instanceof Array)){
             var inlineClass = {
                 'xml':"org.jside.template:XMLParser",
                 'text':"org.jside.template:TextParser"
