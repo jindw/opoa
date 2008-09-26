@@ -4,5 +4,7 @@
 	elementFormDefault="qualified">
 
 	<c:for items="${}"></c:for>
+	<c:else></c:else>
 	<c:if test="${2}"></c:if>
+	<c:else test="${}"></c:else>
 </xml>
