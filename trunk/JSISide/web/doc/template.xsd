@@ -1,56 +1,96 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.xidea.org/ns/template/core"
-	xmlns="http://www.xidea.org/ns/template/core" elementFormDefault="qualified">
-	<xs:annotation>
-		<xs:documentation>JSISide 模板引擎xml语法描述文档</xs:documentation>
-	</xs:annotation>
-	<xs:simpleType name="EL" id="EL">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="$\w{0,9}\{[.]*\}" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:element name="for">
-		<xs:annotation>
-			<xs:documentation>循环标签</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
-			</xs:sequence>
-			<xs:attribute name="items" type="EL" use="required" />
-			<xs:attribute name="var" type="xs:NMTOKEN" use="required" />
-			<xs:attribute name="begin" type="xs:string" use="optional" />
-			<xs:attribute name="end" type="xs:string" use="optional" />
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="if">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
-			</xs:sequence>
-			<xs:attribute name="test" type="EL" use="required" />
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="else">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
-			</xs:sequence>
-			<xs:attribute name="test" type="EL" use="optional" />
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="choose">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="when">
-		<xs:complexType>
-			<xs:attribute name="test" type="EL" use="optional" />
-		</xs:complexType>
-	</xs:element>
+  targetNamespace="http://www.xidea.org/ns/template/core"
+  xmlns="http://www.xidea.org/ns/template/core"
+  elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:documentation>JSISide 模板引擎xml语法描述文档</xs:documentation>
+  </xs:annotation>
+  <xs:simpleType name="EL" id="EL">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="$\w{0,9}\{[.]*\}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="var">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+      <xs:attribute name="value" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="out">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+      </xs:sequence>
+      <xs:attribute name="value" type="EL" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="for">
+    <xs:annotation>
+      <xs:documentation>循环标签</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+      </xs:sequence>
+      <xs:attribute name="items" type="EL" use="required">
+        <xs:annotation>
+          <xs:documentation>用于指定循环的数据</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="var" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="if">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+      </xs:sequence>
+      <xs:attribute name="test" type="EL" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="else">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+      </xs:sequence>
+      <xs:attribute name="test" type="EL" use="optional" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="choose">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="when">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+      </xs:sequence>
+      <xs:attribute name="test" type="EL" use="optional" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="otherwise" >
+    <xs:complexType >
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="include" >
+    <xs:complexType >
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded"></xs:any>
+      </xs:sequence>
+      <xs:attribute name="path" type="xs:NMTOKEN" use="optional" />
+      <xs:attribute name="xpath" type="xs:NMTOKEN" use="optional" />
+      <xs:attribute name="var" type="xs:NMTOKEN" use="optional" />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>
