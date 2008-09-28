@@ -164,7 +164,7 @@ function processIncludeTag(node,context){
 	try{
 	    if(attributes['var']){
             var next = node.firstChild;
-            context.append([6,attributes['var']]);
+            context.append([VAR_TYPE,attributes['var']]);
             if(next){
                 do{
                     context.parseNode(next,context)
@@ -187,7 +187,7 @@ function processIncludeTag(node,context){
 function parseIfTag(node,context){
     var next = node.firstChild;
     var attributes = loadAttribute(node,{test:3});
-    context.append([2,attributes.test]);
+    context.append([IF_TYPE,attributes.test]);
     if(next){
         do{
             context.parseNode(next,context)
@@ -200,7 +200,7 @@ function parseElseIfTag(node,context){
     context.removeLastEnd();
     var next = node.firstChild;
     var attributes = loadAttribute(node,{test:3});
-    context.append([3,attributes.test]);
+    context.append([ELSE_TYPE,attributes.test]);
     if(next){
         do{
             context.parseNode(next,context)
@@ -214,7 +214,7 @@ function parseElseTag(node,context){
     context.removeLastEnd();
     var next = node.firstChild;
     var attributes = loadAttribute(node,{});
-    context.append([4]);
+    context.append([ELSE_TYPE]);
     if(next){
         do{
             context.parseNode(next,context)
@@ -253,7 +253,7 @@ function parseChooseTag(node,context){
 function parseForTag(node,context){
     var next = node.firstChild;
     var attributes = loadAttribute(node,{items:3,'var':1,begin:0,end:0,status:0});
-    context.append([5,attributes['var'],attributes.items,attributes.status]);
+    context.append([FOR_TYPE,attributes['var'],attributes.items,attributes.status]);
     if(next){
         do{
             context.parseNode(next,context)
@@ -265,10 +265,10 @@ function parseVarTag(node,context){
     var attributes = loadAttribute(node,{name:1,value:0});
     var valueEl = attributes.value
     if(valueEl){
-        context.append([6,attributes.name,toEL(valueEl)]);
+        context.append([VAR_TYPE,attributes.name,toEL(valueEl)]);
     }else{
         var next = node.firstChild;
-        context.append([6,attributes.name]);
+        context.append([VAR_TYPE,attributes.name]);
         if(next){
             do{
                 context.parseNode(next,context)
@@ -280,7 +280,7 @@ function parseVarTag(node,context){
 
 function parseOutTag(node,context){
     var attributes = loadAttribute(node,{value:3});
-    context.append([0,attributes.value,true]);
+    context.append([EL_TYPE,attributes.value,true]);
 }
 
 
