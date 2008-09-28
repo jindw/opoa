@@ -6,19 +6,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<script src="../scripts/?path=boot.js"></script>
     <script>
-    $import("org.jside.decorator.applyTemplate",true);
-    //$import("org.jside.Template",true);
-    //$import("org.jside.template.*",true);
+    $import("org.jside.Template",true);
+    $import("org.jside.template.*",true);
     </script>
 </head>
 <body>
-<input id="a"/>
-    <script>
-    applyTemplate("<table border='1'><tr><td><object/></td><td><object/></td></tr></table>",document.getElementById('a'));
-    //var t = new Template("template.xhtml#//*[@id='ascii']/*");
-    //var border = '13';
-    //document.write(t.render( {'name':"金大为",info:"alert(2222222)"}))
-    </script>
+
+<script>
+
+var t1 = new Template("<xml xmlns:c="#">\
+  <c:if test="${true}">1</c:if>
+  <c:else>2</c:else>
+</xml>")
+
+
+</script>
 
 </body>
 </html>
