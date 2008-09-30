@@ -113,11 +113,11 @@ function findFromXML($file,$path){
     global $encoding;
 	if(preg_match('/.*\.xml$/i',$file)){
 	    $xml = simplexml_load_file($file);
-	    $result = $xml->xpath("//entry[@key='$path']");
+	    $result = $xml->xpath("//entry[@key='$path' or @key='$path#base64']");
 	    if($result){
 	        $contentType = findMimiType($path);
 			while(list( $key, $node) = each($result)) {
-			    if(preg_match('/^image\//i',$contentType)){
+			    if(preg_match('/#base64$/i',$node['key'])){
                     header("Content-Type:$contentType;");
 			        echo base64_decode($node);
 			    }else{
