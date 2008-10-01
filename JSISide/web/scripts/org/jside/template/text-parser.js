@@ -21,7 +21,7 @@ function TextParser(){
  * 解析函数集
  * @private
  */
-TextParser.prototype = new TemplateParser();
+TextParser.prototype = new Parser();
 TextParser.prototype.parse = function(url){
     var xhr = new XMLHttpRequest();
     xhr.open("get",url,true)

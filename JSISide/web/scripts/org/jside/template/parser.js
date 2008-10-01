@@ -20,7 +20,7 @@ var FOR_KEY = "_[4]";
 
 
 //add as default
-function TemplateParser(){
+function Parser(){
     this.parserList = this.parserList.concat([]);
     this.result = [];
 }
@@ -29,7 +29,7 @@ function TemplateParser(){
 /**
  * @private
  */
-TemplateParser.prototype = {
+Parser.prototype = {
     parserList : [],
     /**
      * 添加新解析函数

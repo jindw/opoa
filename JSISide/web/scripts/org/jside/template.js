@@ -116,18 +116,23 @@ var FOR_KEY = "_[4]";
 function compileItem(object,itemsStack){
     switch(object[0]){
         case 0://":el":
-            return buildExpression(object,itemsStack);
+            buildExpression(object,itemsStack);
+            break;
         case 1://":set"://var
-            return buildVar(object,itemsStack);
+            buildVar(object,itemsStack);
+            break;
         case 2://":if":
-            return buildIf(object,itemsStack);
+            buildIf(object,itemsStack);
+            break;
         case 3://":else-if":":else":
-            return buildElse(object,itemsStack);
+            buildElse(object,itemsStack);
+            break;
         case 4://":for":
-            return buildFor(object,itemsStack);
-            
+            buildFor(object,itemsStack);
+            break;
         case 6://":attribute":
-            return buildAttribute(object,itemsStack);
+            buildAttribute(object,itemsStack);
+            break;
         default://:end
             itemsStack.shift();
             //return $import(type,null,null)(object)
@@ -307,12 +312,16 @@ function createExpression(el){
                $log.trace(e);
             }
 	    }
+	case Function:
+		return function(_){
+	         try{
+	             return el(_);
+	         }catch(e){
+	             $log.trace(e);
+	         }
+	     };
 	}
 	return function(_){
-         try{
-             return el(_);
-         }catch(e){
-             $log.trace(e);
-         }
+         return el;
      };
 }
