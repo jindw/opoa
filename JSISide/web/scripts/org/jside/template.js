@@ -30,6 +30,11 @@ function Template(data,type){
                 while(item instanceof Array && item.length && item[item.length-1] == undefined){
                     item.pop();
                 }
+                if(item[1] == 0){
+                	if(item[2] == true){
+                		item[2] == 1;
+                	}
+                }
             }
             this.compileData = data;
         }
@@ -118,6 +123,12 @@ function compileItem(object,itemsStack){
         case 0://":el":
             buildExpression(object,itemsStack);
             break;
+        case 6://":encode_el":
+            buildAttribute(object,itemsStack);
+            break;
+        case 7://":attribute":
+            buildExpression(object,itemsStack,true);
+            break;
         case 1://":set"://var
             buildVar(object,itemsStack);
             break;
@@ -130,9 +141,6 @@ function compileItem(object,itemsStack){
         case 4://":for":
             buildFor(object,itemsStack);
             break;
-        case 6://":attribute":
-            buildAttribute(object,itemsStack);
-            break;
         default://:end
             itemsStack.shift();
             //return $import(type,null,null)(object)
@@ -144,14 +152,13 @@ function compileItem(object,itemsStack){
  * el             [EL_TYPE,expression,unescape]
  * @internal
  */
-function buildExpression(data,itemsStack){
+function buildExpression(data,itemsStack,encode){
     var el = data[1];
-    var escape = !data[2];
     //if(data[0]){//==1
     el = createExpression(el)
     itemsStack[0].push(function(context,result){
         var value = el(context);
-        if(escape && value!=null ){
+        if(encode && value!=null ){
             value = String(value).replace(/[<>&'"]/g,xmlReplacer)
         }
         result.push(value);
