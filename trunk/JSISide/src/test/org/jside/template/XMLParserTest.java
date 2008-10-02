@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.jside.Template;
 public class XMLParserTest {
 
 	@Before

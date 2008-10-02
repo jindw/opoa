@@ -20,7 +20,7 @@ class ContextWrapper implements Map<Object, Object>{
 		if(values!=null && values.containsKey(key)){
 			return values.get(key);
 		}
-		return PropertyExpressionFactory.getValue(context, key);
+		return PropertyExpression.getValue(context, key);
 	}
 
 	public Object put(Object key, Object value) {

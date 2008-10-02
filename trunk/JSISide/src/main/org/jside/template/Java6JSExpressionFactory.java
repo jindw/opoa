@@ -1,20 +1,13 @@
 package org.jside.template;
 
-import java.beans.PropertyDescriptor;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import javax.script.Bindings;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
-
-import sun.org.mozilla.javascript.internal.NativeArray;
 
 public class Java6JSExpressionFactory implements ExpressionFactory {
 	private ScriptEngine engine;
@@ -25,34 +18,38 @@ public class Java6JSExpressionFactory implements ExpressionFactory {
 		try {
 			this.engine.eval(new InputStreamReader(
 					Java6JSExpressionFactory.class
-							.getResourceAsStream("js2java.js")));
+							.getResourceAsStream("el.js")));
 		} catch (ScriptException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
 	public Expression createExpression(Object props) {
-		final String el = (String) props;
-		return new Expression() {
-			public Object evaluate(Object context) {
-				try {
-					Object value = engine.eval(el, new SimpleBindings(
-							(Map) context));
-					if (value instanceof NativeArray) {
-						value = ((Invocable)engine).invokeFunction("_js2java", value);
+		try {
+			final String el = (String) ((Invocable) engine).invokeFunction(
+					"__compile_EL__", (String) props);
+			return new Expression() {
+				public Object evaluate(Object context) {
+					try {
+						Object value = engine.eval(el, new SimpleBindings(
+								(Map) context));
+						return ((Invocable) engine).invokeFunction(
+								"__JS2JAVA__",  value);
+					}  catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					} catch (ScriptException e) {
+						e.printStackTrace();
 					}
-					return value;
-				} catch (NoSuchMethodException e) {
-					e.printStackTrace();
 					return null;
-				} catch (ScriptException e) {
-					e.printStackTrace();
-					return null;
+
 				}
+			};
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
 
-			}
-
-		};
+		return null;
 	}
 }
