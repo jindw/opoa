@@ -44,10 +44,11 @@ public class JspExpressionFactory  implements ExpressionFactory{
 			ValueExpression el =null;
 			public Object evaluate(Object context) {
 				try {
+					ELContext elcontext =  PropertyExpression.getValue(context,ELContext.class);
 					if(el == null){
-					    el = factory.createValueExpression((ELContext)context,eltext, Object.class);
+					    el = factory.createValueExpression(elcontext,eltext, Object.class);
 					}
-					return el.getValue((ELContext)context);
+					return el.getValue(elcontext);
 				} catch (Exception e) {
 				}
 				return null;

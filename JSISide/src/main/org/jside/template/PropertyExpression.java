@@ -2,6 +2,7 @@ package org.jside.template;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.regex.Pattern;
 
 import javax.script.ScriptEngineManager;
 
-public class PropertyExpressionFactory  implements ExpressionFactory{
+public class PropertyExpression  implements Expression ,ExpressionFactory{
 	private static final Pattern PROPERTY_SPLIT_PATTERN = Pattern.compile("[^\\w\\$\\_]+");
 	private static Map<Class<?>, Map<String, PropertyDescriptor>> classPropertyMap = new HashMap<Class<?>, Map<String, PropertyDescriptor>>();
 	private static Map<String, PropertyDescriptor> getPropertyMap(Class<?> clazz) {
@@ -30,6 +31,10 @@ public class PropertyExpressionFactory  implements ExpressionFactory{
 		}
 		return propertyMap;
 	}
+	public static <T> T getValue(Object context, Class<T> type){
+		return getValue(context, type);
+	}
+	
 	public static Object getValue(Object context, Object key) {
 		if (context != null) {
 			if(key instanceof Integer){
@@ -57,19 +62,21 @@ public class PropertyExpressionFactory  implements ExpressionFactory{
 		}
 		return null;
 	}
+	private final Object[] el;
+	
+	public PropertyExpression(Object[]el){
+		this.el = el;
+	}
 	public Expression createExpression(Object props){
-		final String[] el  = (String[])props;
-		return new Expression(){
-			public Object evaluate(Object context) {
-				int i = el.length-1;
-				Object value =getValue(context,el[i]);
-				while(value !=null && i-->0){
-					String key = el[i];
-					value = getValue(context,key);
-				}
-				return value;
-			}
-			
-		};
+		return new PropertyExpression((String[])props);
+	}
+	public Object evaluate(Object context) {
+		int i = el.length-1;
+		Object value =getValue(context,el[i]);
+		while(value !=null && i-->0){
+			Object key = el[i];
+			value = getValue(context,key);
+		}
+		return value;
 	}
 }

@@ -20,7 +20,7 @@ public class Template {
 
 	public static final String FOR_KEY = "_[4]";
 
-	private static ExpressionFactory propertyExpressionFactory = new PropertyExpressionFactory();
+	//private static ExpressionFactory propertyExpressionFactory = new PropertyExpressionFactory();
 
 	private List<Object> items;
 
@@ -135,10 +135,9 @@ public class Template {
 
 	public Expression createExpression(final Object el) {
 		if (el instanceof String) {
-			return propertyExpressionFactory
-					.createExpression(new String[] { (String) el });
+			return new PropertyExpression(new String[] { (String) el });
 		} else if (el instanceof Object[]) {
-			return propertyExpressionFactory.createExpression((Object[]) el);
+			return new PropertyExpression((Object[]) el);
 		} else if (el instanceof Expression) {
 			return (Expression) el;
 		}

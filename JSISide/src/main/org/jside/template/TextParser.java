@@ -143,7 +143,10 @@ public class TextParser implements Parser {
 			LinkedList<Object> result = new LinkedList<Object>();
 			while (props.find()) {
 				String item = props.group();
-				if (NUMBER_PATTERN.matcher(item).find()) {
+				if("for".equals(item)){
+					result.offerFirst("_");
+					result.offerFirst(Template.FOR_KEY);
+				}else if (NUMBER_PATTERN.matcher(item).find()) {
 					result.offerFirst(Integer.parseInt(item));
 				} else {
 					char c = item.charAt(0);
