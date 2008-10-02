@@ -35,7 +35,7 @@ public class Java6JSExpressionFactory implements ExpressionFactory {
 	public Expression createExpression(Object props) {
 		final String el = (String) props;
 		return new Expression() {
-			public Object evaluate(Map<Object, Object> context) {
+			public Object evaluate(Object context) {
 				try {
 					Object value = engine.eval(el, new SimpleBindings(
 							(Map) context));

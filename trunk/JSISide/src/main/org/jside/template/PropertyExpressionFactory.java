@@ -32,6 +32,9 @@ public class PropertyExpressionFactory  implements ExpressionFactory{
 	}
 	public static Object getValue(Object context, Object key) {
 		if (context != null) {
+			if(context instanceof RenderContext){
+				return ((RenderContext)context).get(key);
+			}
 			if(key instanceof Integer){
 				if(context instanceof Object[]){
 					return ((Object[])context)[(Integer)key];
@@ -60,9 +63,9 @@ public class PropertyExpressionFactory  implements ExpressionFactory{
 	public Expression createExpression(Object props){
 		final String[] el  = (String[])props;
 		return new Expression(){
-			public Object evaluate(Map<Object, Object> context) {
+			public Object evaluate(Object context) {
 				int i = el.length-1;
-				Object value = context.get(el[i]);
+				Object value =getValue(context,el[i]);
 				while(value !=null && i-->0){
 					String key = el[i];
 					value = getValue(context,key);

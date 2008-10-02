@@ -3,7 +3,6 @@ package org.jside.template;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.jside.Template;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.DocumentType;
