@@ -32,9 +32,6 @@ public class PropertyExpressionFactory  implements ExpressionFactory{
 	}
 	public static Object getValue(Object context, Object key) {
 		if (context != null) {
-			if(context instanceof RenderContext){
-				return ((RenderContext)context).get(key);
-			}
 			if(key instanceof Integer){
 				if(context instanceof Object[]){
 					return ((Object[])context)[(Integer)key];

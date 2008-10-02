@@ -2,36 +2,20 @@ package org.jside.template;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public interface RenderContext {
-	public void print(Object c);
-	public void set(Object key,Object value);
-	public Object get(Object value);
-	public Writer getOut();
-	public void setOut(Writer out);
-}
-class DefaultRenderContext implements RenderContext{
+class ContextWrapper implements Map<Object, Object>{
 	private Object context;
-	private Writer out;
 	private Map<Object, Object>values ;
 
-	public DefaultRenderContext(Object context,Writer out){
+	public ContextWrapper(Object context){
 		this.context = context;
-		this.out = out;
 	}
 	
-
-	public Writer getOut() {
-		return out;
-	}
-
-	public void setOut(Writer out) {
-		this.out = out;
-	}
-
-
 	public Object get(Object key) {
 		if(values!=null && values.containsKey(key)){
 			return values.get(key);
@@ -39,18 +23,59 @@ class DefaultRenderContext implements RenderContext{
 		return PropertyExpressionFactory.getValue(context, key);
 	}
 
-	public void set(Object key, Object value) {
+	public Object put(Object key, Object value) {
 		if(values!=null ){
 			values = new HashMap<Object, Object>();
 		}
-		values.put(key, value);
+		return values.put(key, value);
 	}
-	public void print(Object c) {
-		try {
-			out.write(String.valueOf(c));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+
+
+	public void clear() {
+	}
+
+	public boolean containsKey(Object key) {
+		return false;
+	}
+
+
+	public boolean containsValue(Object value) {
+		return false;
+	}
+
+
+	public Set<java.util.Map.Entry<Object, Object>> entrySet() {
+		return null;
+	}
+
+
+	public boolean isEmpty() {
+		return false;
+	}
+
+
+	public Set<Object> keySet() {
+		return null;
+	}
+
+
+	public void putAll(Map<? extends Object, ? extends Object> m) {
+		
+	}
+
+
+	public Object remove(Object key) {
+		return null;
+	}
+
+
+	public int size() {
+		return 0;
+	}
+
+
+	public Collection<Object> values() {
+		return null;
 	}
 
 	
