@@ -9,17 +9,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jside.jsel.Java6JSExpressionFactory;
+
 
 public class TextParser implements Parser {
 	private static final Pattern FN_PATTERN = Pattern.compile("^[\\w]+\\s*$");
-	private static final Pattern NAME_PATTERN = Pattern.compile("^[\\w]+$");
-	private static final Pattern PROPS_MARTCH_PATTERN = Pattern
-			.compile("^[_$a-zA-Z](?:[\\.\\s\\w\\_]+|\\[(?:\"[^\"]*?\"|'[^']*?'|\\d+)\\])*$");
-	private static final Pattern PROPS_FINDER_PATTERN = Pattern
-			.compile("[\\d]+|[\\w_\\$]+|\"[^\"]*?\"|'[^']*?'");
-	private static final Pattern NUMBER_PATTERN = Pattern
-			.compile("^[\\d\\.]+$");
-	private static ExpressionFactory defaultExpressionFactory = new Java6JSExpressionFactory();
+
+	private static ExpressionFactory defaultExpressionFactory = new PropertyExpressionFactory();
 
 	private ExpressionFactory expressionFactory = defaultExpressionFactory;
 
@@ -125,42 +121,7 @@ public class TextParser implements Parser {
 	}
 
 	protected Object parseEL(String expression) {
-		expression = expression.trim();
-		if (NAME_PATTERN.matcher(expression).find()) {
-			if ("true".equals(expression)) {
-				return Boolean.TRUE;
-			} else if ("false".equals(expression)) {
-				return Boolean.FALSE;
-			} else if (NUMBER_PATTERN.matcher(expression).find()) {
-				return new Long(expression);
-			}
-			return expression;
-		} else if (NUMBER_PATTERN.matcher(expression).find()) {
-			return new Double(expression);
-		}
-		if (PROPS_MARTCH_PATTERN.matcher(expression).find()) {
-			Matcher props = PROPS_FINDER_PATTERN.matcher(expression);
-			LinkedList<Object> result = new LinkedList<Object>();
-			while (props.find()) {
-				String item = props.group();
-				if("for".equals(item)){
-					result.offerFirst("_");
-					result.offerFirst(Template.FOR_KEY);
-				}else if (NUMBER_PATTERN.matcher(item).find()) {
-					result.offerFirst(Integer.parseInt(item));
-				} else {
-					char c = item.charAt(0);
-					if (c == '"' || c == '\'') {
-						// TODO: 需要作处理
-						result.offerFirst(item.substring(1, item.length() - 1));
-					} else {
-						result.offerFirst(item);
-					}
-				}
-			}
-			return result.toArray();
-		}
-		return defaultExpressionFactory.createExpression(expression);
+		return expressionFactory.createExpression(expression.trim());
 	}
 
 	private boolean isEscaped$(String text, int p) {

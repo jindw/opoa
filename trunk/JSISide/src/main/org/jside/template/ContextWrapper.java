@@ -1,81 +1,107 @@
 package org.jside.template;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 class ContextWrapper implements Map<Object, Object>{
-	private Object context;
-	private Map<Object, Object>values ;
+	private Map<Object, Object> context;
+	private Map<Object, Object> stack ;
 
-	public ContextWrapper(Object context){
+	public ContextWrapper(Map<Object, Object> context){
 		this.context = context;
 	}
 	
 	public Object get(Object key) {
-		if(values!=null && values.containsKey(key)){
-			return values.get(key);
+		if(stack!=null && stack.containsKey(key)){
+			return stack.get(key);
 		}
 		return PropertyExpression.getValue(context, key);
 	}
 
 	public Object put(Object key, Object value) {
-		if(values!=null ){
-			values = new HashMap<Object, Object>();
+		if(stack==null ){
+			stack = new HashMap<Object, Object>();
 		}
-		return values.put(key, value);
+		return stack.put(key, value);
 	}
 
 
 	public void clear() {
+		if(stack!=null ){
+			stack.clear();
+		}
 	}
 
 	public boolean containsKey(Object key) {
-		return false;
+		return context.containsKey(key) || stack!=null && stack.containsKey(key) ;
 	}
 
 
 	public boolean containsValue(Object value) {
-		return false;
+		return context.containsValue(value) || stack!=null && stack.containsValue(value) ;
 	}
 
 
 	public Set<java.util.Map.Entry<Object, Object>> entrySet() {
-		return null;
+		Set<java.util.Map.Entry<Object, Object>> context = this.context.entrySet();
+		if(stack != null){
+			context = new HashSet<Entry<Object,Object>>(context);
+			context.addAll(stack.entrySet());
+		}
+		return (Set<Entry<Object, Object>>) context;
 	}
 
 
 	public boolean isEmpty() {
-		return false;
+		return context.isEmpty()&& stack!=null && stack.isEmpty() ;
 	}
 
 
 	public Set<Object> keySet() {
-		return null;
+		Set<Object> context = this.context.keySet();
+		if(stack != null){
+			context = new HashSet<Object>(context);
+			context.addAll(stack.keySet());
+		}
+		return (Set<Object>) context;
 	}
 
 
 	public void putAll(Map<? extends Object, ? extends Object> m) {
-		
+		if(stack == null){
+			stack = new HashMap<Object, Object>();
+		}
+		stack.putAll(m);
 	}
 
 
 	public Object remove(Object key) {
+		if(stack != null){
+		    return stack.remove(key);
+		}
 		return null;
 	}
 
 
 	public int size() {
-		return 0;
+		int size = this.context.size();
+		if(stack != null){
+			size += stack.size();
+		}
+		return size;
 	}
 
 
 	public Collection<Object> values() {
-		return null;
+		Collection<Object> context = this.context.values();
+		if(stack != null){
+			context = new HashSet<Object>(context);
+			context.addAll(stack.values());
+		}
+		return context;
 	}
 
 	

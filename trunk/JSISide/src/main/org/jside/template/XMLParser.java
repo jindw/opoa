@@ -3,27 +3,27 @@ package org.jside.template;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.w3c.dom.Attr;
-import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
+import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
-import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -32,14 +32,15 @@ public class XMLParser extends TextParser {
 			.compile("^[\\s\\ufeff]*<");
 
 	private DocumentBuilder documentBuilder;
-	private XMLNodeParser[] parserList = {
-			new DefaultXMLNodeParser(this) , new CoreXMLNodeParser(this)};
+	private XMLNodeParser[] parserList = { new DefaultXMLNodeParser(this),
+			new CoreXMLNodeParser(this) };
 
 	public XMLParser() {
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory
+					.newInstance();
 			factory.setNamespaceAware(true);
-			documentBuilder = 	factory.newDocumentBuilder();
+			documentBuilder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		}
@@ -63,23 +64,19 @@ public class XMLParser extends TextParser {
 					}
 					node = loadXML(path, context);
 					if (xpath != null) {
-						NodeList nodes = selectNodes(xpath, node);
-						for (int i = 0; i < nodes.getLength(); i++) {
-							parseNode(nodes.item(i), context);
-						}
-						return  context.getResult();
+						node = selectNodes(xpath, node);
 					}
 				}
 
 			} else if (data instanceof URL) {
 				node = loadXML((URL) data, context);
-			}else if (data instanceof File) {
+			} else if (data instanceof File) {
 				node = loadXML(((File) data).toURI().toURL(), context);
 			}
-			if(node != null){
+			if (node != null) {
 				parseNode(node, context);
 			}
-			return  context.getResult();
+			return context.getResult();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -98,17 +95,85 @@ public class XMLParser extends TextParser {
 		return doc;
 	}
 
-	public NodeList selectNodes(String xpath, Object doc)
-			throws XPathExpressionException {
-		return (NodeList) javax.xml.xpath.XPathFactory.newInstance().newXPath()
-				.evaluate(xpath, doc, XPathConstants.NODESET);
+	public NamespaceContext createNamespaceContext(Document doc){
+		NamedNodeMap attributes = doc.getDocumentElement().getAttributes();
+		final HashMap<String, String> prefixMap = new HashMap<String, String>();
+		for (int i = 0; i < attributes.getLength(); i++) {
+			Attr attr = (Attr) attributes.item(i);
+			String value = attr.getNodeValue();
+			if("xmlns".equals(attr.getNodeName())){
+				int p1 = value.lastIndexOf('/');
+				String prefix = value;
+				if(p1>0){
+					prefix = value.substring(p1+1);
+					if(prefix.length()==0){
+						int p2 = value.lastIndexOf('/',p1-1);
+						prefix = value.substring(p2+1,p1);
+					}
+				}
+				prefixMap.put(prefix, value);
+			}else if("xmlns".equals(attr.getPrefix())){
+				prefixMap.put(attr.getLocalName(), value);
+			}
+		}
+		return new NamespaceContext() {
+			public String getNamespaceURI(String prefix) {
+				return prefixMap.get(prefix);
+			}
+			public String getPrefix(String namespaceURI) {
+				throw new UnsupportedOperationException("xpath not use");
+			}
+
+			public Iterator getPrefixes(String namespaceURI) {
+				throw new UnsupportedOperationException("xpath not use");
+			}
+		};
 	}
 
-	public void parseNode(Node node, ParseContext context) {
-		int i = parserList.length;
-		while (i-- > 0) {
-			if (parserList[i].parseNode(node, context)) {
-				return;
+	public DocumentFragment selectNodes(String xpath, Node currentNode)
+			throws XPathExpressionException {
+		Document doc;
+		if (currentNode instanceof Document) {
+			doc = (Document) currentNode;
+		} else {
+			doc = currentNode.getOwnerDocument();
+		}
+		XPath xpathEvaluator = javax.xml.xpath.XPathFactory.newInstance()
+				.newXPath();
+		xpathEvaluator.setNamespaceContext(createNamespaceContext(doc));
+		NodeList nodes = (NodeList) xpathEvaluator.evaluate(xpath, currentNode,
+				XPathConstants.NODESET);
+
+		DocumentFragment frm = toDocumentFragment(doc, nodes);
+		return frm;
+	}
+
+	public DocumentFragment toDocumentFragment(Node node, NodeList nodes) {
+		Document doc;
+		if (node instanceof Document) {
+			doc = (Document) node;
+		} else {
+			doc = node.getOwnerDocument();
+		}
+		DocumentFragment frm = doc.createDocumentFragment();
+		for (int i = 0; i < nodes.getLength(); i++) {
+			frm.appendChild(nodes.item(i));
+		}
+		return frm;
+	}
+
+	public void parseNode(Object node, ParseContext context) {
+		if (node instanceof Node) {
+			int i = parserList.length;
+			while (i-- > 0) {
+				if (parserList[i].parseNode((Node) node, context)) {
+					return;
+				}
+			}
+		} else if (node instanceof NodeList) {
+			NodeList list = (NodeList) node;
+			for (int i = 0; i < list.getLength(); i++) {
+				parseNode(list.item(i), context);
 			}
 		}
 	}

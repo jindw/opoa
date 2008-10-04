@@ -119,9 +119,6 @@ public class DefaultXMLNodeParser implements XMLNodeParser {
 		Attr attr = (Attr)node;
 	    String name = attr.getName();
 	    String value = attr.getValue();
-	    System.out.println(node.getPrefix());
-	    System.out.println(name);
-	    System.out.println(value);
 	    if( "xmlns:c".equals(name) &&("#".equals(value) || "#core".equals(value))  || TEMPLATE_NAMESPACE.matcher(value).find()){
 	    	return true;
 	    }

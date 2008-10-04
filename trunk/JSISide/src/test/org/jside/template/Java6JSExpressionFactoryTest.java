@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
+import org.jside.jsel.Java6JSExpressionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

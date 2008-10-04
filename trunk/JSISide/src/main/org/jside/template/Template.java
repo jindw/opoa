@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.w3c.dom.Element;
+
 
 public class Template {
 	public static final int EL_TYPE_XML_TEXT = 6;
@@ -34,7 +36,13 @@ public class Template {
 
 	public void render(Object context, Writer out)
 			throws IOException {
-		renderList(new ContextWrapper(context), items,out);
+		Map map;
+		if(context instanceof Map){
+			map = (Map)context;
+		}else{
+			map = PropertyExpression.map(context);
+		}
+		renderList(new ContextWrapper(map), items,out);
 	}
 
 	protected void renderList(Map<Object, Object> context,
@@ -133,17 +141,15 @@ public class Template {
 				throws IOException;
 	}
 
-	public Expression createExpression(final Object el) {
-		if (el instanceof String) {
-			return new PropertyExpression(new String[] { (String) el });
-		} else if (el instanceof Object[]) {
-			return new PropertyExpression((Object[]) el);
-		} else if (el instanceof Expression) {
-			return (Expression) el;
-		}
+	public Expression createExpression(Object object) {
+		final Expression el = (Expression)object;
 		return new Expression() {
 			public Object evaluate(Object context) {
-				return el;
+				try{
+				    return el.evaluate(context);
+				}catch(Exception e){
+					return null;
+				}
 			}
 		};
 	}
