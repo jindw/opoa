@@ -169,15 +169,15 @@ public class Template {
 				out.write("&amp;");
 				break;
 			case '\'':
-				if (quteChar == c) {
-					out.write("&#39;");
-				}
-				break;
 			case '"':
 				if (quteChar == c) {
-					out.write("&#34;");
+					out.write("&#39;");
+					break;
 				}
-				break;
+				if (quteChar == c) {
+					out.write("&#34;");
+					break;
+				}
 			default:
 				out.write(c);
 			}
@@ -318,7 +318,7 @@ public class Template {
 					throws IOException {
 				Object value = el.evaluate(context);
 				if (value != null) {
-					printXMLText(prefix, context, out, (char) 0);
+					out.write(prefix);
 					printXMLText(String.valueOf(value), context, out, '\"');
 					out.write('"');
 				}
