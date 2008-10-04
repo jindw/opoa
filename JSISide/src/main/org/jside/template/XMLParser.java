@@ -52,7 +52,9 @@ public class XMLParser extends TextParser {
 			throw new RuntimeException(e);
 		}
 	}
-
+	public List<Object> parse(Object data) {
+		return parse(data, new ParseContext());
+	}
 	public List<Object> parse(Object data,ParseContext context) {
 		try {
 			Node node = null;

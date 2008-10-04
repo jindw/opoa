@@ -42,15 +42,14 @@ public class TextParser implements Parser {
 				out.write("&amp;");
 				break;
 			case '\'':
-				if (quteChar == c) {
-					out.write("&#39;");
-				}
-				break;
 			case '"':
 				if (quteChar == c) {
+					out.write("&#39;");
+					break;
+				}else if (quteChar == c) {
 					out.write("&#34;");
+					break;
 				}
-				break;
 			default:
 				out.write(c);
 			}
@@ -72,15 +71,15 @@ public class TextParser implements Parser {
 		int length = text.length();
 		ArrayList<Object> result = new ArrayList<Object>();
 		do {
-			final int p = text.indexOf('$');
-			if (isEscaped$(text, p)) {
+			final int p$ = text.indexOf('$',start);
+			if (isEscaped$(text, p$)) {
 				continue;
 			} else {
-				final int p1 = text.indexOf('{', p);
-				if (p1 > p) {
+				final int p1 = text.indexOf('{', p$);
+				if (p1 > p$) {
 					String fn;
-					if (p + 1 < p1) {
-						fn = text.substring(p + 1, p1);
+					if (p$ + 1 < p1) {
+						fn = text.substring(p$ + 1, p1);
 						if (!FN_PATTERN.matcher(fn).find()) {
 							continue;
 						}
@@ -92,7 +91,9 @@ public class TextParser implements Parser {
 						if (p1 > start) {
 							Object el = parseEL(text.substring(p1 + 1, p2));
 							try {
-								result.add(text.substring(start, p));
+								if(start<p$){
+								    result.add(text.substring(start, p$));
+								}
 								result.add(new Object[] {
 										encodeXML ? Template.EL_TYPE_XML_TEXT
 												: Template.EL_TYPE, el });

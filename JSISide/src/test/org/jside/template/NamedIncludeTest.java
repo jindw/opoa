@@ -15,6 +15,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import org.jside.template.dtd.DefaultEntityResolver;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Attr;
@@ -35,6 +36,7 @@ public class NamedIncludeTest {
 			factory.setNamespaceAware(true);
 
 			documentBuilder = factory.newDocumentBuilder();
+			documentBuilder.setEntityResolver(new DefaultEntityResolver());
 			xpathFactory = javax.xml.xpath.XPathFactory.newInstance();
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
