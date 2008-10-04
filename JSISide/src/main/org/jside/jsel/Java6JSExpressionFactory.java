@@ -30,12 +30,12 @@ public class Java6JSExpressionFactory implements ExpressionFactory {
 		}
 	}
 
-	public Expression createExpression(Object props) {
+	public Expression createExpression(String value) {
 		try {
 			final String el = (String) ((Invocable) engine).invokeFunction(
-					"__compile_EL__", (String) props);
+					"__compile_EL__",  value);
 			return new Expression() {
-				public Object evaluate(Object context) {
+				public Object evaluate(Map<Object, Object> context) {
 					try {
 						Map map = (Map)context;
 						Object value = engine.eval(el, new SimpleBindings(map));

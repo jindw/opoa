@@ -101,8 +101,13 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 			}
 			if (path != null) {
 				if (path.startsWith("#")) {
-					doc = (Node) context.get(name);
-					String uri = doc.getOwnerDocument().getDocumentURI();
+					doc = (Node) context.get(path.substring(1));
+					String uri;
+					if(doc instanceof Document){
+						uri = ((Document)doc).getDocumentURI();
+					}else{
+						uri = doc.getOwnerDocument().getDocumentURI();
+					}
 					if(uri != null){
 						try{
 						    context.setCurrentURL(new URL(uri));
@@ -121,7 +126,7 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 			this.parser.parseNode(doc, context);
 			return true;
 		} catch (Exception e) {
-			// e.printStackTrace();
+			//e.printStackTrace();
 			return true;
 		} finally {
 			context.setCurrentURL(parentURL);
