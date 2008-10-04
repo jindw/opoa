@@ -17,6 +17,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.jside.template.dtd.DefaultEntityResolver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
@@ -24,6 +25,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -40,14 +42,18 @@ public class XMLParser extends TextParser {
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
 			factory.setNamespaceAware(true);
+			factory.setValidating(false);
+			factory.setExpandEntityReferences(false);
+			factory.setCoalescing(false);
+			//factory.setXIncludeAware(true);
 			documentBuilder = factory.newDocumentBuilder();
+			documentBuilder.setEntityResolver(new DefaultEntityResolver());
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public List<Object> parse(Object data) {
-		ParseContext context = new ParseContext();
+	public List<Object> parse(Object data,ParseContext context) {
 		try {
 			Node node = null;
 			if (data instanceof String) {

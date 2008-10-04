@@ -42,15 +42,14 @@ public class JspExpressionFactory  implements ExpressionFactory{
 		JspApplicationContext jspContext = JspFactory.getDefaultFactory().getJspApplicationContext(context);
 		factory =jspContext.getExpressionFactory();
 	}
-	public Expression createExpression(Object props){
-		final String eltext = (String)props;
+	public Expression createExpression(final String value){
 		return new Expression(){
 			ValueExpression el =null;
-			public Object evaluate(Object context) {
+			public Object evaluate(Map<Object, Object> context) {
 				try {
 					ELContext elcontext =  (ELContext) PropertyExpression.getValue(context,ELContext.class);
 					if(el == null){
-					    el = factory.createValueExpression(elcontext,eltext, Object.class);
+					    el = factory.createValueExpression(elcontext,value, Object.class);
 					}
 					return el.getValue(elcontext);
 				} catch (Exception e) {

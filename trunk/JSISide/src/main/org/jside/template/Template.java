@@ -144,7 +144,7 @@ public class Template {
 	public Expression createExpression(Object object) {
 		final Expression el = (Expression)object;
 		return new Expression() {
-			public Object evaluate(Object context) {
+			public Object evaluate(Map<Object, Object> context) {
 				try{
 				    return el.evaluate(context);
 				}catch(Exception e){

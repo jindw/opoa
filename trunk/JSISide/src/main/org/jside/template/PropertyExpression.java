@@ -82,7 +82,7 @@ public class PropertyExpression implements Expression{
 	}
 
 
-	public Object evaluate(Object context) {
+	public Object evaluate(Map<Object, Object> context) {
 		int i = el.length - 1;
 		Object value = getValue(context, el[i]);
 		while (value != null && i-- > 0) {

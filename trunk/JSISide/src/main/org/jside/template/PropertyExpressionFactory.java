@@ -3,9 +3,9 @@ package org.jside.template;
 import java.util.ArrayList;
 
 public class PropertyExpressionFactory implements ExpressionFactory {
-	public Expression createExpression(Object props) {
+	public Expression createExpression(String value) {
 		try {
-			String value = ((String) props).trim();
+			value = value.trim();
 			int end = value.length();
 			int start = skipSpace(value, 0, end);
 			char c = value.charAt(start);
