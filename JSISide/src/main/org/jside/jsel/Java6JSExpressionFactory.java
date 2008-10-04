@@ -1,18 +1,24 @@
-package org.jside.template;
+package org.jside.jsel;
 
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
+import javax.script.Bindings;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
+import org.jside.template.Expression;
+import org.jside.template.ExpressionFactory;
+
 public class Java6JSExpressionFactory implements ExpressionFactory {
 	private ScriptEngine engine;
 
-	Java6JSExpressionFactory() {
+	public Java6JSExpressionFactory() {
 		ScriptEngineManager manager = new ScriptEngineManager();
 		this.engine = manager.getEngineByExtension("js");
 		try {
@@ -31,8 +37,8 @@ public class Java6JSExpressionFactory implements ExpressionFactory {
 			return new Expression() {
 				public Object evaluate(Object context) {
 					try {
-						Object value = engine.eval(el, new SimpleBindings(
-								(Map) context));
+						Map map = (Map)context;
+						Object value = engine.eval(el, new SimpleBindings(map));
 						return ((Invocable) engine).invokeFunction(
 								"__JS2JAVA__",  value);
 					}  catch (NoSuchMethodException e) {

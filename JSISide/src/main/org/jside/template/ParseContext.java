@@ -2,9 +2,10 @@ package org.jside.template;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class ParseContext {
+public class ParseContext extends HashMap<Object, Object>{
 	private URL currentURL;
 	private ArrayList<Object> result = new ArrayList<Object>();
 

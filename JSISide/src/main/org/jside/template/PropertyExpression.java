@@ -2,17 +2,26 @@ package org.jside.template;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.AbstractMap;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.script.ScriptEngineManager;
 
-public class PropertyExpression  implements Expression ,ExpressionFactory{
-	private static final Pattern PROPERTY_SPLIT_PATTERN = Pattern.compile("[^\\w\\$\\_]+");
+public class PropertyExpression implements Expression{
+
 	private static Map<Class<?>, Map<String, PropertyDescriptor>> classPropertyMap = new HashMap<Class<?>, Map<String, PropertyDescriptor>>();
+
 	private static Map<String, PropertyDescriptor> getPropertyMap(Class<?> clazz) {
 		Map<String, PropertyDescriptor> propertyMap = classPropertyMap
 				.get(clazz);
@@ -31,18 +40,21 @@ public class PropertyExpression  implements Expression ,ExpressionFactory{
 		}
 		return propertyMap;
 	}
-	public static <T> T getValue(Object context, Class<T> type){
-		return getValue(context, type);
+
+	private static int toInt(Object key){
+		return key instanceof Number?((Number)key).intValue():Integer.valueOf(String.valueOf(key));
 	}
-	
+
 	public static Object getValue(Object context, Object key) {
 		if (context != null) {
-			if(key instanceof Integer){
-				if(context instanceof Object[]){
-					return ((Object[])context)[(Integer)key];
-				}else{
-					return (( List<Object>)context).get((Integer)key);
+			try{
+				if (context instanceof Object[]) {
+					return ((Object[]) context)[toInt(key)];
+				} else if (context instanceof List){
+					return ((List<Object>) context).get(toInt(key));
 				}
+			}catch(Exception ex){
+				
 			}
 			if (context instanceof Map) {
 				return ((Map) context).get(key);
@@ -62,21 +74,64 @@ public class PropertyExpression  implements Expression ,ExpressionFactory{
 		}
 		return null;
 	}
+
 	private final Object[] el;
-	
-	public PropertyExpression(Object[]el){
+
+	public PropertyExpression(Object[] el) {
 		this.el = el;
 	}
-	public Expression createExpression(Object props){
-		return new PropertyExpression((String[])props);
-	}
+
+
 	public Object evaluate(Object context) {
-		int i = el.length-1;
-		Object value =getValue(context,el[i]);
-		while(value !=null && i-->0){
+		int i = el.length - 1;
+		Object value = getValue(context, el[i]);
+		while (value != null && i-- > 0) {
 			Object key = el[i];
-			value = getValue(context,key);
+			value = getValue(context, key);
 		}
 		return value;
 	}
+
+	static Map<Object, Object> map(Object source){
+		final HashSet<Entry<Object, Object>> base = new HashSet<Entry<Object, Object>>();
+		Map<String, PropertyDescriptor> propertyMap = getPropertyMap(source.getClass());
+		for (String key : propertyMap.keySet()) {
+			base.add(new PropertyEntry(key,source));
+		}
+		return new AbstractMap<Object, Object>(){
+			@Override
+			public Set<Entry<Object, Object>> entrySet() {
+				return base;
+			}
+		};
+	}
+}
+class PropertyEntry implements Entry<Object , Object>{
+	private static Object NULL = new Object();
+	private Object key;
+	private Object source;
+	private Object value = NULL;
+	
+	public PropertyEntry(String key,Object source){
+		this.source = source;
+		this.key = key;
+		this.value = value;
+	}
+
+	public Object getKey() {
+		return key;
+	}
+
+	public Object getValue() {
+		if(NULL == value){
+			value = PropertyExpression.getValue(source, key);
+		}
+		return value;
+	}
+
+	public Object setValue(Object value) {
+		return this.value = value;
+	}
+
+	
 }

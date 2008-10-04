@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -26,27 +27,29 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 			Element el = (Element) node;
 			String prefix = el.getPrefix();
 			String namespaceURI = el.getNamespaceURI();
-			if (namespaceURI != null && ("c".equals(prefix)
-					&& ("#".equals(namespaceURI)  || "#core".equals(namespaceURI))
-					|| TEMPLATE_NAMESPACE.matcher(namespaceURI).find())) {
+			if (namespaceURI != null
+					&& ("c".equals(prefix)
+							&& ("#".equals(namespaceURI) || "#core"
+									.equals(namespaceURI)) || TEMPLATE_NAMESPACE
+							.matcher(namespaceURI).find())) {
 				String name = el.getLocalName();
 				if ("choose".equals(name)) {
 					return parseChooseTag(node, context);
-				}else if ("elseif".equals(name)) {
+				} else if ("elseif".equals(name)) {
 					return parseElseIfTag(node, context);
-				}else if ("else-if".equals(name)) {
+				} else if ("else-if".equals(name)) {
 					return parseElseIfTag(node, context);
-				}else if ("else".equals(name)) {
+				} else if ("else".equals(name)) {
 					return parseElseTag(node, context);
-				}else if ("if".equals(name)) {
+				} else if ("if".equals(name)) {
 					return parseIfTag(node, context);
-				}else if ("out".equals(name)) {
+				} else if ("out".equals(name)) {
 					return parseOutTag(node, context);
-				}else if ("include".equals(name)) {
+				} else if ("include".equals(name)) {
 					return parseIncludeTag(node, context);
-				}else if ("for".equals(name)) {
+				} else if ("for".equals(name)) {
 					return parseForTag(node, context);
-				}else if ("var".equals(name)) {
+				} else if ("var".equals(name)) {
 					return parseVarTag(node, context);
 				}
 			}
@@ -55,9 +58,11 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 	}
 
 	public String getAttribute(Node node, String key) {
-		return ((Element) node).getAttribute(key);
+		Element el = (Element) node;
+		return el.hasAttribute(key) ? el.getAttribute(key) : null;
 	}
-	private Object toEL(String value){
+
+	private Object toEL(String value) {
 		value = value.trim();
 		if (value.startsWith("${") && value.endsWith("}")) {
 			value = value.substring(2, value.length() - 1);
@@ -76,9 +81,14 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 		String var = getAttribute(node, "var");
 		String path = getAttribute(node, "path");
 		String xpath = getAttribute(node, "xpath");
+		String name = getAttribute(node, "name");
 		Node doc = node.getOwnerDocument();
 		URL parentURL = context.getCurrentURL();
 		try {
+			if (name != null) {
+				DocumentFragment cachedNode = parser.toDocumentFragment(node, node.getChildNodes());
+				context.put("#"+name,cachedNode );
+			}
 			if (var != null) {
 				Node next = node.getFirstChild();
 				context.append(new Object[] { VAR_TYPE, var });
@@ -90,13 +100,23 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 				context.append(END);
 			}
 			if (path != null) {
-				doc = this.parser.loadXML(new URL(parentURL, path), context);
-			} else if (xpath != null) {
-				NodeList nodes = this.parser.selectNodes(xpath, doc);
-				for (int i = 0; i < nodes.getLength(); i++) {
-					parseNode(nodes.item(i), context);
+				if (path.startsWith("#")) {
+					doc = (Node) context.get(name);
+					String uri = doc.getOwnerDocument().getDocumentURI();
+					if(uri != null){
+						try{
+						    context.setCurrentURL(new URL(uri));
+						}catch (Exception e) {
+						}
+					}
+				} else {
+					doc = this.parser
+							.loadXML(new URL(parentURL, path), context);
 				}
-				return true;
+			}
+
+			if (xpath != null) {
+				doc = this.parser.selectNodes(xpath, doc);
 			}
 			this.parser.parseNode(doc, context);
 			return true;

@@ -164,9 +164,20 @@ function processIncludeTag(node,context){
     var var_ = getAttribute(node,'var');
     var path = getAttribute(node,'path');
     var xpath = getAttribute(node,'xpath');
-    var doc = node.ownerDocument;
+    var name = getAttribute(node,'name');
+    var doc = node.ownerDocument || node;
     var parentURL = context.url;
 	try{
+		if(name){
+			var docFragment = doc.createDocumentFragment();
+			var next = node.firstChild;
+            if(next){
+                do{
+                    docFragment.appendChild(next)
+                }while(next = next.nextSibling)
+            }
+            context['#'+name] = docFragment;
+		}
 	    if(var_){
             var next = node.firstChild;
             context.append([VAR_TYPE,var_]);
@@ -178,8 +189,13 @@ function processIncludeTag(node,context){
             context.append([]);
 	    }
 	    if(path!=null){
-	        var url = parentURL.replace(/[^\/]*(?:[#\?].*)?$/,path);
-	        var doc = context.load(url)
+	    	if(path.charAt() == '#'){
+	    		doc = context['#'+name];
+	    		context.url = doc.documentURI;
+	    	}else{
+		        var url = parentURL.replace(/[^\/]*(?:[#\?].*)?$/,path);
+		        var doc = context.load(url);
+	    	}
 	    }
 	    if(xpath!=null){
 	        doc = selectNodes(doc,xpath);
@@ -519,13 +535,36 @@ function toDoc(text){
     }
     return doc;
 }
+function getNamespaceMap(node){
+	var attributes = node.attributes;
+	var map = {};
+	for(var i = 0;i<attributes.length;i++){
+		var attribute = attributes[i];
+		var name = attribute.name;
+		if(/^xmlns(:.*)?$/.test(name)){
+			var value = attribute.value;
+			var prefix = name.substr(6) || value.replace(/^.*\/([^\/]+)\/?$/,'$1');
+			map[prefix] = value;
+		}
+	}
+	return map;
+}
+
 /**
  * TODO:貌似需要importNode
  */
-function selectNodes(doc,xpath){
+function selectNodes(currentNode,xpath){
+	var doc = currentNode.ownerDocument || currentNode;
     var docFragment = doc.createDocumentFragment();
+    var nsMap = getNamespaceMap(doc.documentElement);
     try{
-        var nodes = doc.selectNodes(xpath);
+    	var buf = [];
+    	for(var n in nsMap){
+    		buf.append(n+'="'+nsMap[n]+'"')
+    	}
+    	doc.setProperty("SelectionNamespaces",buf,join(' '));
+    	doc.setProperty("SelectionLanguage","XPath");
+        var nodes = currentNode.selectNodes(xpath);
         var buf = [];
         for (var i=0; i<nodes.length; i++) {
             buf.push(nodes.item(i))
@@ -534,8 +573,8 @@ function selectNodes(doc,xpath){
     }
     if(!buf){
         var xpe = doc.evaluate? doc: new XPathEvaluator();
-        var nsResolver = xpe.createNSResolver(doc.documentElement);
-        var result = xpe.evaluate(xpath, doc.documentElement, nsResolver, 5, null);
+        //var nsResolver = xpe.createNSResolver(doc.documentElement);
+        var result = xpe.evaluate(xpath, currentNode, function(prefix){return nsMap[prefix]}, 5, null);
         var node;
         var buf = [];
         while (node = result.iterateNext()){
