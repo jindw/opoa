@@ -30,11 +30,6 @@ function Template(data,type){
                 while(item instanceof Array && item.length && item[item.length-1] == undefined){
                     item.pop();
                 }
-                if(item[1] == 0){
-                	if(item[2] == true){
-                		item[2] == 1;
-                	}
-                }
             }
             this.compileData = data;
         }
