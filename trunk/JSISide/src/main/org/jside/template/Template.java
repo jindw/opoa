@@ -72,7 +72,7 @@ public class Template {
 			Object item = datas.get(i);
 			// alert(typeof item)
 			if (item instanceof String) {
-				itemsStack.get(0).add(item);
+				pushToTop(itemsStack,item);
 			} else {
 				// alert(typeof item)
 				compileItem((Object[]) item, itemsStack);
@@ -185,7 +185,7 @@ public class Template {
 	}
 
 	private void pushToTop(ArrayList<ArrayList<Object>> itemsStack,
-			TemplateItem item) {
+			Object item) {
 		itemsStack.get(itemsStack.size() - 1).add(item);
 	}
 
