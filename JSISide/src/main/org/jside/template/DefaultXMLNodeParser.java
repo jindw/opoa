@@ -13,6 +13,12 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 
 public class DefaultXMLNodeParser implements XMLNodeParser {
+
+	public static final Pattern HTML_LEAF = Pattern.compile(
+			"^(?:meta|link|img|br|hr|input)$", Pattern.CASE_INSENSITIVE);
+	
+	public static final Pattern SCRIPT_TAG = Pattern.compile("^script$",
+			Pattern.CASE_INSENSITIVE);
 	
 	private XMLParser  parser;
 	public DefaultXMLNodeParser(XMLParser  parser){
@@ -106,7 +112,10 @@ public class DefaultXMLNodeParser implements XMLNodeParser {
 	}
 
 	private boolean parseEntityReference(Node node, ParseContext context) {
-		throw new UnsupportedOperationException("parseNotation not support");
+		context.append('&');
+		context.append(node.getNodeName());
+		context.append(';');
+		return true;
 	}
 
 	private boolean parseTextNode(Node node, ParseContext context) {

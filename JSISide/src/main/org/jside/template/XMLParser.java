@@ -52,6 +52,15 @@ public class XMLParser extends TextParser {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public void addNodePasser(XMLNodeParser parser){
+		int length = this.parserList.length;
+		XMLNodeParser[] newParserList = new XMLNodeParser[length+1];
+		System.arraycopy(this.parserList, 0, newParserList, 0, length);
+		newParserList[length] = parser;
+		this.parserList = newParserList;
+	}
+	
 	public List<Object> parse(Object data) {
 		return parse(data, new ParseContext());
 	}

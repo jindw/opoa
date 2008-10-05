@@ -62,16 +62,15 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 		return el.hasAttribute(key) ? el.getAttribute(key) : null;
 	}
 
-	private Object toEL(String value) {
+	private Expression toEL(String value) {
 		value = value.trim();
 		if (value.startsWith("${") && value.endsWith("}")) {
 			value = value.substring(2, value.length() - 1);
-			return parser.parseEL(value);
 		}
-		return value;
+		return parser.parseEL(value);
 	}
 
-	private Object getAttributeEL(Node node, String key) {
+	private Expression getAttributeEL(Node node, String key) {
 		String value = getAttribute(node, key);
 		return toEL(value);
 
@@ -101,7 +100,7 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 			}
 			if (path != null) {
 				if (path.startsWith("#")) {
-					doc = (Node) context.get(path.substring(1));
+					doc = (Node) context.get(path);
 					String uri;
 					if(doc instanceof Document){
 						uri = ((Document)doc).getDocumentURI();
@@ -135,7 +134,7 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 
 	boolean parseIfTag(Node node, ParseContext context) {
 		Node next = node.getFirstChild();
-		Object test = getAttributeEL(node, "test");
+		Expression test = getAttributeEL(node, "test");
 		context.append(new Object[] { IF_TYPE, test });
 		if (next != null) {
 			do {
@@ -149,7 +148,7 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 	boolean parseElseIfTag(Node node, ParseContext context) {
 		context.removeLastEnd();
 		Node next = node.getFirstChild();
-		Object test = getAttributeEL(node, "test");
+		Expression test = getAttributeEL(node, "test");
 		context.append(new Object[] { ELSE_TYPE, test });
 		if (next != null) {
 			do {
@@ -206,7 +205,7 @@ public class CoreXMLNodeParser implements XMLNodeParser {
 
 	boolean parseForTag(Node node, ParseContext context) {
 		Node next = node.getFirstChild();
-		Object items = getAttributeEL(node, "items");
+		Expression items = getAttributeEL(node, "items");
 		String var = getAttribute(node, "var");
 		String status = getAttribute(node, "status");
 		context.append(new Object[] { FOR_TYPE, var, items, status });

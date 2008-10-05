@@ -121,7 +121,7 @@ public class TextParser implements Parser {
 		return result;
 	}
 
-	protected Object parseEL(String expression) {
+	protected Expression parseEL(String expression) {
 		return expressionFactory.createExpression(expression.trim());
 	}
 
