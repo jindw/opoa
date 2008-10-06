@@ -563,7 +563,7 @@ function selectNodes(currentNode,xpath){
     		buf.push("xmlns:"+n+'="'+nsMap[n]+'"')
     	}
     	try{
-    	doc.setProperty("SelectionNamespaces",buf,join(' '));
+    	doc.setProperty("SelectionNamespaces",buf.join(' '));
     	}catch(e){}
     	doc.setProperty("SelectionLanguage","XPath");
         var nodes = currentNode.selectNodes(xpath);
