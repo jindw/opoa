@@ -91,6 +91,7 @@ function parseText(text,encodeXML){
             }
         }
     }
+    
     return buf;
 }
 
@@ -115,10 +116,10 @@ function parseEL(expression){
         expression = compileEL(expression)
     }
     expression = expression.replace(/^\s+|[\s]+$/g,'');//trim
-    if(/^(?:true|false|[\d\.]+)$/.test()){
+    if(/^(?:true|false|[\d\.]+)$/.test(expression)){
         return window.eval(expression);
-    } else if(/^(?:"[^"]*?"|'[^']*?')$/.test()){
-        return expression;
+    } else if(/^(?:"[^"]*?"|'[^']*?')$/.test(expression)){
+        return buildFunction("return " + expression);
     } else if(/^[_$a-zA-Z](?:[\.\s\w\_]|\[(?:"[^"]*?"|'[^']*?'|\d+)\])*$/.test(expression)){
         expression = expression.replace(/\s+/g,'');
         expression = expression.match(/[\w_\$]+|"[^"]*?"|'[^']*?'/g).reverse();

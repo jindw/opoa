@@ -265,7 +265,7 @@ function buildFor(data,itemsStack){
 function buildVar(data,itemsStack){
     var name = data[1];
     var data = data[2];
-    if(data){
+    if(data!=null){
         data = createExpression(data);
         itemsStack[0].push(function(context,result){
             context[name] = data(context);
