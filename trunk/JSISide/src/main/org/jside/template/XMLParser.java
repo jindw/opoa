@@ -43,8 +43,8 @@ public class XMLParser extends TextParser {
 					.newInstance();
 			factory.setNamespaceAware(true);
 			factory.setValidating(false);
-			factory.setExpandEntityReferences(false);
-			//factory.setCoalescing(false);
+			//factory.setExpandEntityReferences(false);
+			factory.setCoalescing(false);
 			//factory.setXIncludeAware(true);
 			documentBuilder = factory.newDocumentBuilder();
 			documentBuilder.setEntityResolver(new DefaultEntityResolver());
