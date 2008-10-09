@@ -1,0 +1,60 @@
+﻿<html xmlns:c="http://www.xidea.org/ns/template">
+<title>设置简繁中文转换成功</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="refresh" content="10;url=javascript:window.close()"/>
+<style>
+<![CDATA[
+body{
+	padding:0px;margin:0px;
+	font-size: 12px;
+}
+h3{
+	border-top: #ffffff 1px solid;
+	border-right: #665b8e 1px solid;
+	border-bottom: #665b8e 1px solid;
+	border-left: #ffffff 1px solid;
+	margin:0px;
+	padding-left: 4px;
+	margin-bottom: 24px;
+	font-size: 16px;
+	font-family: "宋体";
+	height: 22px;
+	background: #cccccc;
+	cursor: hand;
+	color: #333333;
+}
+input{
+	padding: 2px 0px 0px 0px;
+	margin:2px 3px 2px 3px;
+	border: 1px solid #666666; 
+	font-size: 12px; 
+	color: #111111; 
+	background-color: #ffffff;
+}
+div{
+	padding-left:24px;
+	font-size: 12px;
+}
+label{
+	font-size: 12px;
+}
+]]>
+</style>
+<body>
+<h3>设置简繁中文转换成功</h3>
+<div>
+<c:if test="${current}">网站内容将强制装化为:
+<c:if test="${current == 'zh_CN'}"> 简体中文 </c:if>
+<c:else> 繁体中文 </c:else>
+</c:if>
+<c:else>网站内容将不做转换,直接输出</c:else>
+</div>
+<div>
+  <div align="center" style="padding:20px">
+  <input type="button" onclick="window.opener.location.reload();window.close()" value="刷新父窗口"/>
+&#160;  
+<input type="button" onclick="window.close()" value="关闭窗口"/>
+  </div>
+</div>
+</body>
+</html>

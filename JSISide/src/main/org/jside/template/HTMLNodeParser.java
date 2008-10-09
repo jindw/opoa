@@ -178,7 +178,7 @@ public class HTMLNodeParser implements XMLNodeParser {
 			appendBooleanAttribute((Attr) attributes.item(i), context);
 			// this.parser.parseNode(attributes.item(i), context);
 		}
-		if (exts == null) {
+		if (exts != null) {
 			for (Object item : exts) {
 				context.append(item);
 			}
