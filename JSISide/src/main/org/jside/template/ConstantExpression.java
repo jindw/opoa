@@ -3,7 +3,7 @@ package org.jside.template;
 import java.util.Map;
 
 public class ConstantExpression implements Expression {
-	public Object value;
+	private Object value;
 	public ConstantExpression(Object value){
 		this.value = value;
 	}

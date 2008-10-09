@@ -58,6 +58,7 @@ function Context(context){
     for(var n in context){
         this[n] = context[n];
     }
+    this["this"] = this;
 }
 Context.prototype = window;
 /**
@@ -317,7 +318,7 @@ function createExpression(el){
 	case Function:
 		return function(_){
 	         try{
-	             return el(_);
+	             return el.call(_);
 	         }catch(e){
 	             $log.trace(e);
 	         }

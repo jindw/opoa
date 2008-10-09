@@ -10,21 +10,22 @@ import java.util.Map;
 
 import org.w3c.dom.Element;
 
-
 public class Template {
 	public static final int EL_TYPE_XML_TEXT = 6;
 	public static final int ATTRIBUTE_TYPE = 7;
 	public static final int EL_TYPE = 0;
 	public static final int ELSE_TYPE = 3;
 	public static final int FOR_TYPE = 4;
+	public static final int RUN_TYPE = 5;
 	public static final int IF_TYPE = 2;
 	public static final int VAR_TYPE = 1;
 
 	public static final String FOR_KEY = "_[4]";
 
-	//private static ExpressionFactory propertyExpressionFactory = new PropertyExpressionFactory();
+	// private static ExpressionFactory propertyExpressionFactory = new
+	// PropertyExpressionFactory();
 
-	private List<Object> items;
+	protected List<Object> items;
 
 	public Template(List<Object> list) {
 		this.items = this.compile(list);
@@ -34,23 +35,30 @@ public class Template {
 		this(parser.parse(source));
 	}
 
-	public void render(Object context, Writer out)
-			throws IOException {
-		Map map;
-		if(context instanceof Map){
-			map = (Map)context;
-		}else{
+	public void render(Object context, Writer out) throws IOException {
+		renderList(createContextMap(context), items, out);
+	}
+
+	public void render(Map<Object, Object> context, Writer out) throws IOException {
+		renderList(context, items, out);
+	}
+
+	protected Map<Object, Object> createContextMap(Object context) {
+		Map<Object, Object> map;
+		if (context instanceof Map) {
+			map = (Map<Object, Object>) context;
+		} else {
 			map = PropertyExpression.map(context);
 		}
-		renderList(new ContextWrapper(map), items,out);
+		return new ContextWrapper(map);
 	}
 
 	protected void renderList(Map<Object, Object> context,
-			List<Object> children,Writer out) {
+			List<Object> children, Writer out) {
 		for (Object item : children) {
 			try {
 				if (item instanceof TemplateItem) {
-					((TemplateItem) item).render(context,out);
+					((TemplateItem) item).render(context, out);
 				} else {
 					out.write((String) item);
 				}
@@ -72,7 +80,7 @@ public class Template {
 			Object item = datas.get(i);
 			// alert(typeof item)
 			if (item instanceof String) {
-				pushToTop(itemsStack,item);
+				pushToTop(itemsStack, item);
 			} else {
 				// alert(typeof item)
 				compileItem((Object[]) item, itemsStack);
@@ -112,6 +120,9 @@ public class Template {
 		case FOR_TYPE:// ":for":
 			buildFor(data, itemsStack);
 			break;
+		case RUN_TYPE:// ":fn":
+			buildRun(data, itemsStack);
+			break;
 		case ATTRIBUTE_TYPE:// ":attribute":
 			buildAttribute(data, itemsStack);
 			break;
@@ -137,25 +148,25 @@ public class Template {
 	}
 
 	private static interface TemplateItem {
-		public void render(Map<Object, Object> context,Writer out)
+		public void render(Map<Object, Object> context, Writer out)
 				throws IOException;
 	}
 
 	public Expression createExpression(Object object) {
-		final Expression el = (Expression)object;
+		final Expression el = (Expression) object;
 		return new Expression() {
 			public Object evaluate(Map<Object, Object> context) {
-				try{
-				    return el.evaluate(context);
-				}catch(Exception e){
+				try {
+					return el.evaluate(context);
+				} catch (Exception e) {
 					return null;
 				}
 			}
 		};
 	}
 
-	protected void printXMLText(String text, Map<Object, Object> context,Writer out, char quteChar)
-			throws IOException {
+	protected void printXMLText(String text, Map<Object, Object> context,
+			Writer out, char quteChar) throws IOException {
 		for (int i = 0; i < text.length(); i++) {
 			int c = text.charAt(i);
 			switch (c) {
@@ -184,8 +195,7 @@ public class Template {
 		}
 	}
 
-	private void pushToTop(ArrayList<ArrayList<Object>> itemsStack,
-			Object item) {
+	private void pushToTop(ArrayList<ArrayList<Object>> itemsStack, Object item) {
 		itemsStack.get(itemsStack.size() - 1).add(item);
 	}
 
@@ -197,11 +207,11 @@ public class Template {
 			ArrayList<ArrayList<Object>> itemsStack, final boolean encodeXML) {
 		final Expression el = createExpression(data[1]);
 		pushToTop(itemsStack, new TemplateItem() {
-			public void render(Map<Object, Object>  context,Writer out)
+			public void render(Map<Object, Object> context, Writer out)
 					throws IOException {
 				Object value = el.evaluate(context);
 				if (encodeXML && value != null) {
-					printXMLText(String.valueOf(value), context, out,(char) 0);
+					printXMLText(String.valueOf(value), context, out, (char) 0);
 				} else {
 					out.write(String.valueOf(value));
 				}
@@ -213,7 +223,7 @@ public class Template {
 		final Expression el = createExpression(data[1]);
 		final ArrayList<Object> children = new ArrayList<Object>();
 		pushToTop(itemsStack, new TemplateItem() {
-			public void render(Map<Object, Object>  context,Writer out) {
+			public void render(Map<Object, Object> context, Writer out) {
 				boolean test = toBoolean(el.evaluate(context));
 				if (test) {
 					renderList(context, children, out);
@@ -235,7 +245,7 @@ public class Template {
 				: createExpression(data[1]);
 		final ArrayList<Object> children = new ArrayList<Object>();
 		pushToTop(itemsStack, new TemplateItem() {
-			public void render(Map<Object, Object>  context,Writer out) {
+			public void render(Map<Object, Object> context, Writer out) {
 				if (!toBoolean(context.get(IF_TYPE))) {
 					if (el == null || toBoolean(el.evaluate(context))) {// if
 						renderList(context, children, out);
@@ -254,7 +264,7 @@ public class Template {
 		final String statusName = (String) data[3];
 		final ArrayList<Object> children = new ArrayList<Object>();
 		pushToTop(itemsStack, new TemplateItem() {
-			public void render(Map<Object, Object>  context,Writer out) {
+			public void render(Map<Object, Object> context, Writer out) {
 				Object list = itemExpression.evaluate(context);
 				List<Object> items;
 				// alert(data.constructor)
@@ -264,7 +274,6 @@ public class Template {
 					items = (List<Object>) list;
 				}
 				ForStatus preiousStatus = (ForStatus) context.get(FOR_KEY);
-				int i = 0;
 				int len = items.size();
 				ForStatus forStatus = new ForStatus(len - 1);
 				context.put(FOR_KEY, forStatus);
@@ -287,21 +296,30 @@ public class Template {
 		itemsStack.add(children);
 	}
 
+	private void buildRun(Object[] data, ArrayList<ArrayList<Object>> itemsStack) {
+		final Expression exp = (Expression) data[1];
+		pushToTop(itemsStack, new TemplateItem() {
+			public void render(Map<Object, Object> context, Writer out) {
+				exp.evaluate(context);
+			}
+		});
+	}
+
 	private void buildVar(Object[] data, ArrayList<ArrayList<Object>> itemsStack) {
 		final String name = (String) data[1];
 		if (data[2] != null) {
 			final Expression el = createExpression(data[2]);
 			pushToTop(itemsStack, new TemplateItem() {
-				public void render(Map<Object, Object>  context,Writer out) {
+				public void render(Map<Object, Object> context, Writer out) {
 					context.put(name, el.evaluate(context));
 				}
 			});
 		} else {
 			final ArrayList<Object> children = new ArrayList<Object>();
 			pushToTop(itemsStack, new TemplateItem() {
-				public void render(Map<Object, Object>  context,Writer out) {
+				public void render(Map<Object, Object> context, Writer out) {
 					StringWriter buf = new StringWriter();
-					renderList(context, children,buf);
+					renderList(context, children, buf);
 					context.put(name, buf.toString());
 				}
 			});
@@ -314,7 +332,7 @@ public class Template {
 		final String prefix = " " + data[1] + "=\"";
 		final Expression el = createExpression(data[2]);
 		pushToTop(itemsStack, new TemplateItem() {
-			public void render(Map<Object, Object>  context,Writer out)
+			public void render(Map<Object, Object> context, Writer out)
 					throws IOException {
 				Object value = el.evaluate(context);
 				if (value != null) {

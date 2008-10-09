@@ -146,14 +146,14 @@ function parseEL(expression){
         }catch(e){}
     }
     pos++;
-    expression = "with(_){"+expression.substr(0,pos)+"return "+expression.substr(pos)+"}";
+    expression = "with(this){"+expression.substr(0,pos)+"return "+expression.substr(pos)+"}";
     return buildFunction(expression);
 }
 function buildFunction(source){
-    var expression = new Function("_",source);
+    var expression = new Function(source);
     //$log.trace(expression)
     expression.toString = function(){
-        return "function(_){"+source+"}";
+        return "function(){"+source+"}";
     }
     return expression;
 }
