@@ -84,7 +84,7 @@ public class HTMLNodeParser implements XMLNodeParser {
 					String value = selectNode.getAttribute(VALUE);
 					final Expression valueEL;
 					if (value.startsWith("${") && value.endsWith("}")) {
-						value = value.substring(2, value.length() - 3);
+						value = value.substring(2, value.length() - 1);
 						valueEL = this.parser.parseEL(value);
 					} else if (value != null) {
 						valueEL = new ConstantExpression(value);
@@ -115,7 +115,7 @@ public class HTMLNodeParser implements XMLNodeParser {
 				String value = element.getAttribute(VALUE);
 				final Expression valueEL;
 				if (value.startsWith("${") && value.endsWith("}")) {
-					value = value.substring(2, value.length() - 3);
+					value = value.substring(2, value.length() - 1);
 					valueEL = this.parser.parseEL(value);
 				} else {
 					valueEL = new ConstantExpression(value);
@@ -129,6 +129,7 @@ public class HTMLNodeParser implements XMLNodeParser {
 				attributes.add(" " + ATTRIBUTE_CHECKED + "=\""
 						+ BOOLEAN_ATTBUTE_MAP.get(ATTRIBUTE_CHECKED) + "\"");
 				attributes.add(END);
+				element.removeAttribute(ATTRIBUTE_CHECKED);
 
 				return parseElement(element, context, attributes);
 			}
@@ -153,15 +154,15 @@ public class HTMLNodeParser implements XMLNodeParser {
 			} else {
 				trueValue = " " + name + "=\"" + trueValue + "\"";
 				if (value.startsWith("${") && value.endsWith("}")) {
-					value = value.substring(2, value.length() - 3);
+					value = value.substring(2, value.length() - 1);
 					final Expression el = this.parser.parseEL(value);
 					context.append(new Object[] { Template.IF_TYPE, el });
 					context.append(trueValue);
 					context.append(END);
 				} else {
 					context.append(trueValue);
-					return;
 				}
+				return;
 			}
 		}
 		this.parser.parseNode(node, context);

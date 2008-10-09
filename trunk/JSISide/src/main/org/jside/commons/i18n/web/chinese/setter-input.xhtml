@@ -2,7 +2,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>设置简繁中文转换</title>
 <style>
-<![CDATA[
 body{
 	padding:0px;margin:0px;
 	font-size: 12px;
@@ -45,7 +44,6 @@ div{
 label{
 	font-size: 12px;
 }
-]]>
 </style>
 <body>
 <form method="post">
@@ -53,19 +51,19 @@ label{
 <div>
 <input class="radio" type="radio"  name="${key}"
   value="null" id="${key}_null"
-  checked="${!current}"/>
+  checked="${!locale}"/>
   <label for="${key}_null">不转换</label>
 </div>
 <div>
 <input class="radio" type="radio" name="${key}"
   value="zh_CN" id="${key}_zh_CN"
-  checked="${current == 'zh_CN'}"/>
+  checked="${locale == 'zh_CN'}"/>
   <label for="${key}_zh_CN">强制简体中文</label>
 </div>
 <div>
-<input class="radio" type="radio" name="$key" 
+<input class="radio" type="radio" name="${key}" 
   value="zh_TW" id="${key}_zh_TW"
-  checked="${current == 'zh_TW'}"/>
+  checked="${locale == 'zh_TW'}"/>
   <label for="${key}_zh_TW">强制繁体中文</label>
 </div>
 <div>

@@ -43,9 +43,6 @@ public final class CharacterEncodingFilter implements Filter {
     public static final String KEY = CharacterEncodingFilter.class.getName()
             + ".LocaleKey";
 
-    public String perfix = CharacterEncodingFilter.class.getPackage().getName()
-            .replace('.', '/')
-            + "/";
 
     private String encodingSetter = "/encoding-setter.action";
 
@@ -55,7 +52,7 @@ public final class CharacterEncodingFilter implements Filter {
             throws Exception {
     	XMLParser parser = new XMLParser();
     	parser.setExpressionFactory(new Java6JSExpressionFactory());
-        Template t = new Template(this.getClass().getResource(perfix + template + ".vm"),parser); //$NON-NLS-1$
+        Template t = new Template(this.getClass().getResource(template + ".xhtml"),parser); //$NON-NLS-1$
         t.render(context, out);
         out.flush();
     }
@@ -101,7 +98,7 @@ public final class CharacterEncodingFilter implements Filter {
                         output(response.getWriter(), "setter-success", map);
                     } else {
                         HashMap map = new HashMap();
-                        map.put("locale", locale.toString());
+                        map.put("locale", locale == null?null:locale.toString());
                         map.put("key", KEY);
                         output(response.getWriter(), "setter-input", map);
                     }
