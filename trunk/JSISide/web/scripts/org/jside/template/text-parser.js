@@ -123,9 +123,6 @@ function parseEL(expression){
     } else if(/^[_$a-zA-Z](?:[\.\s\w\_]|\[(?:"[^"]*?"|'[^']*?'|\d+)\])*$/.test(expression)){
         expression = expression.replace(/\s+/g,'');
         expression = expression.match(/[\w_\$]+|"[^"]*?"|'[^']*?'/g).reverse();
-        if(expression.length ==0){
-            return expression[0];
-        }
         var i = expression.length;
         while(i--){
         	var item = expression[i];
