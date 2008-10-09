@@ -39,11 +39,7 @@ public abstract class TempateServlet extends GenericServlet {
 			.getLog(TempateServlet.class);
 	private static final String DEFAULT_DECORATOR_MAPPING = "/WEB-INF/decorators.xml";
 	protected XMLParser parser = new XMLParser();
-	private DecoratorMapper decoratorMapper;
-
-	public TempateServlet() {
-		parser.addNodePasser(new HTMLNodeParser(parser));
-	}
+	protected DecoratorMapper decoratorMapper;
 
 	protected Map<Object, Object> createDefaultModel(final HttpServletRequest req) {
 		Map<Object, Object> model = new HashMap<Object, Object>();
