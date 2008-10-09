@@ -1,15 +1,9 @@
 package org.jside.template;
 
-import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.jside.jsel.Java6JSExpressionFactory;
 
 
 public class TextParser implements Parser {

@@ -35,6 +35,7 @@ public class XMLParser extends TextParser {
 
 	private DocumentBuilder documentBuilder;
 	private XMLNodeParser[] parserList = { new DefaultXMLNodeParser(this),
+			new HTMLNodeParser(this),
 			new CoreXMLNodeParser(this) };
 
 	public XMLParser() {

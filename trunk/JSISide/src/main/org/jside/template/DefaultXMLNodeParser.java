@@ -14,17 +14,14 @@ import org.w3c.dom.Text;
 
 public class DefaultXMLNodeParser implements XMLNodeParser {
 
-	public static final Pattern HTML_LEAF = Pattern.compile(
-			"^(?:meta|link|img|br|hr|input)$", Pattern.CASE_INSENSITIVE);
-	
 	public static final Pattern SCRIPT_TAG = Pattern.compile("^script$",
 			Pattern.CASE_INSENSITIVE);
-	
-	private XMLParser  parser;
-	public DefaultXMLNodeParser(XMLParser  parser){
+
+	private XMLParser parser;
+
+	public DefaultXMLNodeParser(XMLParser parser) {
 		this.parser = parser;
 	}
-
 
 	public boolean parseNode(Node node, ParseContext context) {
 		switch (node.getNodeType()) {
@@ -67,7 +64,8 @@ public class DefaultXMLNodeParser implements XMLNodeParser {
 
 	private boolean parseCDATA(Node node, ParseContext context) {
 		context.append("<![CDATA[");
-		context.append(this.parser.parseText(((CDATASection) node).getData(), false,0));
+		context.append(this.parser.parseText(((CDATASection) node).getData(),
+				false, 0));
 		context.append("]]>");
 		return true;
 	}
@@ -97,14 +95,14 @@ public class DefaultXMLNodeParser implements XMLNodeParser {
 	}
 
 	private boolean parseDocument(Node node, ParseContext context) {
-	    for(Node n = node.getFirstChild();n!=null;n = n.getNextSibling()){
-	        this.parser.parseNode(n,context);
-	    }
+		for (Node n = node.getFirstChild(); n != null; n = n.getNextSibling()) {
+			this.parser.parseNode(n, context);
+		}
 		return true;
 	}
 
 	private boolean parseComment(Node node, ParseContext context) {
-	    return true;//not support
+		return true;// not support
 	}
 
 	private boolean parseEntity(Node node, ParseContext context) {
@@ -119,56 +117,61 @@ public class DefaultXMLNodeParser implements XMLNodeParser {
 	}
 
 	private boolean parseTextNode(Node node, ParseContext context) {
-	    String text = ((Text)node).getData();
-	    context.append(this.parser.parseText(text,true, 0));
+		String text = ((Text) node).getData();
+		context.append(this.parser.parseText(text, true, 0));
 		return true;
 	}
 
 	private boolean parseAttribute(Node node, ParseContext context) {
-		Attr attr = (Attr)node;
-	    String name = attr.getName();
-	    String value = attr.getValue();
-	    if( "xmlns:c".equals(name) &&("#".equals(value) || "#core".equals(value))  || TEMPLATE_NAMESPACE.matcher(value).find()){
-	    	return true;
-	    }
-	    List<Object>  buf = this.parser.parseText(value,true,'"');
-	    boolean isStatic = false;
-	    boolean isDynamic = false;
-	    //hack parseText is void 
-	    int i =  buf.size();
-	    while(i-- > 0){
-	        //hack reuse value param
-	        Object item = buf.get(i);
-	        if(item instanceof String){
-	            if(((String)item).length()>0){
-	                isStatic = true;
-	            }else{
-	                buf.remove(i);
-	            }
-	        }else{
-	            isDynamic = true;
-	        }
-	    }
-	    if(isDynamic && !isStatic){
-	        //remove attribute;
-	        //context.append(" "+name+'=""');
-	        if(buf.size() > 1){
-	            //TODO:....
-	            throw new RuntimeException("只能有单个EL表达式");
-	        }else{//只考虑单一EL表达式的情况
-	        	Object[] el = (Object[])buf.get(0);
-		        context.append(new Object[]{Template.ATTRIBUTE_TYPE,name,el[1]});
-		        return true;
-	        }
-	    }
-	    context.append(" "+name+"=\"");
-	    if(name.startsWith("xmlns")){
-	        if(buf.size() == 1 && "http://www.xidea.org/ns/template/xhtml".equals(buf.get(0))){
-	            buf.set(0, "http://www.w3.org/1999/xhtml");
-	        }
-	    }
-	    context.append(buf);
-	    context.append('"');
+		Attr attr = (Attr) node;
+		String name = attr.getName();
+		String value = attr.getValue();
+		if ("xmlns:c".equals(name)
+				&& ("#".equals(value) || "#core".equals(value))
+				|| TEMPLATE_NAMESPACE.matcher(value).find()) {
+			return true;
+		}
+		List<Object> buf = this.parser.parseText(value, true, '"');
+		boolean isStatic = false;
+		boolean isDynamic = false;
+		// hack parseText is void
+		int i = buf.size();
+		while (i-- > 0) {
+			// hack reuse value param
+			Object item = buf.get(i);
+			if (item instanceof String) {
+				if (((String) item).length() > 0) {
+					isStatic = true;
+				} else {
+					buf.remove(i);
+				}
+			} else {
+				isDynamic = true;
+			}
+		}
+		if (isDynamic && !isStatic) {
+			// remove attribute;
+			// context.append(" "+name+'=""');
+			if (buf.size() > 1) {
+				// TODO:....
+				throw new RuntimeException("只能有单个EL表达式");
+			} else {// 只考虑单一EL表达式的情况
+				Object[] el = (Object[]) buf.get(0);
+				context.append(new Object[] { Template.ATTRIBUTE_TYPE, name,
+						el[1] });
+				return true;
+			}
+		}
+		context.append(" " + name + "=\"");
+		if (name.startsWith("xmlns")) {
+			if (buf.size() == 1
+					&& "http://www.xidea.org/ns/template/xhtml".equals(buf
+							.get(0))) {
+				buf.set(0, "http://www.w3.org/1999/xhtml");
+			}
+		}
+		context.append(buf);
+		context.append('"');
 		return true;
 	}
 
@@ -180,18 +183,17 @@ public class DefaultXMLNodeParser implements XMLNodeParser {
 		for (int i = 0; i < attributes.getLength(); i++) {
 			this.parser.parseNode(attributes.item(i), context);
 		}
-		if (HTML_LEAF.matcher(tagName).find()) {
-			context.append("/>");
-			return true;
-		}
-		context.append('>');
 		Node next = node.getFirstChild();
 		if (next != null) {
+			context.append('>');
 			do {
 				this.parser.parseNode(next, context);
 			} while ((next = next.getNextSibling()) != null);
+			context.append("</" + tagName + '>');
+		} else {
+			context.append("/>");
+			return true;
 		}
-		context.append("</" + tagName + '>');
 		return true;
 	}
 }
