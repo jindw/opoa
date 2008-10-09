@@ -1,0 +1,79 @@
+﻿<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>设置简繁中文转换</title>
+<style>
+<![CDATA[
+body{
+	padding:0px;margin:0px;
+	font-size: 12px;
+}
+form{
+	border:#cccccc ipx solid
+}
+h3{
+	border-top: #ffffff 1px solid;
+	border-right: #665b8e 1px solid;
+	border-bottom: #665b8e 1px solid;
+	border-left: #ffffff 1px solid;
+	margin:0px;
+	padding-left: 4px;
+	margin-bottom: 18px;
+
+	font-size: 16px;
+	font-family: "宋体";
+	height: 22px;
+	background: #cccccc;
+	cursor: hand;
+	color: #333333;
+}
+input{
+	padding: 2px 0px 0px 0px;
+	margin:2px 3px 2px 3px;
+	border: 1px solid #666666; 
+	font-size: 12px; 
+	color: #111111; 
+	background-color: #ffffff;
+}
+input.radio{
+	margin:0px 0px 0px 0px;
+	padding:0px 0px 0px 0px;
+	border: 0px solid #666666; 
+}
+div{
+	padding-left:24px;
+}
+label{
+	font-size: 12px;
+}
+]]>
+</style>
+<body>
+<form method="post">
+<h3>设置简繁中文转换</h3>
+<div>
+<input class="radio" type="radio"  name="${key}"
+  value="null" id="${key}_null"
+  checked="${!current}"/>
+  <label for="${key}_null">不转换</label>
+</div>
+<div>
+<input class="radio" type="radio" name="${key}"
+  value="zh_CN" id="${key}_zh_CN"
+  checked="${current == 'zh_CN'}"/>
+  <label for="${key}_zh_CN">强制简体中文</label>
+</div>
+<div>
+<input class="radio" type="radio" name="$key" 
+  value="zh_TW" id="${key}_zh_TW"
+  checked="${current == 'zh_TW'}"/>
+  <label for="${key}_zh_TW">强制繁体中文</label>
+</div>
+<div>
+  <div align="center" style="padding:18px">
+    <input type="submit" value="确定设置"/>&#160; 
+    <input type="reset" value="重设初值"/>
+  </div>
+</div>
+</form>
+</body>
+</html>
