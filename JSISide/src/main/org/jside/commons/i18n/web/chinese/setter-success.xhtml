@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="refresh" content="10;url=javascript:window.close()"/>
 <style>
-<![CDATA[
+<!--
 body{
 	padding:0px;margin:0px;
 	font-size: 12px;
@@ -38,13 +38,13 @@ div{
 label{
 	font-size: 12px;
 }
-]]>
+-->
 </style>
 <body>
 <h3>设置简繁中文转换成功</h3>
 <div>
-<c:if test="${current}">网站内容将强制装化为:
-<c:if test="${current == 'zh_CN'}"> 简体中文 </c:if>
+<c:if test="${locale}">网站内容将强制装化为:
+<c:if test="${locale == 'zh_CN'}"> 简体中文 </c:if>
 <c:else> 繁体中文 </c:else>
 </c:if>
 <c:else>网站内容将不做转换,直接输出</c:else>
