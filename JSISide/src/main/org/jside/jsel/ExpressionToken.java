@@ -1,20 +1,38 @@
 package org.jside.jsel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract interface ExpressionToken {
 
+	public static final String INTERNAL_METHOD_MAP = "#map";
+	public static final String INTERNAL_METHOD_LIST = "#list";
+	
+	
 	public static final int TYPE_CONSTANTS = 0;//'c';
-	public static final int TYPE_NAME = 1;//'n';
+	public static final int TYPE_VAR = 1;//'n';
 
-	public static final int TYPE_PAREN_BEGIN = 2;//'(';
-	public static final int TYPE_PAREN_END = 3;//')';
+	public static final int BRACKET_BEGIN = 2;//'(';
+	public static final int BRACKET_END = 3;//')';
 	
-	public static final int TYPE_PROP_BEGIN = 4;//'[';
-	public static final int TYPE_PROP_END = 5;//']';
+	//与list共享字面值[] -> .()
+	//public static final int BRACKET_PROP_BEGIN = 4;//'[';
+	//public static final int BRACKET_PROP_END = 5;//']';
+	//public static final int TYPE_PROP = 16;//'.';
+
+	//[a,b,c] -> #list(a,b,c)
+	//public static final int BRACKET_LIST_BEGIN = 101;//'[';
+	//public static final int BRACKET_LIST_END = 102;//']';
 	
-	public static final int TYPE_OBJECT_BEGIN = 6;//'{';
-	public static final int TYPE_OBJECT_END = 7;//'}';
-	public static final int TYPE_OBJECT_COLON = 8;//':';
+	//{a:1,b:2,c:3} -> #map(a <set> 1,b <set>2 ,c <set> 3)
+	//public static final int BRACKET_OBJECT_BEGIN = 103;//'{';
+	//public static final int BRACKET_OBJECT_END = 104;//'}';
+
+	//与三元运算符共享字面值
+	public static final int TYPE_OBJECT_SETTER = 4;//':';
+	public static final int TYPE_PARAM_JOIN = 5;//('('<<8) + ')';
 	
+	//与正负符号共享字面值
 	public static final int TYPE_ADD = 9;//'+';
 	public static final int TYPE_SUB = 10;//'-';
 	
@@ -22,8 +40,8 @@ public abstract interface ExpressionToken {
 	public static final int TYPE_DIV = 12;//'/';
 	public static final int TYPE_MOD = 13;//'%';
 	public static final int TYPE_QUESTION = 14;//'?';
-	public static final int TYPE_QUESTION_COLON = 15;//':';
-	public static final int TYPE_PROP = 16;//'.';
+	public static final int TYPE_QUESTION_SELECT = 15;//':';
+	public static final int TYPE_GET_PROP = 16;//'.';
 	
 	public static final int TYPE_LT = 17;//'<';
 	public static final int TYPE_GT = 18;//'>';
@@ -40,57 +58,20 @@ public abstract interface ExpressionToken {
 	public static final int TYPE_POS = 26;//('+'<<8) + 'p';//負數
 	public static final int TYPE_NEG = 27;//('-'<<8) + 'n';//負數
 
-	public static final int TYPE_MEMBER_METHOD = 28;//('.'<<16) + ('('<<8) + ')';
-	public static final int TYPE_GLOBAL_METHOD = 29;//('('<<8) + ')';
-	public static final int TYPE_PARAM_END = 30;//('('<<8) + ')';
+	public static final int TYPE_GET_MEMBER_METHOD = 28;//('.'<<16) + ('('<<8) + ')';
+	public static final int TYPE_GET_GLOBAL_METHOD = 29;//('('<<8) + ')';
+	public static final int TYPE_CALL_METHOD = 30;
+	
+//	public static final int SKIP_OR = -10;
+//	public static final int SKIP_AND = -11;
+//	public static final int SKIP_QUESTION = -12;
+	
 	
 	
 	
 
 	public abstract int getType();
 	
-	public static class Constants implements ExpressionToken{
-		private Object value;
-		public Constants(Object value){
-			this.value = value;
-		}
-		public int getType() {
-			return TYPE_CONSTANTS;
-		}
-		public Object getValue(){
-			return value;
-		}
-	}	
-	public static class Operator implements ExpressionToken{
-		private int type;
-		private int length;
-		public Operator(int type,int length){
-			this.type = type;
-			this.length = length;
-		}
-		public int getType() {
-			return type;
-		}
-		public int getLength() {
-			return length;
-		}
-		public void setLength(int length) {
-			this.length = length;
-		}
-		
-	}
 
-	public class Id implements ExpressionToken{
-		private String value;
-		public Id(String value){
-			this.value = value;
-		}
-		public int getType() {
-			return TYPE_CONSTANTS;
-		}
-		public String getValue(){
-			return value;
-		}
-	}
 
 }
