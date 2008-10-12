@@ -185,7 +185,7 @@ public class CalculaterImpl implements Calculater {
 		case ExpressionToken.TYPE_GET_GLOBAL_METHOD:
 
 		}
-		throw new RuntimeException("不支持的操作符");
+		throw new RuntimeException("不支持的操作符"+op.getType());
 
 	}
 }
