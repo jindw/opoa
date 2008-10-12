@@ -24,13 +24,13 @@ public class ExpressionImpl implements Expression {
 	}
 
 	public Object evaluate(Map<Object, Object> context) {
-		ValueStack aStack = new ValueStack();
+		ValueStack stack = new ValueStack();
 		ExpressionToken item = null;
 		Iterator<ExpressionToken> it = expressionTokens.iterator();
 		while (it.hasNext()) {
 			item = (ExpressionToken) it.next();
 			if (item instanceof OperatorToken) {
-				if(calculater.compute((OperatorToken) item, aStack, it)){
+				if(calculater.compute((OperatorToken) item, stack, it)){
 //					//do skip
 //					int itemCount = 0;
 //					while(true){
@@ -46,10 +46,14 @@ public class ExpressionImpl implements Expression {
 //					}
 				}
 			} else{
-				aStack.push(item);
+				if(item instanceof VarToken){
+					stack.push(context.get(((VarToken)item).getValue()));
+				}else{
+					stack.push(((ConstantsToken)item).getValue());
+				}
 			}
 		}
-		return aStack.pop();
+		return stack.pop();
 	}
 	
 }

@@ -34,7 +34,7 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 		}
 		if (key.length() == 1) {
 			ops.add(key);
-		} else {
+		} else if (key.length() == 2){
 			// 当前只有二个字符的操作符，以后需要扩展
 			ops.add(0, key);
 		}
@@ -48,8 +48,8 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 		ops.add("]");
 		ops.add("}");
 		
-		PRIORITY_MAP.put(ExpressionToken.BRACKET_BEGIN, Integer.MAX_VALUE);
-		PRIORITY_MAP.put(ExpressionToken.BRACKET_END, Integer.MAX_VALUE);
+		addOperator(ExpressionToken.BRACKET_BEGIN, Integer.MAX_VALUE, "(", ops);
+		addOperator(ExpressionToken.BRACKET_END, Integer.MAX_VALUE, ")", ops);
 		
 		addOperator(ExpressionToken.TYPE_GET_PROP, 12, ".", ops);
 		addOperator(ExpressionToken.TYPE_GET_MEMBER_METHOD, 12, "", ops);
@@ -233,7 +233,7 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 					if (value.startsWith(op, start)) {
 						missed = false;
 						start += op.length();
-						int flag = value.charAt(0);
+						int flag = op.charAt(0);
 						if(flag == '('){//method 已近简单处理了。不支持变量式函数
 							addToken(OperatorToken.getToken(ExpressionToken.BRACKET_BEGIN));
 						}else if(flag == '['){
@@ -269,8 +269,14 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 						}else if(flag == '&'){//&&
 							addToken(OperatorToken.getToken(ExpressionToken.TYPE_OBJECT_SETTER));
 							//addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
+						}else if(flag == '+'){//
+							addToken(OperatorToken.getToken(status == OPERATOR ? ExpressionToken.TYPE_POS : ExpressionToken.TYPE_ADD));
+							//addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
+						}else if(flag == '-'){//
+							addToken(OperatorToken.getToken(status == OPERATOR ? ExpressionToken.TYPE_NEG :ExpressionToken.TYPE_SUB));
+							//addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
 						}else{
-							addToken(OperatorToken.getToken(this.TYPE_MAP.get(op)));
+							addToken(OperatorToken.getToken(TYPE_MAP.get(op)));
 						}
 						break;
 					}
@@ -293,6 +299,7 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 					c = value.charAt(i++);
 					if (!(c >= '0' && c <= '9' || c >= 'a' && c <= 'f' || c >= 'A'
 							&& c <= 'F')) {
+						i--;
 						break;
 					}
 				}
@@ -301,18 +308,20 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 				while (i < end) {
 					c = value.charAt(i++);
 					if (c < '0' || c > '7') {
+						i--;
 						break;
 					}
 				}
 				return parseNumber(value.substring(start, start = i));
 
 			} else {
-				i++;// next process
+				i--;// next process
 			}
 		}
 		while (i < end) {
 			c = value.charAt(i++);
 			if (c < '0' || c > '9') {
+				i--;
 				break;
 			}
 		}
@@ -320,6 +329,7 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 			while (i < end) {
 				c = value.charAt(i++);
 				if (c < '0' || c > '9') {
+					i--;
 					break;
 				}
 			}

@@ -18,7 +18,7 @@ public class SimpleExpressionTest {
 
 	public void test(String el,Object value){
 		HashMap<Object,Object> context = new HashMap<Object,Object>();
-		assertEquals(value,new SimpleExpression(el).evaluate(context));
+		assertEquals(value,new ExpressionImpl(el).evaluate(context));
 	}
 	@Test
 	public void testEvaluate(){
