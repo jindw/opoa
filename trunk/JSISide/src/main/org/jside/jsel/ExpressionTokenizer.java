@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ExpressionTokenStream implements Iterable<ExpressionToken>{
+public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 	private static final int BEGIN = -100;
 	private static final int EXPRESSION = -101;
 	private static final int OPERATOR = -102;
@@ -18,11 +18,10 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 	private int previousType = BEGIN;
 
 	private List<ExpressionToken> tokens = new ArrayList<ExpressionToken>();
-	private List<ExpressionToken>  expression;
+	private List<ExpressionToken> expression;
 	private static Map<Integer, Integer> PRIORITY_MAP = new HashMap<Integer, Integer>();
 	private static Map<String, Integer> TYPE_MAP = new HashMap<String, Integer>();
 	private static final String[] OPS;// = ">= <= == != && || + - * / % ? : .
-
 
 	private static void addOperator(int type, int priopity, String key,
 			List<String> ops) {
@@ -34,12 +33,11 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 		}
 		if (key.length() == 1) {
 			ops.add(key);
-		} else if (key.length() == 2){
+		} else if (key.length() == 2) {
 			// 当前只有二个字符的操作符，以后需要扩展
 			ops.add(0, key);
 		}
 	}
-	
 
 	static {
 		ArrayList<String> ops = new ArrayList<String>();
@@ -47,10 +45,10 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 		ops.add("{");
 		ops.add("]");
 		ops.add("}");
-		
+
 		addOperator(ExpressionToken.BRACKET_BEGIN, Integer.MAX_VALUE, "(", ops);
 		addOperator(ExpressionToken.BRACKET_END, Integer.MAX_VALUE, ")", ops);
-		
+
 		addOperator(ExpressionToken.TYPE_GET_PROP, 12, ".", ops);
 		addOperator(ExpressionToken.TYPE_GET_MEMBER_METHOD, 12, "", ops);
 		addOperator(ExpressionToken.TYPE_GET_GLOBAL_METHOD, 12, "", ops);
@@ -89,62 +87,73 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 	private static final Map<String, ExpressionToken> CONSTAINS_MAP = new HashMap<String, ExpressionToken>();
 	static {
 		CONSTAINS_MAP.put("true", new ConstantsToken(Boolean.TRUE));
-		CONSTAINS_MAP
-				.put("false", new ConstantsToken(Boolean.FALSE));
+		CONSTAINS_MAP.put("false", new ConstantsToken(Boolean.FALSE));
 		CONSTAINS_MAP.put("null", new ConstantsToken(null));
 	}
 
-	public ExpressionTokenStream(String value) {
+	public ExpressionTokenizer(String value) {
 		this.value = value.trim();
 		this.end = this.value.length();
 		parse();
 		this.expression = toRight(this.tokens.iterator());
 	}
-	private boolean isHeighter(ExpressionToken privious,ExpressionToken item){
-		return PRIORITY_MAP.get(item.getType()) > PRIORITY_MAP.get(privious.getType());
+
+	private boolean isHeighter(ExpressionToken privious, ExpressionToken item) {
+		return PRIORITY_MAP.get(item.getType()) > PRIORITY_MAP.get(privious
+				.getType());
 	}
-	
+
 	// 将中序表达式转换为右序表达式
 	private List<ExpressionToken> toRight(Iterator<ExpressionToken> tokens) {
 		ArrayList<ExpressionToken> right = new ArrayList<ExpressionToken>();// 存储右序表达式
-		LinkedList<ExpressionToken> buffer = new LinkedList<ExpressionToken>();
+		LinkedList<OperatorToken> buffer = new LinkedList<OperatorToken>();
 		ExpressionToken operator;
 		while (tokens.hasNext()) {
 			ExpressionToken item = tokens.next();
 			if (item instanceof OperatorToken) {
+
 				if (buffer.isEmpty()
-						|| item.getType() == ExpressionToken.BRACKET_BEGIN) {//("(")
-					buffer.push(item);
+						|| item.getType() == ExpressionToken.BRACKET_BEGIN) {// ("(")
+					buffer.push((OperatorToken) item);
 				} else {
-					if (item.getType() == ExpressionToken.BRACKET_END){//.equals(")")) {
+					if (item.getType() == ExpressionToken.BRACKET_END) {// .equals(")"))
+																		// {
 						if (buffer.getFirst().getType() != ExpressionToken.BRACKET_BEGIN) {
-						//if (!buffer.getFirst().equals("(")) {
-							operator =  buffer.pop();
-							right.add(operator);
+							operator = buffer.pop();
+							addOperator(right, operator);
 						}
 					} else {
-						if (
-								//Calculate.priority(item) <= Calculate.priority( buffer.getFirst())
-								!isHeighter(buffer.getFirst(),item)
+						if (!isHeighter(buffer.getFirst(), item)
 								&& !buffer.isEmpty()) {
-							operator =  buffer.pop();
-							if (operator.getType() != ExpressionToken.BRACKET_BEGIN){
-							//if (!operator.equals("(")){
-								right.add(operator);
+							operator = buffer.pop();
+							if (operator.getType() != ExpressionToken.BRACKET_BEGIN) {
+								addOperator(right, operator);
 							}
 						}
-						buffer.push(item);
+						buffer.push((OperatorToken) item);
 					}
 				}
-			} else{
+			} else {//lazy begin value exp
 				right.add(item);
 			}
 		}
 		while (!buffer.isEmpty()) {
 			operator = buffer.pop();
-			right.add(operator);
+			addOperator(right, operator);
 		}
 		return right;
+	}
+
+	private void addOperator(ArrayList<ExpressionToken> right,
+			ExpressionToken operator) {
+		switch(operator.getType()){
+		case ExpressionToken.TYPE_OR:
+		case ExpressionToken.TYPE_AND:
+		case ExpressionToken.TYPE_QUESTION:
+		case ExpressionToken.TYPE_QUESTION_SELECT:
+			right.add(LazyToken.LAZY_TOKEN_END);
+		}
+		right.add(operator);
 	}
 
 	private void addToken(ExpressionToken token) {
@@ -161,7 +170,7 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 			status = OPERATOR;
 			break;
 		}
-		//previousType2 = previousType;
+		// previousType2 = previousType;
 		previousType = token.getType();
 		tokens.add(token);
 	}
@@ -177,15 +186,17 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 			} else if (type == ExpressionToken.BRACKET_END) {
 				depth++;
 			}
-			if(depth == -1){//<getGloablMethod> '#map' <callMethod>(
-				if(i>=3){
-					ExpressionToken token1 = tokens.get(i-3);
-					ExpressionToken token3 = tokens.get(i-1);
-					if(token1.getType() == ExpressionToken.TYPE_GET_GLOBAL_METHOD &&
-							token3.getType() == ExpressionToken.TYPE_CALL_METHOD){
-						ExpressionToken token2 = tokens.get(i-2);
-						if(token2 instanceof ConstantsToken){
-							return ExpressionToken.INTERNAL_METHOD_MAP.equals(((ConstantsToken)token2).getValue());
+			if (depth == -1) {// <getGloablMethod> '#map' <callMethod>(
+				if (i >= 3) {
+					ExpressionToken token1 = tokens.get(i - 3);
+					ExpressionToken token3 = tokens.get(i - 1);
+					if (token1.getType() == ExpressionToken.TYPE_GET_GLOBAL_METHOD
+							&& token3.getType() == ExpressionToken.TYPE_CALL_METHOD) {
+						ExpressionToken token2 = tokens.get(i - 2);
+						if (token2 instanceof ConstantsToken) {
+							return ExpressionToken.INTERNAL_METHOD_MAP
+									.equals(((ConstantsToken) token2)
+											.getValue());
 						}
 					}
 				}
@@ -210,18 +221,21 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 				ExpressionToken constains = CONSTAINS_MAP.get(id);
 				if (constains == null) {
 					skipSpace();
-					if(start <end && '(' ==value.charAt(start)){//method call
+					if (start < end && '(' == value.charAt(start)) {// method
+																	// call
 						if (previousType == ExpressionToken.TYPE_GET_PROP) {
-							addToken(OperatorToken.getToken(ExpressionToken.TYPE_GET_MEMBER_METHOD));
-						}else{
-						    addToken(OperatorToken.getToken(ExpressionToken.TYPE_GET_GLOBAL_METHOD));
+							addToken(OperatorToken
+									.getToken(ExpressionToken.TYPE_GET_MEMBER_METHOD));
+						} else {
+							addToken(OperatorToken
+									.getToken(ExpressionToken.TYPE_GET_GLOBAL_METHOD));
 						}
 					} else if (previousType == ExpressionToken.TYPE_GET_PROP) {
 						addToken(new ConstantsToken(id));
 					} else if (previousType == ExpressionToken.TYPE_PARAM_JOIN
 							&& isMapMethod()) {// object key
 						addToken(new ConstantsToken(id));
-					}else {
+					} else {
 						addToken(new VarToken(id));
 					}
 				} else {
@@ -233,49 +247,89 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 					if (value.startsWith(op, start)) {
 						missed = false;
 						start += op.length();
-						int flag = op.charAt(0);
-						if(flag == '('){//method 已近简单处理了。不支持变量式函数
-							addToken(OperatorToken.getToken(ExpressionToken.BRACKET_BEGIN));
-						}else if(flag == '['){
-							if(status == BEGIN){//list
-								addToken(OperatorToken.getToken(ExpressionToken.TYPE_GET_GLOBAL_METHOD));
-								addToken(new ConstantsToken(ExpressionToken.INTERNAL_METHOD_LIST));
-								addToken(OperatorToken.getToken(ExpressionToken.TYPE_CALL_METHOD));
-							}else if(status == EXPRESSION){//getProperty
-							}else{
-								throw new RuntimeException("语法错误:" + value + "@" + start);
+						if (op.length() == 1) {
+							switch (op.charAt(0)) {
+							case '(':// method 已近简单处理了。不支持变量式函数
+								addToken(OperatorToken
+										.getToken(ExpressionToken.BRACKET_BEGIN));
+								break;
+							case '[':
+								if (status == BEGIN) {// list
+									addToken(OperatorToken
+											.getToken(ExpressionToken.TYPE_GET_GLOBAL_METHOD));
+									addToken(new ConstantsToken(
+											ExpressionToken.INTERNAL_METHOD_LIST));
+									addToken(OperatorToken
+											.getToken(ExpressionToken.TYPE_CALL_METHOD));
+								} else if (status == EXPRESSION) {// getProperty
+								} else {
+									throw new RuntimeException("语法错误:" + value
+											+ "@" + start);
+								}
+								addToken(OperatorToken
+										.getToken(ExpressionToken.BRACKET_BEGIN));
+
+								break;
+							case '{':
+								addToken(OperatorToken
+										.getToken(ExpressionToken.TYPE_GET_GLOBAL_METHOD));
+								addToken(new ConstantsToken(
+										ExpressionToken.INTERNAL_METHOD_MAP));
+								addToken(OperatorToken
+										.getToken(ExpressionToken.TYPE_CALL_METHOD));
+								addToken(OperatorToken
+										.getToken(ExpressionToken.BRACKET_BEGIN));
+								break;
+							case '}':
+							case ']':
+							case ')':
+								addToken(OperatorToken
+										.getToken(ExpressionToken.BRACKET_END));
+								break;
+							case '+'://
+								addToken(OperatorToken
+										.getToken(status == OPERATOR ? ExpressionToken.TYPE_POS
+												: ExpressionToken.TYPE_ADD));
+								// addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
+								break;
+							case '-':
+								addToken(OperatorToken
+										.getToken(status == OPERATOR ? ExpressionToken.TYPE_NEG
+												: ExpressionToken.TYPE_SUB));
+								// addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
+								break;
+							case ':':// object_setter and ?:
+								if (isMapMethod()) {
+									addToken(OperatorToken
+											.getToken(ExpressionToken.TYPE_OBJECT_SETTER));
+								} else {
+									addToken(new LazyToken());
+									addToken(OperatorToken
+											.getToken(ExpressionToken.TYPE_QUESTION_SELECT));
+								}
+								break;
+							case '?':// ?:
+								addToken(new LazyToken());
+								addToken(OperatorToken
+										.getToken(ExpressionToken.TYPE_QUESTION));
+								// addToken(OperatorToken.getToken(ExpressionToken.SKIP_QUESTION));
+								break;
+							default:
+								addToken(OperatorToken.getToken(TYPE_MAP
+										.get(op)));
 							}
-							addToken(OperatorToken.getToken(ExpressionToken.BRACKET_BEGIN));
-							
-						}else if(flag == '{'){
-							addToken(OperatorToken.getToken(ExpressionToken.TYPE_GET_GLOBAL_METHOD));
-							addToken(new ConstantsToken(ExpressionToken.INTERNAL_METHOD_MAP));
-							addToken(OperatorToken.getToken(ExpressionToken.TYPE_CALL_METHOD));
-							addToken(OperatorToken.getToken(ExpressionToken.BRACKET_BEGIN));
-						}else if(flag == '}' || flag == ']'|| flag == ')'){
-							addToken(OperatorToken.getToken(ExpressionToken.BRACKET_END));
-						}else if(flag == ':'){//object_setter and ?:
-							if(isMapMethod()){
-								addToken(OperatorToken.getToken(ExpressionToken.TYPE_OBJECT_SETTER));
-							}else{
-								addToken(OperatorToken.getToken(ExpressionToken.TYPE_QUESTION_SELECT));
-							}
-						}else if(flag == '?'){//?:
-							addToken(OperatorToken.getToken(ExpressionToken.TYPE_QUESTION));
-							//addToken(OperatorToken.getToken(ExpressionToken.SKIP_QUESTION));
-						}else if(flag == '|'){//||
-							addToken(OperatorToken.getToken(ExpressionToken.TYPE_OR));
-							//addToken(OperatorToken.getToken(ExpressionToken.SKIP_OR));
-						}else if(flag == '&'){//&&
-							addToken(OperatorToken.getToken(ExpressionToken.TYPE_OBJECT_SETTER));
-							//addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
-						}else if(flag == '+'){//
-							addToken(OperatorToken.getToken(status == OPERATOR ? ExpressionToken.TYPE_POS : ExpressionToken.TYPE_ADD));
-							//addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
-						}else if(flag == '-'){//
-							addToken(OperatorToken.getToken(status == OPERATOR ? ExpressionToken.TYPE_NEG :ExpressionToken.TYPE_SUB));
-							//addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
-						}else{
+						}
+						if (op.equals("||")) { // ||
+							addToken(new LazyToken());
+							addToken(OperatorToken
+									.getToken(ExpressionToken.TYPE_OR));
+							//addToken(LazyToken.LAZY_TOKEN_END);
+						} else if (op.equals("&&")) {// &&
+							addToken(new LazyToken());
+							addToken(OperatorToken
+									.getToken(ExpressionToken.TYPE_OBJECT_SETTER));
+							// addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
+						} else {
 							addToken(OperatorToken.getToken(TYPE_MAP.get(op)));
 						}
 						break;
@@ -440,6 +494,7 @@ public class ExpressionTokenStream implements Iterable<ExpressionToken>{
 			start++;
 		}
 	}
+
 	public Iterator<ExpressionToken> iterator() {
 		return expression.iterator();
 	}

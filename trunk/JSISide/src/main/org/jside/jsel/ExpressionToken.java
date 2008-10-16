@@ -61,6 +61,10 @@ public abstract interface ExpressionToken {
 	public static final int TYPE_GET_MEMBER_METHOD = 28;//('.'<<16) + ('('<<8) + ')';
 	public static final int TYPE_GET_GLOBAL_METHOD = 29;//('('<<8) + ')';
 	public static final int TYPE_CALL_METHOD = 30;
+
+	public static final int SKIP_BEGIN = 100;
+	public static final int SKIP_END = 101;
+	
 	
 //	public static final int SKIP_OR = -10;
 //	public static final int SKIP_AND = -11;
@@ -68,9 +72,11 @@ public abstract interface ExpressionToken {
 	
 	
 	
-	
+
 
 	public abstract int getType();
+
+	public abstract String toString();
 	
 
 
