@@ -97,6 +97,9 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 		parse();
 		this.expression = right(this.tokens.iterator());
 	}
+	List<ExpressionToken> getTokens(){
+		return this.tokens;
+	}
 
 	private boolean isHeighter(OperatorToken privious, OperatorToken item) {
 		return PRIORITY_MAP.get(item.getType()) > PRIORITY_MAP.get(privious
@@ -301,31 +304,30 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 									addToken(OperatorToken
 											.getToken(ExpressionToken.TYPE_OBJECT_SETTER));
 								} else {
-									addToken(new LazyToken());
 									addToken(OperatorToken
 											.getToken(ExpressionToken.TYPE_QUESTION_SELECT));
+									addToken(new LazyToken());
 								}
 								break;
 							case '?':// ?:
-								addToken(new LazyToken());
 								addToken(OperatorToken
 										.getToken(ExpressionToken.TYPE_QUESTION));
 								// addToken(OperatorToken.getToken(ExpressionToken.SKIP_QUESTION));
+								addToken(new LazyToken());
 								break;
 							default:
 								addToken(OperatorToken.getToken(TYPE_MAP
 										.get(op)));
 							}
-						}
-						if (op.equals("||")) { // ||
-							addToken(new LazyToken());
+						}else if (op.equals("||")) { // ||
 							addToken(OperatorToken
 									.getToken(ExpressionToken.TYPE_OR));
+							addToken(new LazyToken());
 							//addToken(LazyToken.LAZY_TOKEN_END);
 						} else if (op.equals("&&")) {// &&
-							addToken(new LazyToken());
 							addToken(OperatorToken
-									.getToken(ExpressionToken.TYPE_OBJECT_SETTER));
+									.getToken(ExpressionToken.TYPE_AND));
+							addToken(new LazyToken());
 							// addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
 						} else {
 							addToken(OperatorToken.getToken(TYPE_MAP.get(op)));

@@ -18,13 +18,14 @@ public class OperatorToken implements ExpressionToken {
 		lengthMap.put(TYPE_QUESTION_SELECT,3);
 	}
 
-	static OperatorToken getToken(int type) {
+	static OperatorToken getToken(final int type) {
 		OperatorToken token = operatorMap.get(type);
 		if (token == null) {
 			synchronized (operatorMap) {
 				token = operatorMap.get(type);
 				if (token == null) {
 					token = new OperatorToken(type);
+					operatorMap.put(type, token);
 				}
 			}
 		}
@@ -48,5 +49,4 @@ public class OperatorToken implements ExpressionToken {
 	public void setLength(int length) {
 		this.length = length;
 	}
-
 }

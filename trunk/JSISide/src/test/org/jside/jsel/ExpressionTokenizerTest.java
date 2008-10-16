@@ -12,15 +12,50 @@ public class ExpressionTokenizerTest {
 	}
 
 	@Test
-	public void testParse() {
-		ExpressionTokenizer tokenizer =
-			new ExpressionTokenizer("1+1+2");
-		assertArrayEquals(tokenizer.toArray(), new ExpressionToken[]{
-			new ConstantsToken(1),
-			new ConstantsToken(1),
-			new ConstantsToken(2),
-			OperatorToken.getToken(ExpressionToken.TYPE_ADD),
-			OperatorToken.getToken(ExpressionToken.TYPE_ADD)
-		});
+	public void test3op() {
+		ExpressionTokenizer tokenizer = new ExpressionTokenizer("1+1+2");
+		
+	}
+
+	@Test
+	public void testSimple() {
+		ExpressionTokenizer tokenizer = new ExpressionTokenizer("1+1+2");
+		assertArrayEquals(new ExpressionToken[] { new ConstantsToken(1),
+				new ConstantsToken(1),
+				OperatorToken.getToken(ExpressionToken.TYPE_ADD),
+				new ConstantsToken(2),
+				OperatorToken.getToken(ExpressionToken.TYPE_ADD) }, tokenizer
+				.toArray());
+
+		tokenizer = new ExpressionTokenizer("1+(1+2)");
+		assertArrayEquals(new ExpressionToken[] { new ConstantsToken(1),
+				new ConstantsToken(1), new ConstantsToken(2),
+				OperatorToken.getToken(ExpressionToken.TYPE_ADD),
+				OperatorToken.getToken(ExpressionToken.TYPE_ADD) }, tokenizer
+				.toArray());
+
+		tokenizer = new ExpressionTokenizer("1+1*2");
+		assertArrayEquals(new ExpressionToken[] { new ConstantsToken(1),
+				new ConstantsToken(1), new ConstantsToken(2),
+				OperatorToken.getToken(ExpressionToken.TYPE_MUL),
+				OperatorToken.getToken(ExpressionToken.TYPE_ADD) }, tokenizer
+				.toArray());
+
+		tokenizer = new ExpressionTokenizer("1||2");
+		assertArrayEquals(new ExpressionToken[] { new ConstantsToken(1),
+				new LazyToken(), new ConstantsToken(2),
+				LazyToken.LAZY_TOKEN_END,
+				OperatorToken.getToken(ExpressionToken.TYPE_OR) }, tokenizer
+				.toArray());
+
+		tokenizer = new ExpressionTokenizer("1||1&&2");
+		assertArrayEquals(new ExpressionToken[] { new ConstantsToken(1),
+				new LazyToken(), new ConstantsToken(1), new LazyToken(),
+				new ConstantsToken(2), LazyToken.LAZY_TOKEN_END,
+				OperatorToken.getToken(ExpressionToken.TYPE_AND),
+				LazyToken.LAZY_TOKEN_END,
+				OperatorToken.getToken(ExpressionToken.TYPE_OR)
+
+		}, tokenizer.toArray());
 	}
 }
