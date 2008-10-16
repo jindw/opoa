@@ -95,35 +95,33 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 		this.value = value.trim();
 		this.end = this.value.length();
 		parse();
-		this.expression = toRight(this.tokens.iterator());
+		this.expression = right(this.tokens.iterator());
 	}
 
-	private boolean isHeighter(ExpressionToken privious, ExpressionToken item) {
+	private boolean isHeighter(OperatorToken privious, OperatorToken item) {
 		return PRIORITY_MAP.get(item.getType()) > PRIORITY_MAP.get(privious
 				.getType());
 	}
 
 	// 将中序表达式转换为右序表达式
-	private List<ExpressionToken> toRight(Iterator<ExpressionToken> tokens) {
+	private List<ExpressionToken> right(Iterator<ExpressionToken> tokens) {
 		ArrayList<ExpressionToken> right = new ArrayList<ExpressionToken>();// 存储右序表达式
 		LinkedList<OperatorToken> buffer = new LinkedList<OperatorToken>();
 		ExpressionToken operator;
 		while (tokens.hasNext()) {
-			ExpressionToken item = tokens.next();
+			final ExpressionToken item = tokens.next();
 			if (item instanceof OperatorToken) {
-
 				if (buffer.isEmpty()
 						|| item.getType() == ExpressionToken.BRACKET_BEGIN) {// ("(")
 					buffer.push((OperatorToken) item);
 				} else {
 					if (item.getType() == ExpressionToken.BRACKET_END) {// .equals(")"))
-																		// {
 						if (buffer.getFirst().getType() != ExpressionToken.BRACKET_BEGIN) {
 							operator = buffer.pop();
 							addOperator(right, operator);
 						}
 					} else {
-						if (!isHeighter(buffer.getFirst(), item)
+						if (!isHeighter(buffer.getFirst(), (OperatorToken)item)
 								&& !buffer.isEmpty()) {
 							operator = buffer.pop();
 							if (operator.getType() != ExpressionToken.BRACKET_BEGIN) {
@@ -497,6 +495,9 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 
 	public Iterator<ExpressionToken> iterator() {
 		return expression.iterator();
+	}
+	public ExpressionToken[] toArray() {
+		return expression.toArray(new ExpressionToken[expression.size()]);
 	}
 
 }
