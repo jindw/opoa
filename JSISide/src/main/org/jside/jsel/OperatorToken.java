@@ -49,4 +49,7 @@ public class OperatorToken implements ExpressionToken {
 	public void setLength(int length) {
 		this.length = length;
 	}
+	public String toString(){
+		return ExpressionTokenizer.getOperator(type);
+	}
 }
