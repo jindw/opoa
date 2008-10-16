@@ -20,16 +20,18 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 	private List<ExpressionToken> tokens = new ArrayList<ExpressionToken>();
 	private List<ExpressionToken> expression;
 	private static Map<Integer, Integer> PRIORITY_MAP = new HashMap<Integer, Integer>();
-	private static Map<String, Integer> TYPE_MAP = new HashMap<String, Integer>();
+	private static Map<String, Integer> OP_TYPE_MAP = new HashMap<String, Integer>();
+	private static Map<Integer,String> TYPE_OP_MAP = new HashMap<Integer,String>();
 	private static final String[] OPS;// = ">= <= == != && || + - * / % ? : .
 
 	private static void addOperator(int type, int priopity, String key,
 			List<String> ops) {
 		PRIORITY_MAP.put(type, priopity);
-		if (TYPE_MAP.containsKey(key)) {
-			TYPE_MAP.put(key, -1);
+		TYPE_OP_MAP.put(type, key);
+		if (OP_TYPE_MAP.containsKey(key)) {
+			OP_TYPE_MAP.put(key, -1);
 		} else {
-			TYPE_MAP.put(key, type);
+			OP_TYPE_MAP.put(key, type);
 		}
 		if (key.length() == 1) {
 			ops.add(key);
@@ -37,6 +39,9 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 			// 当前只有二个字符的操作符，以后需要扩展
 			ops.add(0, key);
 		}
+	}
+	static String getOperator(int type){
+		return TYPE_OP_MAP.get(type);
 	}
 
 	static {
@@ -46,8 +51,8 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 		ops.add("]");
 		ops.add("}");
 
-		addOperator(ExpressionToken.BRACKET_BEGIN, Integer.MAX_VALUE, "(", ops);
-		addOperator(ExpressionToken.BRACKET_END, Integer.MAX_VALUE, ")", ops);
+		addOperator(ExpressionToken.BRACKET_BEGIN, Integer.MIN_VALUE, "(", ops);
+		addOperator(ExpressionToken.BRACKET_END, Integer.MIN_VALUE, ")", ops);
 
 		addOperator(ExpressionToken.TYPE_GET_PROP, 12, ".", ops);
 		addOperator(ExpressionToken.TYPE_GET_MEMBER_METHOD, 12, "", ops);
@@ -97,49 +102,63 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 		parse();
 		this.expression = right(this.tokens.iterator());
 	}
-	List<ExpressionToken> getTokens(){
+
+	List<ExpressionToken> getTokens() {
 		return this.tokens;
 	}
 
-	private boolean isHeighter(OperatorToken privious, OperatorToken item) {
-		return PRIORITY_MAP.get(item.getType()) > PRIORITY_MAP.get(privious
-				.getType());
+	private boolean rightEnd(OperatorToken item,OperatorToken privious) {
+		int type = item.getType();
+		int priviousType = privious.getType();
+		/*
+		 * ?>? ?>: :>: :==?
+		 */
+//		if (priviousType == ExpressionToken.TYPE_QUESTION
+//				|| priviousType == ExpressionToken.TYPE_QUESTION_SELECT) {
+//			if (type == ExpressionToken.TYPE_QUESTION
+//					|| type == ExpressionToken.TYPE_QUESTION_SELECT) {
+//				return true;
+//			}
+//		}
+		return PRIORITY_MAP.get(type) <= PRIORITY_MAP.get(priviousType);
 	}
 
 	// 将中序表达式转换为右序表达式
 	private List<ExpressionToken> right(Iterator<ExpressionToken> tokens) {
 		ArrayList<ExpressionToken> right = new ArrayList<ExpressionToken>();// 存储右序表达式
 		LinkedList<OperatorToken> buffer = new LinkedList<OperatorToken>();
-		ExpressionToken operator;
+		
 		while (tokens.hasNext()) {
 			final ExpressionToken item = tokens.next();
 			if (item instanceof OperatorToken) {
-				if (buffer.isEmpty()
-						|| item.getType() == ExpressionToken.BRACKET_BEGIN) {// ("(")
-					buffer.push((OperatorToken) item);
+				OperatorToken op = (OperatorToken) item;
+				if (buffer.isEmpty()) {
+					buffer.push(op);
+				} else if (item.getType() == ExpressionToken.BRACKET_BEGIN) {// ("(")
+					buffer.push(op);
+				} else if (item.getType() == ExpressionToken.BRACKET_END) {// .equals(")"))
+					while(true) {
+						ExpressionToken operator = buffer.pop();
+						if (operator.getType() == ExpressionToken.BRACKET_BEGIN){
+							break;
+						}
+						addOperator(right, operator);
+					} 
 				} else {
-					if (item.getType() == ExpressionToken.BRACKET_END) {// .equals(")"))
-						if (buffer.getFirst().getType() != ExpressionToken.BRACKET_BEGIN) {
-							operator = buffer.pop();
-							addOperator(right, operator);
-						}
-					} else {
-						if (!isHeighter(buffer.getFirst(), (OperatorToken)item)
-								&& !buffer.isEmpty()) {
-							operator = buffer.pop();
-							if (operator.getType() != ExpressionToken.BRACKET_BEGIN) {
-								addOperator(right, operator);
-							}
-						}
-						buffer.push((OperatorToken) item);
+					while (!buffer.isEmpty()
+							&& rightEnd(op,buffer.getFirst())) {
+						ExpressionToken operator = buffer.pop();
+						//if (operator.getType() != ExpressionToken.BRACKET_BEGIN){
+						addOperator(right, operator);
 					}
+					buffer.push(op);
 				}
-			} else {//lazy begin value exp
+			} else {// lazy begin value exp
 				right.add(item);
 			}
 		}
 		while (!buffer.isEmpty()) {
-			operator = buffer.pop();
+			ExpressionToken operator = buffer.pop();
 			addOperator(right, operator);
 		}
 		return right;
@@ -147,7 +166,7 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 
 	private void addOperator(ArrayList<ExpressionToken> right,
 			ExpressionToken operator) {
-		switch(operator.getType()){
+		switch (operator.getType()) {
 		case ExpressionToken.TYPE_OR:
 		case ExpressionToken.TYPE_AND:
 		case ExpressionToken.TYPE_QUESTION:
@@ -223,7 +242,7 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 				if (constains == null) {
 					skipSpace();
 					if (start < end && '(' == value.charAt(start)) {// method
-																	// call
+						// call
 						if (previousType == ExpressionToken.TYPE_GET_PROP) {
 							addToken(OperatorToken
 									.getToken(ExpressionToken.TYPE_GET_MEMBER_METHOD));
@@ -316,21 +335,21 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 								addToken(new LazyToken());
 								break;
 							default:
-								addToken(OperatorToken.getToken(TYPE_MAP
+								addToken(OperatorToken.getToken(OP_TYPE_MAP
 										.get(op)));
 							}
-						}else if (op.equals("||")) { // ||
+						} else if (op.equals("||")) { // ||
 							addToken(OperatorToken
 									.getToken(ExpressionToken.TYPE_OR));
 							addToken(new LazyToken());
-							//addToken(LazyToken.LAZY_TOKEN_END);
+							// addToken(LazyToken.LAZY_TOKEN_END);
 						} else if (op.equals("&&")) {// &&
 							addToken(OperatorToken
 									.getToken(ExpressionToken.TYPE_AND));
 							addToken(new LazyToken());
 							// addToken(OperatorToken.getToken(ExpressionToken.SKIP_AND));
 						} else {
-							addToken(OperatorToken.getToken(TYPE_MAP.get(op)));
+							addToken(OperatorToken.getToken(OP_TYPE_MAP.get(op)));
 						}
 						break;
 					}
@@ -498,6 +517,7 @@ public class ExpressionTokenizer implements Iterable<ExpressionToken> {
 	public Iterator<ExpressionToken> iterator() {
 		return expression.iterator();
 	}
+
 	public ExpressionToken[] toArray() {
 		return expression.toArray(new ExpressionToken[expression.size()]);
 	}
