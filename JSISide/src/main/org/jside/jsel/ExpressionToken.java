@@ -1,8 +1,5 @@
 package org.jside.jsel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public abstract interface ExpressionToken {
 
 	public static final String INTERNAL_METHOD_MAP = "#map";
