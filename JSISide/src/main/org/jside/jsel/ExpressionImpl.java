@@ -13,13 +13,13 @@ public class ExpressionImpl implements Expression {
 	private static boolean containsDobule(Object arg1, Object arg2) {
 		return false;
 	}
-	ExpressionTokenStream expressionTokens;
+	ExpressionTokenizer expressionTokens;
 	private Calculater calculater = DEFAULT_CALCULATER;
 	public ExpressionImpl(String el){
-		expressionTokens = new ExpressionTokenStream(el);
+		expressionTokens = new ExpressionTokenizer(el);
 	}
 	public ExpressionImpl(String el,Calculater calculater){
-		expressionTokens = new ExpressionTokenStream(el);
+		expressionTokens = new ExpressionTokenizer(el);
 		this.calculater = calculater;
 	}
 
