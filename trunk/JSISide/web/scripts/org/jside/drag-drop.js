@@ -16,8 +16,7 @@
  * @param onFinish 释放响应事件
  * @author 金大为
  */
-function Draggable(handle,moveBox,onStart,onStep,onFinish){
-    initializeDraggable(this,E(handle),E(moveBox || handle));
+function Draggable(handle,moveBox,onStart,onStep,onFinish,startEvent){
     
     /**
      * 拖动目标元素的id（没有就创建一个）
@@ -45,8 +44,10 @@ function Draggable(handle,moveBox,onStart,onStep,onFinish){
      * 拖动响应事件
      * @public
      * @typeof function
-     * @param x x点坐标
-     * @param y y点坐标
+     * @param pageX x点坐标
+     * @param pageY y点坐标
+     * @param left 绝对定位的左边位移
+     * @param top 绝对定位的上部位移
      * @return <boolean> 是否禁止默认的移动操作[true 禁止,其余允许]
      */
     this.onStep = onStep;
@@ -54,12 +55,15 @@ function Draggable(handle,moveBox,onStart,onStep,onFinish){
      * 拖放结速,释放响应事件
      * @public
      * @typeof function
-     * @param x x点坐标
-     * @param y y点坐标
+     * @param pageX x点坐标
+     * @param pageY y点坐标
+     * @param left 绝对定位的左边位移
+     * @param top 绝对定位的上部位移
      * @return <boolean> 是否保存移动[true 禁止,其余允许]
      */
     this.onFinish = onFinish;
     
+    initializeDraggable(this,E(handle),E(moveBox || handle),startEvent);
     
 }
 
@@ -67,14 +71,18 @@ function Draggable(handle,moveBox,onStart,onStep,onFinish){
 /*
  * @internal
  */
-function initializeDraggable(draggable,handle,moveBox){
+function initializeDraggable(draggable,handle,moveBox,event){
     draggable.id = moveBox.uid();
-    handle.attach('mousedown',function (event) {
+    function setup(event) {
         event = event|| this.event;
         if(!draggable.onStart || !draggable.onStart(event)){
             beginDrag(draggable,event);
         }
-    });
+    }
+    handle.attach('mousedown',setup);
+    if(event){
+    	setup(event);
+    }
     handle = moveBox = null;
 }
 
@@ -106,14 +114,17 @@ function beginDrag(draggable,event){
     var moveInterval = setInterval(function(){
         if(movePosition){
             //var xx = offset + offsetLeft+document.body.offsetLeft
-            var x = movePosition.pageX - offsetX;
-            var y = movePosition.pageY - offsetY
+            var pageX = movePosition.pageX;
+            var pageY = movePosition.pageY;
+            
+            var left = pageX - offsetX;
+            var top = pageY - offsetY
             //$log.debug(movePosition.clientX,movePosition.clientY)
             var targetList = draggable.targetList;
             var i = targetList.length;
-            if(!draggable.onStep || draggable.onStep(x,y,movePosition)!=false){
+            if(!draggable.onStep || draggable.onStep(pageX,pageY,left,top)!=false){
                 //$log.trace ([x,y,movePosition.clientX,movePosition.clientY])
-                setAbsolute(x,y);
+                setAbsolute(left,top);
             }
             //alert(i)
             while(i--){
@@ -122,7 +133,7 @@ function beginDrag(draggable,event){
                     var targetId = target.id;
                     var el = E(targetId);
                     var region = el.getRegion();//regionMap[targetId] || (regionMap[targetId] = el.getRegion());
-                    var inRegion = containsPoint(region,movePosition.pageX,movePosition.pageY) && target.accept(draggable,x,y);
+                    var inRegion = containsPoint(region,pageX,pageY) && target.accept(draggable,pageX,pageY);
                     if(inRegion){
                         if(currentTarget != target){
                             if(currentTarget){
@@ -147,10 +158,10 @@ function beginDrag(draggable,event){
     },10);
     
     
-    function setAbsolute(x,y){
+    function setAbsolute(left,top){
          moveBoxStyle.position= "absolute";
-         moveBoxStyle.left= x + "px";
-         moveBoxStyle.top= y + "px";
+         moveBoxStyle.left= left + "px";
+         moveBoxStyle.top= top + "px";
     }
     function restoreMoveBoxStyle(){
         moveBoxStyle.position = moveBoxOriginalStyle.position;
@@ -180,11 +191,13 @@ function beginDrag(draggable,event){
             var upPosition = markPosition(event || window.event);
             document.detach("mousemove",onmousemove);
             document.detach("mouseup",onmouseup);
-            var x = upPosition.pageX - offsetX;
-            var y = upPosition.pageY - offsetY
-            if(!(draggable.onFinish && draggable.onFinish(x,y))){
+            var pageX = upPosition.pageX;
+            var pageY = upPosition.pageY;
+            if(!(draggable.onFinish && draggable.onFinish(pageX,pageY,pageX-offsetX,pageY-offsetY))){
                 restoreMoveBoxStyle();
             }
+        }catch(e){
+        	$log.info(e)
         }finally{
             moveBox = moveBoxStyle = null;
             if(currentTarget){
@@ -268,13 +281,13 @@ function Droppable(container,onEnter,onDrop,onLeave){
     this.onLeave = onLeave;
 }
 Droppable.prototype = {
-    accept:function(draggable,x,y){
+    accept:function(draggable,pageX,pageY){
         return true;
     }
 }
 
-function containsPoint(region,x,y){
-    return x>=region.left && x<=region.right && y>=region.top && y<=region.bottom;
+function containsPoint(region,pageX,pageY){
+    return pageX>=region.left && pageX<=region.right && pageY>=region.top && pageY<=region.bottom;
 }
 
 
