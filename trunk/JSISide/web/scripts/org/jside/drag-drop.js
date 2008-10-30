@@ -45,7 +45,6 @@ function Draggable(handle,moveBox,onStart,onStep,onFinish){
      * 拖动响应事件
      * @public
      * @typeof function
-     * @param event 触发事件(onmousemove)
      * @param x x点坐标
      * @param y y点坐标
      * @return <boolean> 是否禁止默认的移动操作[true 禁止,其余允许]
@@ -55,7 +54,6 @@ function Draggable(handle,moveBox,onStart,onStep,onFinish){
      * 拖放结速,释放响应事件
      * @public
      * @typeof function
-     * @param event 触发事件(onkeyup)
      * @param x x点坐标
      * @param y y点坐标
      * @return <boolean> 是否保存移动[true 禁止,其余允许]
@@ -81,17 +79,19 @@ function initializeDraggable(draggable,handle,moveBox){
 }
 
 
+
 /**
  * 初始化拖动
  * @internal
  */
 function beginDrag(draggable,event){
     var moveBox = E(draggable.id);
-    var style = moveBox.style;
-    var originalStyle = {
-        position:style.position,
-        left:style.left,
-        top:style.top
+    var moveBoxStyle = moveBox.style;
+    var selectSetting = disableSelect();
+    var moveBoxOriginalStyle = {
+        position:moveBoxStyle.position,
+        left:moveBoxStyle.left,
+        top:moveBoxStyle.top
     };
     //var offsetParent = moveBox.offsetParent || document.body;//body 有无必要呢？
     
@@ -111,7 +111,7 @@ function beginDrag(draggable,event){
             //$log.debug(movePosition.clientX,movePosition.clientY)
             var targetList = draggable.targetList;
             var i = targetList.length;
-            if(!draggable.onStep || draggable.onStep(movePosition,x,y)!=false){
+            if(!draggable.onStep || draggable.onStep(x,y,movePosition)!=false){
                 //$log.trace ([x,y,movePosition.clientX,movePosition.clientY])
                 setAbsolute(x,y);
             }
@@ -148,24 +148,24 @@ function beginDrag(draggable,event){
     
     
     function setAbsolute(x,y){
-         style.position= "absolute";
-         style.left= x + "px";
-         style.top= y + "px";
+         moveBoxStyle.position= "absolute";
+         moveBoxStyle.left= x + "px";
+         moveBoxStyle.top= y + "px";
     }
-    function restore(){
-        style.position = originalStyle.position;
-        style.left= originalStyle.left;
-        style.top= originalStyle.top;
+    function restoreMoveBoxStyle(){
+        moveBoxStyle.position = moveBoxOriginalStyle.position;
+        moveBoxStyle.left= moveBoxOriginalStyle.left;
+        moveBoxStyle.top= moveBoxOriginalStyle.top;
     }
     //fix offset
-    //style.position= "absolute";
+    //moveBoxStyle.position= "absolute";
     setAbsolute(offsetX,offsetY);
     position = moveBox.getPosition();
     //$log.debug(moveBox.offsetLeft , offsetX,moveBox.offsetTop , offsetY)
     offsetX = movePosition.pageX +position.left-2*offsetX;
     offsetY = movePosition.pageY +position.top-2*offsetY;
-    //hack for movePosition = null;
-    movePosition = restore();
+    //hack for call: restore(); movePosition = null;
+    movePosition = restoreMoveBoxStyle();
     
     function onmousemove(event){
         movePosition = markPosition(event || window.event);
@@ -174,6 +174,7 @@ function beginDrag(draggable,event){
     function onmouseup(event){
         try{
             clearInterval(moveInterval);
+            restoreSelect(selectSetting);
             //alert([document.body.scrollTop,document.documentElement.scrollTop])
             event = event || window.event;
             var upPosition = markPosition(event || window.event);
@@ -181,11 +182,11 @@ function beginDrag(draggable,event){
             document.detach("mouseup",onmouseup);
             var x = upPosition.pageX - offsetX;
             var y = upPosition.pageY - offsetY
-            if(!(draggable.onFinish && draggable.onFinish(event,x,y))){
-                restore();
+            if(!(draggable.onFinish && draggable.onFinish(x,y))){
+                restoreMoveBoxStyle();
             }
         }finally{
-            moveBox = style = null;
+            moveBox = moveBoxStyle = null;
             if(currentTarget){
                 currentTarget.onDrop(draggable,movePosition);
                 movePosition = null;
@@ -209,7 +210,30 @@ function markPosition(event){
             pageY : event.pageY == null?event.clientY + scrollTop:event.pageY
         }
 }
-
+function disableSelect(){
+	var bs = document.body.style;
+	if(bs.MozUserSelect!=undefined){
+		var cache = bs.MozUserSelect;
+		bs.MozUserSelect = 'none';
+	}else if(bs.KhtmlUserSelect!=undefined){
+		var cache =bs.KhtmlUserSelect;
+		bs.KhtmlUserSelect = 'none';
+	}else{
+		var cache = document.body.onselectstart;
+		document.body.onselectstart='return false'
+	}
+	return cache;
+}
+function restoreSelect(cache){
+	var bs = document.body.style;
+	if(bs.MozUserSelect!=undefined){
+		bs.MozUserSelect = cache;
+	}else if(bs.KhtmlUserSelect!=undefined){
+		bs.KhtmlUserSelect = cache;
+	}else{
+		document.body.onselectstart=cache;
+	}
+}
 //释放
 
 
