@@ -121,24 +121,15 @@ var elementProperties = {
         el.style.display = "none";
         return el;
     },
-//IE上发生了某个异常，具体不太记得，删除掉吧
-//    /**
-//     * 清理文本节点
-//     * @public
-//     * @owner Element
-//     * @return <HTMLElement> 返回元素本身,以便再次操作
-//     */
-//    clear: function (el) {
-//        var nodes = el.childNodes;
-//        var i = nodes.length;
-//        while(i--){
-//            var node = nodes.item(i);
-//            if(node.nodeType != 1){
-//                el.removeChild(node);
-//            }
-//        }
-//        return el;
-//    },
+    
+    /**
+     * 删除元素
+     * @public
+     * @owner Element
+     */
+    remove:function(el){
+    	el.parentNode.removeChild(el);
+    },
     /**
      * 设置样式，可以批量设置或单个设置
      * @public
@@ -197,18 +188,56 @@ var elementProperties = {
         var oldNames = el.className;
         if(oldNames){
             oldNames = oldNames.split(/\s+/);
-            if(removeClass){
-                var i = oldNames.length;
-                while(i--){
-                    if(oldNames[i] == removeClass){
-                      oldNames.splice(i,1)
+            var i = oldNames.length;
+            while(i--){
+            	var item = oldNames[i];
+                if(item == removeClass || item == addClass){
+                    oldNames.splice(i,1)
+                }
+            }
+            addClass && oldNames.push(addClass);
+            el.className = oldNames.join(' ');
+        }else{
+        	el.className = addClass || el.className;
+        }
+        return el;
+    },
+    /**
+     * 切换class，
+     * 如果存在class1，将其替换为class2，否则将class2替换为class1
+     * @public
+     * @owner Element
+     */
+    switchClass:function(el,class1,class2){
+        var oldNames = el.className;
+        if(oldNames){
+            oldNames = oldNames.split(/\s+/);
+            var i = oldNames.length;
+            var need = true;
+            while(i--){
+            	var item = oldNames[i];
+                if(item == class1 ){
+                    oldNames.splice(i,1)
+                    if(need){
+                    	oldNames.push(class2);
+                    	need = false;
+                    }
+                }else if(item == class2){
+                    oldNames.splice(i,1)
+                    if(need){
+                    	oldNames.push(class1);
+                    	need = false;
                     }
                 }
             }
+            if(need){
+            	oldNames.push(class1);
+            }
+            el.className = oldNames.join(' ');
+        }else{
+        	el.className = class1;
         }
-        addClass && oldNames && oldNames.push(addClass);
-        el.className = oldNames && oldNames.join(' ') || addClass;
-        return el;
+		return el;
     },
     /**
      * 设置透明度
