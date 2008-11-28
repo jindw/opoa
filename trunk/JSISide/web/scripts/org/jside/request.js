@@ -75,9 +75,17 @@ Request.prototype = {
         
         var headers = this.headers;
         var options = this.options;
+        var method = options.method.toUpperCase();
+        var url = options.url;
+        if(!/POST|GET/.test(method)){
+            url += ";method="+method;
+            method = "POST";
+        }
         //params = buildQueryString(params);
-        sync = sync || options.sync;
-        if (/post/i.test(options.method)) {
+        if(arguments.length<2){
+            sync = options.sync;
+        }
+        if ('POST' == method) {
             //headers['Content-type'] = this.options.contentType;
             //Force "Connection: close" for Mozilla browsers to work around
             // a bug where XMLHttpReqeuest sends an incorrect Content-length
@@ -86,7 +94,7 @@ Request.prototype = {
                 headers['Connection'] = 'close';
             }
         }
-        this.xhr.open(options.method, options.url,!sync);
+        this.xhr.open(method, url, !sync);
         this.xhr.onreadystatechange = this.onreadystatechange;
         for(var n in headers){
             this.xhr.setRequestHeader(n,headers[n]);
@@ -204,7 +212,7 @@ function RequestOptions(url,options){
     }
 }
 RequestOptions.prototype =    {
-    method:        'post',
+    method:        'POST',
     contentType:  'application/x-www-form-urlencoded',
     encoding:     'UTF-8'
 }
