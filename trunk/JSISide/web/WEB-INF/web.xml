@@ -3,11 +3,11 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
   version="2.4">
-  <display-name>JSI</display-name>
-  <description>JSI Site</description>
+  <display-name>IBaidu2</display-name>
+  <description>IBaidu2 Site</description>
   <filter>
     <filter-name>JSIFilter</filter-name>
-    <filter-class>org.xidea.jsi.servlet.ClassPathResourceJSIFilter</filter-class>
+    <filter-class>org.xidea.jsi.web.ClassPathResourceJSIFilter</filter-class>
     <init-param>
       <param-name>scriptBase</param-name>
       <param-value>/scripts/</param-value>
