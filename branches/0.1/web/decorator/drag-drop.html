@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:d="http://www.xidea.org/taglib/decorator" xml:lang="zh_CN"
+  lang="zh_CN">
+<head>
+<meta http-equiv=content-type content="text/html; charset=utf-8">
+<script src="../scripts/boot-decorator.js"></script>
+<title>Drag Drop 示例</title>
+<link rel="stylesheet" type="text/css" href="../styles/decorator.css" />
+<style>
+.g1,.d1,.g2,.d2,.g3,.d3{
+    border:1px solid;
+    padding:1cm;
+    margin:1cm;
+    width:80%;
+    height:60px;
+    clear:both;
+}
+.d1 div, .g1 div ,.d2 div, .g2 div ,.d3 div, .g3 div {
+    margin:1%;
+    width:30px;
+    height:30px;
+    float:left;
+    border:1px solid;
+    cursor:pointer;
+	-moz-user-select:none;
+	-khtml-user-select:none;
+	filter:expression("this.onselectstart='return false'");
+}
+</style>
+</head>
+<body>
+<h1>Drag Drop 示例</h1>
+
+<h2>装饰效果</h2>
+
+<h3>拖放2组(移动，可放回)</h3>
+<div class="group">
+    <div d:class="DropTarget" d:group='g1' class="d1">
+        <div d:class="DragSource" d:group='g1'>
+        拖动句柄1
+        </div>
+        <div d:class="DragSource" d:group='g1'>
+        拖动句柄2
+        </div>
+        <div d:class="DragSource" d:group='g1'>
+        拖动句柄3
+        </div>
+    </div>
+    <div d:class="DropTarget" d:group='g1' class="d1">
+    释放容器
+    </div>
+</div>
+<h3>拖放1组(拷贝式)</h3>
+<div class="group">
+    <div d:class="DropTarget" class="d2">
+        <div d:class="DragSource" d:group='g2'>
+        拖动句柄1
+        </div>
+        <div d:class="DragSource" d:group='g2'>
+        拖动句柄2
+        </div>
+        <div d:class="DragSource" d:group='g2'>
+        拖动句柄3
+        </div>
+    </div>
+    <div d:class="DropTarget" d:group='g2' d:on-drop="#{copyDrop}" class="d2">
+    释放容器
+    </div>
+</div>
+
+<h3>拖放3组（禁止操作）</h3>
+<div class="group">
+    <div class="g1" d:group='g3'>
+        <div d:class="DragSource" d:group='g3'>
+        拖动句柄1
+        </div>
+        <div d:class="DragSource" d:group='g3'>
+        拖动句柄2
+        </div>
+        <div d:class="DragSource" d:group='g3'>
+        拖动句柄4
+        </div>
+    </div>
+    <div d:class="DropTarget" d:group='g3'
+     d:on-enter="#{function(draggable){E(draggable.id).style.cursor = 'no-drop';/*E(this.id).appendChild(E(draggable.id))*/}}"
+     d:on-drop="#{function(draggable){E(draggable.id).style.cursor = 'pointer'}}" 
+     d:on-leave="#{function(draggable){E(draggable.id).style.cursor = 'no-drop'}}" 
+     class="d3">
+    释放容器
+    </div>
+</div>
+<script>
+function E(id){
+    return document.getElementById(id)
+}
+function copyDrop(draggable){
+    //not move
+    var sample = E(draggable.id).cloneNode(true);
+    var newNode = document.createElement(sample.tagName);
+    newNode.className = sample.className;
+    newNode.innerHTML = sample.innerHTML;
+    E(this.id).appendChild(newNode)
+}
+</script>
+
+<hr />
+<a d:class="include" d:url='menu.xml' d:xslt="menu.xsl"></a>
+
+</body>
+</html>

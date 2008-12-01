@@ -1,0 +1,124 @@
+/*=== date-picker(日期选择器) 装饰器样式定义 ===*/
+.jside-date-picker {
+}
+.jside-date-picker td{
+    vertical-align:middle;
+}
+
+.jside-date-picker .handle-{
+    margin:2px;
+    background-repeat: no-repeat;
+    background-image: url(date-picker.gif);
+}
+
+
+.jside-date-picker .content-{
+    font-size: 18px;
+    font-weight: normal;
+	width: 140px; 
+	height: 186px;
+	background:#FFF;
+	border: 1px solid blue;
+	-moz-user-select:none;
+	-khtml-user-select:none;
+	/*filter:expression("this.onselectstart='return false'");*/
+}
+
+.jside-date-picker .content- table{
+    table-layout:fixed;
+	border:0;
+    margin:0px;
+	border-spacing:0;
+    padding:0;
+    width:100%;
+}
+
+/* 头部信息 */
+.jside-date-picker .header-{
+    padding:4px;
+}
+.jside-date-picker .header- table{
+    height:18px;
+    background: #9EBEFE;
+    overflow:hidden;
+}
+.jside-date-picker .header- th{
+    height:18px;
+    line-height:18px;
+
+} 
+.jside-date-picker .previous-,.jside-date-picker .next-{
+    font-size: 15px;
+    line-height:16px;
+    cursor:pointer;
+    width:16px;
+}
+.jside-date-picker th .year-,.jside-date-picker th .month-{
+    font-size: 14px;
+    line-height:16px;
+    font-weight: normal;
+    width:60%;
+    float:left;
+    top:0px;
+    text-align: center;
+}
+.jside-date-picker th .month-{
+    width:38%;
+}
+.jside-date-picker .editor-,.jside-date-picker .input- .text-{
+    display:none;
+}
+.jside-date-picker .input- .editor-{
+    display:block;
+}
+.jside-date-picker .header- input, .jside-date-picker .header- select{
+    width:50px;
+}
+
+/* 中间信息 */
+.jside-date-picker .grid-{
+    text-align:center;
+    padding-left: 10px;
+    padding-right: 10px;
+    height:68%;
+    overflow:hidden;
+    cursor: pointer;
+}
+.jside-date-picker .grid- table,.jside-date-picker .grid- th{
+	border:0;
+    margin:0px;
+    padding:0px;
+    border-bottom: 1px solid #ACA899!important;
+    margin-bottom:4px;
+    border-collapse:collapse;
+}
+
+.jside-date-picker .grid- th{
+    font-size: 14px;
+    line-height:18px;
+    height:24px;
+    font-weight: normal;
+    text-align: center;
+}
+.jside-date-picker .grid- td{
+    font-size: 12px;
+    line-height:14px;
+    text-align: center;
+}
+
+.jside-date-picker .disabled-{
+    color:#DDDDDD;
+}
+.jside-date-picker .today-{
+    border: 1px dotted #FFD700;
+}
+.jside-date-picker .selected-{
+    background:#FFD700;
+}
+
+/* 尾巴 */
+.jside-date-picker .footer-{
+    padding:2px;
+    height:20%;
+    text-align: center;
+}

@@ -1,0 +1,54 @@
+/*=== spinner（微调器） 装饰器样式定义 ===*/
+
+.jside-spinner td{
+    vertical-align:middle;
+}
+.jside-spinner div div{
+    background-image : url(spinner.gif);
+    cursor : pointer;
+    height : 8px;
+    width : 12px;
+    line-height:0px;
+    font-size:0;
+    position: relative;
+    left : -14px;
+    margin : 1px;
+}
+
+
+/*=== slider(滑块) 装饰器样式定义 ===*/
+.jside-slider {
+}
+
+.jside-slider .horizontal- ,.jside-slider .vertical-{
+    width: 1px;
+    height: 1px;
+    background: #B9CFD8;
+    border-bottom:1px solid #003767;
+    position:relative;
+    padding-right:27px;
+    top:0px;
+    left:0px;
+}
+.jside-slider .vertical-{
+    border:0;
+    padding:0;
+    border-left:1px solid #003767;
+    padding-bottom:27px;
+}
+.jside-slider .slider-handle- {
+    position:absolute;
+    line-height:0px;
+    font-size:0;
+    background-image: url(slider.gif);
+}
+.jside-slider .horizontal- .slider-handle- {
+    top:-4px;
+    width:27px;
+    height:9px;
+}
+.jside-slider .vertical- .slider-handle- {
+    left:-4px;
+    width:9px;
+    height:27px;
+}

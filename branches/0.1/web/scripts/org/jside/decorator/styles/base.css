@@ -1,0 +1,80 @@
+/*
+ * 表格控制
+ * table{border:0;margin:0;border-collapse:collapse;}
+ * table td{padding:0;}
+ * 第一行控制cellspacing，关键是“border-collapse:collapse;”这一句；第二行控制cellpadding，很少人知道控制td吧？：）
+ */
+
+table.layout-{
+    display:inline;
+	border:0!important;
+    margin:0px!important;
+	border-spacing:0!important;
+    border-collapse:collapse!important;
+    padding:0px!important;
+}
+table.layout- td{
+    border:0;
+	padding:0px;
+	margin:0px;
+}
+table.layout- table td{
+    border:auto;
+	padding:auto;
+	margin:auto;
+}
+img.layout-{
+    width:0px!important;
+    height:0px!important;
+    padding:8px;
+    line-height:0px;
+    font-size:0px;
+    border:0px;
+}
+html{
+    filter: expression(document.execCommand('BackgroundImageCache', false, true))
+}
+/* 八卦分图法 */
+/* 斜四相 */
+.quad-x-{
+    cursor:pointer;
+}
+.hover- .quad-x-{
+    background-position:right top;
+}
+.down- .quad-x-{
+    background-position:right bottom;
+}
+.disabled- .quad-x-{
+    background-position:left bottom;
+}
+/* 正四相 */
+.quad-y-{
+    cursor:pointer;
+    background-position:center top;
+}
+.hover- .quad-y-{
+    background-position:right center;
+}
+.down- .quad-y-{
+    background-position:center bottom;
+}
+.disabled- .quad-y-{
+    background-position:left center;
+}
+
+
+
+
+
+
+.jside-drag{
+}
+
+.jside-drag-handle{
+    cursor:pointer;
+}
+
+.jside-drop-over{
+    border:1px dashed blue;
+}

@@ -1,0 +1,5 @@
+@import url("default.css");
+.group{
+    border:1px dashed #666;
+    margin-bottom:40px;
+}

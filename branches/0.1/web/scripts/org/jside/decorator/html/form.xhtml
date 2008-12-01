@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html>
+	<body id="spinner">
+		<table class="layout- jside-spinner">
+			<tr>
+				<td>
+					<object />
+				</td>
+				<td>
+					<div onmouseover="this.className = 'over-'"
+						onmousedown="this.className = 'down-'"
+						onmouseup="this.className = 'over-'"
+						onmouseout="this.className = ''">
+						<!-- 斜四相 -->
+						<div class="spinner-up- quad-x-"
+							onclick="${action.up()}">
+						</div>
+					</div>
+					<div onmouseover="this.className = 'over-'"
+						onmousedown="this.className = 'down-'"
+						onmouseup="this.className = 'over-'"
+						onmouseout="this.className = ''">
+						<!-- 正四相 -->
+						<div class="spinner-down- quad-y-"
+							onclick="${action.down()}">
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+	<body id="slider">
+		<table class="layout- jside-slider">
+			<tr>
+				<td>
+					<object />
+					<div onmouseover="this.className = 'over-'"
+						onmousedown="this.className = 'down-'"
+						onmouseup="this.className = 'over-'"
+						onmouseout="this.className = ''"
+						onselectstart="return false">
+						<div class="${orientation}-"
+							style="${orientation == 'vertical'?'height:'+length:'width:'+length}px"
+							onclick="${action.active()}">
+							<div id="${handleId}"
+								class="quad-${orientation=='vertical'?'y':'x'}- slider-handle-">
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
