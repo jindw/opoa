@@ -193,7 +193,6 @@ function beginDrag(draggable,event){
     function onmouseup(event){
         try{
             clearInterval(moveInterval);
-            restoreSelect(selectSetting);
             //alert([document.body.scrollTop,document.documentElement.scrollTop])
             event = event || window.event;
             var upPosition = markPosition(event || window.event);
@@ -201,6 +200,7 @@ function beginDrag(draggable,event){
             document.detach("mouseup",onmouseup);
             var pageX = upPosition.pageX;
             var pageY = upPosition.pageY;
+            restoreSelect(selectSetting);
             if(!(draggable.onFinish && draggable.onFinish(pageX,pageY,pageX-offsetX,pageY-offsetY))){
                 restoreMoveBoxStyle();
             }
@@ -246,14 +246,17 @@ function disableSelect(){
 	return cache;
 }
 function restoreSelect(cache){
-	var bs = document.body.style;
-	if(bs.MozUserSelect!=undefined){
-		bs.MozUserSelect = cache;
-	}else if(bs.KhtmlUserSelect!=undefined){
-		bs.KhtmlUserSelect = cache;
-	}else{
-		document.body.onselectstart=cache;
-	}
+    setTimeout(function(){//lazy for mouseup
+        var bs = document.body.style;
+        if(bs.MozUserSelect!=undefined){
+            bs.MozUserSelect = cache;
+        }else if(bs.KhtmlUserSelect!=undefined){
+            bs.KhtmlUserSelect = cache;
+        }else{
+            document.body.onselectstart=cache;
+        }
+    },100)
+	
 }
 //释放
 
