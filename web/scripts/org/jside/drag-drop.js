@@ -16,7 +16,7 @@
  * @param onFinish 释放响应事件
  * @author 金大为
  */
-function Draggable(handle,moveBox,onStart,onStep,onFinish,startEvent){
+function Draggable(onStart,onStep,onFinish){
     
     /**
      * 拖动目标元素的id（没有就创建一个）
@@ -63,28 +63,36 @@ function Draggable(handle,moveBox,onStart,onStep,onFinish,startEvent){
      */
     this.onFinish = onFinish;
     
-    initializeDraggable(this,E(handle),E(moveBox || handle),startEvent);
-    
-}
-
-
-/*
- * @internal
- */
-function initializeDraggable(draggable,handle,moveBox,event){
-    draggable.id = moveBox.uid();
-    function setup(event) {
+    var draggable = this;
+    this.doStart = function(event) {
         event = event|| this.event;
         if(!draggable.onStart || !draggable.onStart(event)){
             beginDrag(draggable,event);
         }
     }
-    handle.attach('mousedown',setup);
-    if(event){
-    	setup(event);
-    }
-    handle = moveBox = null;
 }
+/**
+ * 
+ * @param handle 移动句柄元素
+ * @param target 移动目标元素
+ */
+Draggable.prototype.connect = function(handle,moveBox){
+    if(this.handleId){
+        this.disconnect();
+    }
+    this.targetId = E(moveBox || handle).uid();
+    this.handleId = E(handle).uid();
+    handle.attach('mousedown',this.doStart);
+    handle = moveBox = null;
+    return this
+}
+Draggable.prototype.disconnect = function(){
+    var handle = E(this.handleId);
+    if(handle){
+        handle.detach("mousedown",this.doStart)
+    }
+}
+
 
 
 
@@ -93,7 +101,7 @@ function initializeDraggable(draggable,handle,moveBox,event){
  * @internal
  */
 function beginDrag(draggable,event){
-    var moveBox = E(draggable.id);
+    var moveBox = E(draggable.targetId);
     var moveBoxStyle = moveBox.style;
     var selectSetting = disableSelect();
     var moveBoxOriginalStyle = {
@@ -185,7 +193,6 @@ function beginDrag(draggable,event){
     function onmouseup(event){
         try{
             clearInterval(moveInterval);
-            restoreSelect(selectSetting);
             //alert([document.body.scrollTop,document.documentElement.scrollTop])
             event = event || window.event;
             var upPosition = markPosition(event || window.event);
@@ -193,6 +200,7 @@ function beginDrag(draggable,event){
             document.detach("mouseup",onmouseup);
             var pageX = upPosition.pageX;
             var pageY = upPosition.pageY;
+            restoreSelect(selectSetting);
             if(!(draggable.onFinish && draggable.onFinish(pageX,pageY,pageX-offsetX,pageY-offsetY))){
                 restoreMoveBoxStyle();
             }
@@ -238,14 +246,17 @@ function disableSelect(){
 	return cache;
 }
 function restoreSelect(cache){
-	var bs = document.body.style;
-	if(bs.MozUserSelect!=undefined){
-		bs.MozUserSelect = cache;
-	}else if(bs.KhtmlUserSelect!=undefined){
-		bs.KhtmlUserSelect = cache;
-	}else{
-		document.body.onselectstart=cache;
-	}
+    setTimeout(function(){//lazy for mouseup
+        var bs = document.body.style;
+        if(bs.MozUserSelect!=undefined){
+            bs.MozUserSelect = cache;
+        }else if(bs.KhtmlUserSelect!=undefined){
+            bs.KhtmlUserSelect = cache;
+        }else{
+            document.body.onselectstart=cache;
+        }
+    },100)
+	
 }
 //释放
 

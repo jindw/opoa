@@ -16,12 +16,14 @@ function E(el) {
     if (el.constructor == String) {
         el = document.getElementById(el);
     }
-    var p = elementPrototype;
-    if (el.wrapVersion==p.wrapVersion){
-        return el;
-    }
-    for(var n in p){
-        el[n] = p[n];
+    if(el){
+        var p = elementPrototype;
+        if (el.wrapVersion==p.wrapVersion){
+            return el;
+        }
+        for(var n in p){
+            el[n] = p[n];
+        }
     }
     return el;
 }
