@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="GBK"?>
 <project name="JSISide" default="build" basedir="../">
-
 	<tstamp>
 		<format property="version" pattern="yyyyMMdd"/>
 	</tstamp>
+	<property name="scriptBase" value="http://www.xidea.org/project/jsiside/scripts/"/>
+	<available file="../JSA/build/dest/JSA-CMD.jar" property="JSAPath" value="../JSA/build/dest/JSA-CMD.jar" />
 	<target name="init">
 		<delete dir="build/temp">
 		</delete>
@@ -18,15 +19,9 @@
 			</fileset>
 		</jar>
 	</target>
-	<target name="build" depends="">
-		<java classname="org.jside.jsi.tools.JSAToolkit">
-			<classpath>
-				<path location="../JSA-CORE/classes">
-				</path>
-				<fileset dir="../JST/lib">
-					<include name="**/*.jar" />
-				</fileset>
-			</classpath>
+	<target name="build" depends="compress">
+		<java classname="org.jside.jsi.tools.JSAToolkit" classpath="${JSAPath}">
+			<arg value="-source" />
 			<arg value="${basedir}/build/dest/boot.js" />
 			<arg value="${basedir}/web/scripts/boot-decorator.js" />
 			<arg value="-encoding" />
@@ -59,44 +54,28 @@
 		</zip>
 	</target>
 	<target name="compress">
-		<java classname="org.jside.jsi.tools.export.ExportorAction">
-			<classpath>
-				<path location="../JSA-CORE/classes">
-				</path>
-				<path location="../JST/classes">
-				</path>
-				<fileset dir="../JST/lib">
-					<include name="**/*.jar" />
-				</fileset>
-			</classpath>
+		<java classpath="${JSAPath}" classname="org.jside.jsi.tools.export.ExportAction">
 			<arg value="-scriptBase" />
 			<arg value="${basedir}/web/scripts" />
 			<arg value="-outputBoot" />
 			<arg value="${basedir}/build/dest/boot.js" />
-			<!--
-			<arg value="-features"/>
-			<arg value="org.xidea.jsi.boot:col"/>
-			-->
-			<arg value="-+features"/>
-			<arg value=":IE7LocalFileAccessFix"/>
-			<!--
-			<arg value="-bootCached" />
-			<arg value="org.jside.DecoratorEngine" />
-			-->
 			<arg value="-outputExported" />
 			<arg value="${basedir}/build/dest/exported.js" />
 			<arg value="-outputXML" />
 			<arg value="${basedir}/build/dest/exported.xml" />
 			<arg value="-outputJAR" />
 			<arg value="${basedir}/build/dest/exported.jar" />
-			<arg value="-ascii" />
+			<arg value="-config.ascii" />
 			<arg value="false" />
+			<!--
 			<arg value="-bootPackage" />
 			<arg value="org.jside.decorator.styles" />
+-->
+			<arg value="-bootCached" />
 			<arg value="org.jside.*" />
+			<arg value="-exports" />
 			<arg value="org.jside.decorator.*" />
-			<arg value="org.jside.template.*" />
 		</java>
-		<replace file="${basedir}/build/dest/boot.js" encoding="utf-8"  token="var $JSI={}" value="var $JSI={scriptBase:'http://www.xidea.org/project/jsiside/scripts/'}"></replace>
+		<replace file="${basedir}/build/dest/boot.js" encoding="utf-8"  token="var $JSI={}" value="var $JSI={scriptBase:'${scriptBase}'}"></replace>
 	</target>
 </project>

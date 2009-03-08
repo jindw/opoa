@@ -17,9 +17,11 @@ this.addScript("date-picker.js",'DatePicker',
               
 this.addScript("tooltip.js",'Tooltip');
               
-this.addDependence("*",["org.jside.E","org.jside.Element"]);
 
 this.addScript("utils.js",['createActionMap','applyTemplate','stopPropagation']);
 this.addDependence("Slider","org.jside.Draggable",true);
+
 this.addDependence("*","utils.js");
+this.addDependence("*",["org.jside.E","org.jside.Element"]);
+
 
