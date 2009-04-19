@@ -1,10 +1,14 @@
-<xml xmlns:c="http://www.xidea.org/ns/template/core"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://www.xidea.org/ns/template/core"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.xidea.org/ns/template/core template.xsd"
-	elementFormDefault="qualified">
-
-	<c:for items="${}"></c:for>
-	<c:else></c:else>
-	<c:if test="${2}"></c:if>
-	<c:else test="${}"></c:else>
-</xml>
+	xsi:schemaLocation="http://www.xidea.org/ns/template/core http://jsiside.googlecode.com/svn/trunk/JSISide/web/doc/template.xsd">
+	<body>
+	<c:choose>
+	<c:when>
+	</c:when>
+	</c:choose>
+		<c:for items="${[1,2,3]}"></c:for>
+		<c:else></c:else>
+		<c:if test="${2}"></c:if>
+		<c:else></c:else>
+	</body>
+</html>

@@ -4,10 +4,8 @@
 	targetNamespace="http://www.xidea.org/ns/template/core"
 	xmlns="http://www.xidea.org/ns/template/core"
 	elementFormDefault="qualified">
-	<!-- 
-		<xs:import namespace="http://www.w3.org/1999/xhtml"
+	<xs:import namespace="http://www.w3.org/1999/xhtml"
 		schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-transitional.xsd" />
-	-->
 	<xs:annotation>
 		<xs:documentation>JSISide 模板引擎xml语法描述文档</xs:documentation>
 	</xs:annotation>
@@ -115,13 +113,18 @@
 			<xs:attribute name="xpath" type="xs:NMTOKEN" use="optional" />
 			<xs:attribute name="var" type="xs:NMTOKEN" use="optional">
 				<xs:annotation>
-					<xs:document>将该元素的子元素执行后作为一个字符串变量，以供以后使用</xs:document>
+					<xs:document>
+						将该元素的子元素执行后作为一个字符串变量，以供以后使用
+					</xs:document>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="name" type="xs:NMTOKEN"
 				use="optional">
 				<xs:annotation>
-					<xs:document>在编译期间记录该节点，以供以后 include 时候指定path="#<name> 方式引用该节点"</xs:document>
+					<xs:document>
+						在编译期间记录该节点，以供以后 include 时候指定path="#
+						<name>方式引用该节点"
+					</xs:document>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>
