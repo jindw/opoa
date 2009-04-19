@@ -25,7 +25,7 @@ function Tween(second,transform,interval){
     }
 }
 function toEl(id){
-    return id instanceof String?document.getElementById(id):id;
+    return id.constructor == String?document.getElementById(id):id;
 }
 Tween.prototype = {
     interval:40,

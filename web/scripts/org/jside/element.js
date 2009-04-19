@@ -61,7 +61,7 @@ var elementProperties = {
      * @public
      */
     uid:function(el){
-        var id = el.id || el.uniqueID;
+        var id = el.id || (el.id = el.uniqueID);
         if(!id){
             el.id = id = "__$puid"+idSequence++;
         }
