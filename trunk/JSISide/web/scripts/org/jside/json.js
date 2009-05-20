@@ -16,7 +16,12 @@ var JSON = {
      * @owner JSON
      */
     decode : function(data){
-        return window.eval("("+data+")")
+        try{
+            return window.eval("("+data+")")
+        }catch(e){
+            $log.debug("JSON解码异常",e,"<code>",data,"</code>",arguments.caller);
+            throw e;
+        }
     },
     /**
      * 以JSON格式，系列化javascript对象
@@ -25,7 +30,11 @@ var JSON = {
      * @param <Object> value
      * @return <String> json 表达式
      */
-    encode : serialize
+    encode : serialize,
+    /**
+     * json对象的深度拷贝
+     */
+    clone:clone
 }
 /**
  * IE 好像容易出问题，可能是线程不安全导致。
@@ -63,6 +72,8 @@ function charReplacer(item) {
  */
 function serialize(value) {
     switch (typeof value) {
+        case 'undefined':
+            return 'null';
         case 'string':
             stringRegexp.lastIndex = 0;
             return '"' + (stringRegexp.test(value) ?
@@ -94,5 +105,30 @@ function serialize(value) {
             }
         default:
             return String(value);
+    }
+}
+
+/**
+ * JSON 深度克隆
+ * @internal
+ */
+function clone(value) {
+    if (value instanceof Array) {
+        var buf = [];
+        var i = value.length;
+        while (i--) {
+            buf[i] = clone(value[i]);
+        }
+        return  buf;
+    }else if (value instanceof Function){
+        return value;
+    }else if (value instanceof Object){
+        var buf = {};
+        for (var k in value) {
+            buf[String(k)] = clone(value[k]);
+        }
+        return buf;
+    }else{
+        return value;
     }
 }

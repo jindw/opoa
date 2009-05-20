@@ -16,6 +16,7 @@ this.addScript("tween-rule.js",'TweenRuleSample');
 this.addScript("json.js",['JSON']);
 this.addScript("cookie.js",'Cookie');
 this.addScript("request.js",'Request');
+this.addScript('chinese-calendar.js',['ChineseDate']);
 
 this.addScript("date-format.js","DateFormat");
 
@@ -28,3 +29,5 @@ this.addScript("template.js",['Template']);
  */
 this.addScript("decorator-support.js",'DecoratorEngine','JSON');
 
+
+this.addDependence('*',"org.xidea.jsidoc.util:$log");

@@ -108,13 +108,13 @@ Request.prototype = {
      * @return <boolean || null> 成败或未知(null)
      */
     isSuccess : function() {
-      var status = this.getStatus();
-      return status ?status >= 200 && status < 300 : null;
+        var status = this.getStatus();
+        return status ?status >= 200 && status < 300 : null;
     },
     getStatus:function(){
         var xhr = this.xhr;
-        //xml 呢？
-        return xhr.readyState  == 4 &&((xhr.responseText || xhr.responseXML) && xhr.status);
+        //xml 呢？,貌似FF有个错误，不能随便取status，忘记什么条件了，这里：xhr.responseText!=null 也不保险，遇到问题再说吧
+        return xhr.readyState  == 4 &&((xhr.responseText!=null || xhr.responseXML) && xhr.status);
     },
     /**
      * 设置请求http头。（在每次send调用之前有效）
