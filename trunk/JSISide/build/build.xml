@@ -19,6 +19,14 @@
 			</fileset>
 		</jar>
 	</target>
+	<target name="jar">
+		<jar destfile="build/dest/JSISide.jar">
+			<fileset dir="web/scripts">
+				<include name="**/*.*" />
+				<exclude name="**/*Test*.*" />
+			</fileset>
+		</jar>
+	</target>
 	<target name="build" depends="compress">
 		<java classname="org.jside.jsi.tools.JSAToolkit" classpath="${JSAPath}">
 			<arg value="-source" />
