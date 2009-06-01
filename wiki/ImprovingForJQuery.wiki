@@ -17,8 +17,8 @@ $("p.neat")
 
 //CP（具体叫什么名字以后再考虑吧）
 $("p.neat")
-	.call(addClass,"ohmy")
-	.call(show,"slow");
+	.invoke(addClass,"ohmy")
+	.invoke(show,"slow");
 
 }}}
 
