@@ -24,10 +24,5 @@ this.addScript("date-format.js","DateFormat");
  * 模版实现
  */
 this.addScript("template.js",['Template']);
-/*
- * DecoratorEngine 相关
- */
-this.addScript("decorator-support.js",'DecoratorEngine','JSON');
-
 
 this.addDependence('*',"org.xidea.jsidoc.util:$log");

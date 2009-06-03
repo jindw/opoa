@@ -1,6 +1,12 @@
 /*
  * JSI示例装饰器集合，及默认装饰引擎实现
  */
+/*
+ * DecoratorEngine 相关
+ */
+this.addScript("decorator-support.js",'DecoratorEngine','org.jside.JSON');
+
+
 
 /*
  * Decorator 处理相关
