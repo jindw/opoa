@@ -14,4 +14,6 @@ this.addScript("zip.js","Zip"
 this.addScript("inflate.js","zip_inflate")
 
 
-this.addScript("deflate.js","zip_deflate")
+this.addScript("deflate.js","zip_deflate");
+
+//this.addScript("gb2312.js","stringToGBKByteArray")
