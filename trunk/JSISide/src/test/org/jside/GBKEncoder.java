@@ -1,11 +1,29 @@
-/**
- * unicode -> GBK
- */
-function encodeDouble(ch) {// 0xABCD
-	var offset = index1[h >> 8] << 8;// index1[0xAB]00
-	return index2[offset >> 12].charAt((offset & 0xfff) + (ch & 0xff));
-}
-var  index1 = [0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
+package org.jside;
+
+public class GBKEncoder {
+	public static void main(String[] args) {
+		System.out.println(0xFF);
+		System.out.println(0xFFF);
+		System.out.println(index1.length);
+		for (String index : index2) {
+			System.out.println(index.length());
+			System.out.println('a');
+			System.out.println('1');
+			System.out.println('@');
+		}
+		System.out.println(0);
+		System.out.println(0xFFFF>>8);
+
+	}
+
+	protected static int encodeDouble(char ch) {// 0xABCD
+		int offset = index1[((ch & 0xff00) >> 8)] << 8;// index1[0xAB]00
+		// offset:0x1200
+		// index2[0x1].charAt(0x0200 + 0x00CD)
+		return index2[offset >> 12].charAt((offset & 0xfff) + (ch & 0xff));
+	}
+
+	private final static short index1[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
 			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			0x00, 0x00, 0x00, 0x00, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c,
@@ -28,9 +46,8 @@ var  index1 = [0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
 			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x63, 0x64,
 			0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x00, 0x00, 0x00, 0x00,
 			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			0x00, 0x6c, 0x6d, 0x00, 0x00, 0x00, 0x6e, 0x6f];
-
-	var innerIndex0 = "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+			0x00, 0x6c, 0x6d, 0x00, 0x00, 0x00, 0x6e, 0x6f };
+	private final static String innerIndex0 = "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
@@ -543,7 +560,7 @@ var  index1 = [0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
 
-	var innerIndex1 = "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+	private final static String innerIndex1 = "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
@@ -1056,7 +1073,7 @@ var  index1 = [0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
 			+ "\uB7E5\u8D70\u8D71\u8D72\u8D73\u8D74\u8D75\u8D76"
 			+ "\u8D77\u8D78\u8D79\uBEFE\u8D7A\u8D7B\u8D7C\u8D7D";
 
-	var innerIndex2 = "\u8D7E\u8D80\uE1C0\uE1C1\u8D81\u8D82\uE1C7\uB3E7"
+	private final static String innerIndex2 = "\u8D7E\u8D80\uE1C0\uE1C1\u8D81\u8D82\uE1C7\uB3E7"
 			+ "\u8D83\u8D84\u8D85\u8D86\u8D87\u8D88\uC6E9\u8D89"
 			+ "\u8D8A\u8D8B\u8D8C\u8D8D\uB4DE\u8D8E\uD1C2\u8D8F"
 			+ "\u8D90\u8D91\u8D92\uE1C8\u8D93\u8D94\uE1C6\u8D95"
@@ -1569,7 +1586,7 @@ var  index1 = [0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
 			+ "\uCCA9\uE3F3\u9B8B\uD3BE\u9B8C\uB1C3\uEDB4\uE3F1"
 			+ "\uE3F2\u9B8D\uE3F8\uD0BA\uC6C3\uD4F3\uE3FE\u9B8E";
 
-	var innerIndex3 = "\u9B8F\uBDE0\u9B90\u9B91\uE4A7\u9B92\u9B93\uE4A6"
+	private final static String innerIndex3 = "\u9B8F\uBDE0\u9B90\u9B91\uE4A7\u9B92\u9B93\uE4A6"
 			+ "\u9B94\u9B95\u9B96\uD1F3\uE4A3\u9B97\uE4A9\u9B98"
 			+ "\u9B99\u9B9A\uC8F7\u9B9B\u9B9C\u9B9D\u9B9E\uCFB4"
 			+ "\u9B9F\uE4A8\uE4AE\uC2E5\u9BA0\u9BA1\uB6B4\u9BA2"
@@ -2082,7 +2099,7 @@ var  index1 = [0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
 			+ "\uBC61\uBC62\uBC63\uBC64\uBC65\uBC66\uBC67\uBC68"
 			+ "\uF4E9\uBC69\uBC6A\uCFB5\uBC6B\uBC6C\uBC6D\uBC6E";
 
-	var innerIndex4 = "\uBC6F\uBC70\uBC71\uBC72\uBC73\uBC74\uBC75\uBC76"
+	private final static String innerIndex4 = "\uBC6F\uBC70\uBC71\uBC72\uBC73\uBC74\uBC75\uBC76"
 			+ "\uBC77\uBC78\uCEC9\uBC79\uBC7A\uBC7B\uBC7C\uBC7D"
 			+ "\uBC7E\uBC80\uBC81\uBC82\uBC83\uBC84\uBC85\uBC86"
 			+ "\uBC87\uBC88\uBC89\uBC8A\uBC8B\uBC8C\uBC8D\uBC8E"
@@ -2595,7 +2612,7 @@ var  index1 = [0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
 			+ "\uD983\uD984\uD985\uD986\uD987\uD988\uD989\uD98A"
 			+ "\uD98B\uD98C\uD98D\uD98E\uD98F\uD990\uD991\uD992";
 
-	var innerIndex5 = "\uD993\uD994\uD995\uD996\uD997\uD998\uD999\uD99A"
+	private final static String innerIndex5 = "\uD993\uD994\uD995\uD996\uD997\uD998\uD999\uD99A"
 			+ "\uD99B\uD99C\uD99D\uD99E\uD99F\uD9A0\uDA40\uDA41"
 			+ "\uDA42\uDA43\uDA44\uDA45\uDA46\uDA47\uDA48\uDA49"
 			+ "\uDA4A\uDA4B\uDA4C\uDA4D\uDA4E\uB1B4\uD5EA\uB8BA"
@@ -3108,7 +3125,7 @@ var  index1 = [0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
 			+ "\uF84D\uF84E\uF84F\uF850\uF851\uF852\uF853\uF854"
 			+ "\uF855\uF856\uF857\uF858\uF859\uF85A\uF85B\uF85C";
 
-	var innerIndex6 = "\uF85D\uF85E\uF85F\uF860\uF861\uF862\uF863\uF864"
+	private final static String innerIndex6 = "\uF85D\uF85E\uF85F\uF860\uF861\uF862\uF863\uF864"
 			+ "\uF865\uF866\uF867\uF868\uF869\uF86A\uF86B\uF86C"
 			+ "\uF86D\uF86E\uF86F\uF870\uF871\uF872\uF873\uF874"
 			+ "\uF875\uF876\uF877\uF878\uF879\uF87A\uF87B\uF87C"
@@ -3621,6 +3638,7 @@ var  index1 = [0x01, 0x02, 0x03, 0x04, 0x05, 0x00,
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
 			+ "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
 
+	public final static String index2[] = { innerIndex0, innerIndex1,
+			innerIndex2, innerIndex3, innerIndex4, innerIndex5, innerIndex6 };
 
-var index2 = [innerIndex0, innerIndex1,
-			innerIndex2, innerIndex3, innerIndex4, innerIndex5, innerIndex6];
+}
