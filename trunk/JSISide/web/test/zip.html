@@ -6,7 +6,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<script src="../scripts/?path=boot.js"></script>
     <script>
+    var t1 = new Date();
+    $import("org.jside.sandbox.stream.stringToGBKByteArray");
+    var t2 = new Date();
+    var data = stringToGBKByteArray('金');
+    var t3 = new Date();
+    var data = stringToGBKByteArray('金大为');
+    var t4 = new Date();
+    alert([t4-t3,t3-t2,t2-t1,"\n",data])
+    </script>
+
+
+    <script>
     $import("org.jside.sandbox.stream.*",true);
+    
     </script>
 </head>
 <body>
@@ -16,8 +29,25 @@ var zip = new Zip("test");
 zip.addText("path","123456789123456789123456789123456789123456789");
 var url = zip.toDataURL();
 
-window.open(url);
+//window.open(url);
 
+
+function bs(s){
+   var buf = [];
+   for(var i=0;i<s.length;i++){
+     buf.push(s[i] & 0xFF)
+   }
+   return buf;
+}
+try{
+alert([
+stringToGBKByteArray('金大为'),"\n"
+,bs(new java.lang.String("金大为").getBytes("GBK"))
+]
+);
+}catch(e){
+alert(e.message)
+}
 </script>
 
 </body>
