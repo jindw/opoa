@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh_CN"
+  lang="zh_CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="../scripts/?path=boot.js"></script>
+    <script>
+    var nativeAToB = atob;
+    var nativeBToA = btoa;
+    atob = btoa = null;
+    //$import("org.xidea.test:assertEquals",true);
+    $import("org.jside.sandbox.stream.*",true);
+    </script>
+</head>
+<body>
+
+<script>
+function assertEquals(expectedValue,actualValue,message){
+	if(expectedValue != actualValue){
+		//TODO object equals
+		throw new Error(expectedValue+"=>"+actualValue+":"+message);
+	}
+}
+var testData = [
+	"12345678i9oprtfghjklxcfvgbhjnmk,l.tytuhiiokxcfvgbhnj",
+	"w33jmqf   frftyuimnbhvcrfijknbvq83789riokke4w40VYT^*R&*T*IUJNVCRR^&*UJHCX%$SXPOKJJLCX%$^%&^*&*UPOKNBBVCXDE^R*&(*YOUOK:LKN<>N"
+]
+var i=testData.length;
+while(i--){
+var d = testData[i];
+assertEquals(nativeBToA(d) , btoa(d),d);
+assertEquals(nativeAToB(btoa(d)) , atob(btoa(d)),d);
+
+}
+</script>
+
+</body>
+</html>

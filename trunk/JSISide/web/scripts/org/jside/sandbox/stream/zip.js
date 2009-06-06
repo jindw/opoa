@@ -28,14 +28,19 @@ Zip.prototype = {
 	 * 档案文件MimeType
 	 */
     mimeType: 'application/zip',
+    stringEncoder:stringToUTF8ByteArray,
+    setCompressMethod:function(compressImpl,compressMethod){
+    	this.compressImpl = compressImpl;
+    	this.compressMethod = compressMethod || (compressImpl?8:0);
+    },
     /**
      * 添加纯文本内容（utf8）
      */
     addText: function(path,text) {
-        var stream = stringToUTF8ByteArray(text);
-        var compressStream = zip_deflate(stream);
-        var method = 8;
-        var member = new StreamMember(path,stream,compressStream,method);
+        var stream = this.stringEncoder(text);
+        var compressStream = this.compressImpl?this.compressImpl(stream):stream
+        var method = this.compressMethod || 0;
+        var member = new StreamMember(this.stringEncoder(path),stream,compressStream,method);
         return appendMember(this,member);
     },
     /**
@@ -45,7 +50,7 @@ Zip.prototype = {
         if (!/\/$/.test(path)) {
             path += '/';
         }
-        return appendMember(this,new DirectoryMember(path));
+        return appendMember(this,new DirectoryMember(this.stringEncoder(path)));
     },
     /**
      * 添加网络文件
@@ -56,7 +61,7 @@ Zip.prototype = {
             path = paths.pop();
         }
         var stream = loadBinData(path)
-        var member = new StreamMember(path,stream)
+        var member = new StreamMember(this.stringEncoder(path),stream)
         return appendMember(this,member);
     },
     /**
@@ -67,8 +72,9 @@ Zip.prototype = {
             var paths = url.split(/\/+/);
             path = paths.pop();
         }
+        var pathData = this.stringEncoder(path);
         loadBinData(path,function(stream,success){
-        	var member = new StreamMember(path,stream);
+        	var member = new StreamMember(pathData,stream);
         	appendMember(this,member)
         	callback && callback.call(this,member, success);
         })
@@ -116,7 +122,7 @@ Zip.prototype = {
         //the starting disk number        4 bytes
         appendByteArray(bin,centralDirectoryOffset, 4);
         //.ZIP file comment length        2 bytes
-        var commentData = stringToUTF8ByteArray(this.comment);
+        var commentData = this.stringEncoder(this.comment);
         appendByteArray(bin,commentData.length, 2);
         //.ZIP file comment       (variable size)
         arrayPush.apply(bin, commentData);
@@ -289,7 +295,7 @@ function appendCentralDirectoryFileHeader(bin,member,offset) {
 }
 
 function StreamMember(path,data,compressedData,method) {
-    this.path = stringToUTF8ByteArray(path);
+    this.path = path;
     compressedData = compressedData || data;
     this.crc32 = toCrc32(data);
     this.data = [data,compressedData]

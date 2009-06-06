@@ -11,9 +11,10 @@ this.addScript("base64.js",
 this.addScript("zip.js","Zip"
 	,["byteArrayToBase64","stringToByteArray","stringToUTF8ByteArray"])
 	
+// 解压
 this.addScript("inflate.js","zip_inflate")
 
-
+//压缩
 this.addScript("deflate.js","zip_deflate");
 
 this.addScript("gbkencoder.js","stringToGBKByteArray"

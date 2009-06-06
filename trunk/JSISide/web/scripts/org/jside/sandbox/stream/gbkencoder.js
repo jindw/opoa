@@ -2,10 +2,16 @@
  * unicode -> GBK
  */
 function stringToGBKByteArray(text) {// 0xABCD
-   for(var buf = [], i = 0;i<text.length;i++){
-       buf.push.apply(buf,charToGBK(text.charCodeAt(i)))
-   }
-   return buf;
+    for(var buf = [], i = 0;i<text.length;i++){
+   		var c = text.charCodeAt(i);
+   	    if(c>0xA3){
+   	    	c = charToGBK(c);
+   	    }else{
+   	    	c = [c];
+   	    }
+        buf.push.apply(buf,c);
+    }
+    return buf;
 }
 function charToGBK(ch) {// 0xABCD
     if(typeof index1 == 'string'){

@@ -18,11 +18,12 @@ var btoa = window.btoa;//tobase64
  */
 var atob = window.atob;//base64tostring
 var b64chars
-    = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
 var b64codes = [];
 var b64map = {};
-for (var i = 64; i;i--){
+var i = 65;
+while (i--){
 	b64codes[i] = b64chars.charCodeAt(i);
 	b64map[b64chars.charAt(i)] = i;
 }
@@ -30,29 +31,23 @@ for (var i = 64; i;i--){
  * 字节数组（小整数数组）转化成Base64字符串
  * @pulic
  */
-function byteArrayToBase64(bin) {
-    var padlen = 0;
-    while (bin.length % 3) {
-        bin.push(0);
-        padlen++;
-    };
+function byteArrayToBase64(bs) {
     var b64 = [];
-    for (var i = 0, l = bin.length; i < l; i += 3) {
-        var c0 = bin[i], c1 = bin[i+1], c2 = bin[i+2];
-        if (c0 >= 256 || c1 >= 256 || c2 >= 256){
-            throw 'unsupported character found';
-        }
-        var n = (c0 << 16) | (c1 << 8) | c2;
+    var bi = 0;
+    while (bi < bs.length) {
+        var b0 = bs[bi++];
+        var b1 = bs[bi++];
+        var b2 = bs[bi++];
+        var data = (b0 << 16) + (b1 << 8) + (b2||0);
         b64.push(
-            b64codes[ n >>> 18],
-            b64codes[(n >>> 12) & 63],
-            b64codes[(n >>>  6) & 63],
-            b64codes[ n         & 63]
-        );
+        	b64codes[(data >> 18) & 0x3F ],
+        	b64codes[(data >> 12) & 0x3F],
+        	b64codes[isNaN(b1) ? 64 : (data >> 6) & 0x3F],
+        	b64codes[isNaN(b2) ? 64 : data & 0x3F]) ;
     }
-    while (padlen--) b64[b64.length - padlen - 1] = '='.charCodeAt(0);
     return String.fromCharCode.apply(String, b64);
-};
+}
+
 /**
  * Base64字符串转化成字节数组（小整数数组）
  * @public
@@ -62,14 +57,14 @@ function base64ToByteArray(b64) {
     var bin = [];
     var padlen = b64.length % 4;
     for (var i = 0, l = b64.length; i < l; i += 4) {
-        var n = ((b64map[b64.charAt(i  )] || 0) << 18)
-            |   ((b64map[b64.charAt(i+1)] || 0) << 12)
-            |   ((b64map[b64.charAt(i+2)] || 0) <<  6)
-            |   ((b64map[b64.charAt(i+3)] || 0));
+        var data = (b64map[b64.charAt(i  )] << 18)
+            |   (b64map[b64.charAt(i+1)] << 12)
+            |   (b64map[b64.charAt(i+2)] <<  6)
+            |   b64map[b64.charAt(i+3)];
         bin.push(
-            (  n >> 16 ),
-            ( (n >>  8) & 0xff ),
-            (  n        & 0xff )
+            data >> 16 ,
+            (data >>  8) & 0xff ,
+            data & 0xff 
         );
     }
     bin.length -= [0,0,2,1][padlen];
@@ -86,7 +81,7 @@ function stringToByteArray(str) {
 	var result = [];
     var i = str.length ;
     while(i--){
-    	result[i] = str.charCodeAt(i);
+    	result[i] = str.charCodeAt(i) & 0xFF;
     }
     return result;
 }
@@ -159,8 +154,8 @@ if ('function' == typeof (btoa && atob)) {
     	return btoa(String.fromCharCode.apply(null,byteArray))
     }
 }else {
-    btoa = function (byteArray) {
-        return byteArrayToBase64(String.fromCharCode.apply(null,byteArray))
+    btoa = function (stream) {
+        return byteArrayToBase64(stringToByteArray(stream))
     };
     atob = function(base64) {
         return String.fromCharCode.apply(null,base64ToByteArray(base64));
