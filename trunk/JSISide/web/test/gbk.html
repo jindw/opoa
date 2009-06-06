@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh_CN"
+  lang="zh_CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="../scripts/?path=boot.js"></script>
+    <script>
+    var t1 = new Date();
+    $import("org.jside.sandbox.stream.stringToGBKByteArray");
+    var t2 = new Date();
+    var data = stringToGBKByteArray('金');
+    var t3 = new Date();
+    var data = stringToGBKByteArray('金大为123');
+    var t4 = new Date();
+    alert([t4-t3,t3-t2,t2-t1,"\n",data])
+    </script>
+
+
+</head>
+<body>
+</body>
+</html>
