@@ -103,10 +103,11 @@ public class GBKTest {
 //			buf.append("\"");
 //			String text = buf.toString();
 //			
-			String base64 = new BASE64Encoder().encode(str.getBytes("UTF-16BE")).replaceAll("[\r\n]","");
-			System.out.println('"'+base64+'"');
+			//String base64 = new BASE64Encoder().encode(str.getBytes("UTF-16BE")).replaceAll("[\r\n]","");
+			//System.out.println('"'+base64+'"');
+			System.out.println(str.length());
 		}
-		System.out.println(count);
+		System.out.println(Integer.toHexString(count));
 		System.out.println(Charset.availableCharsets());
 		byte[] test = "\u110f".getBytes("UTF-16BE");
 		Assert.assertArrayEquals(new byte[]{test[0],test[1]}, new byte[]{0x11,0x0f});

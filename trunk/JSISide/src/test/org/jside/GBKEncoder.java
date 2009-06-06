@@ -1,7 +1,10 @@
 package org.jside;
 
+import java.io.UnsupportedEncodingException;
+
 public class GBKEncoder {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		"进大为".getBytes("GB2312");
 		System.out.println(0xFF);
 		System.out.println(0xFFF);
 		System.out.println(index1.length);
