@@ -74,7 +74,9 @@ Zip.prototype = {
         }
         var pathData = this.stringEncoder(path);
         loadBinData(path,function(stream,success){
-        	var member = new StreamMember(pathData,stream);
+        	var compressStream = this.compressImpl?this.compressImpl(stream):stream
+	        var method = this.compressMethod || 0;
+	        var member = new StreamMember(pathData,stream,compressStream,method);
         	appendMember(this,member)
         	callback && callback.call(this,member, success);
         })
