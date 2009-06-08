@@ -73,12 +73,13 @@ Zip.prototype = {
             path = paths.pop();
         }
         var pathData = this.stringEncoder(path);
+        var zip = this;
         loadBinData(path,function(stream,success){
-        	var compressStream = this.compressImpl?this.compressImpl(stream):stream
-	        var method = this.compressMethod || 0;
+        	var compressStream = zip.compressImpl?zip.compressImpl(stream):stream
+	        var method = zip.compressMethod || 0;
 	        var member = new StreamMember(pathData,stream,compressStream,method);
-        	appendMember(this,member)
-        	callback && callback.call(this,member, success);
+        	appendMember(zip,member)
+        	callback && callback.call(zip,member, success);
         })
     },
     /**
@@ -167,7 +168,7 @@ function iso8859Replacer(c){
 }
 function toResponseStream(xhr){
 	var contentType = xhr.getResponseHeader("Content-Type");
-	if(/charset=ISO-8859-1/i.test(contentType)){
+	if(!/\bcharset\b/.test(contentType) || /charset=ISO-8859-1/i.test(contentType)){
 	    var result = String(xhr.responseText).replace(/[\u0100-\uffff]/g,iso8859Replacer);
 	}else{
 		var result = String(xhr.responseStream);
@@ -178,11 +179,11 @@ function loadBinData(url,callback){
     var xhr = new XMLHttpRequest();
     var isAsyn = !!callback;
     var overrideMimeType = xhr.overrideMimeType;
-    if(overrideMimeType){
-    	xhr.overrideMimeType("text/paint;charset=ISO-8859-1");
-    }
-    
+
     xhr.open('GET', url, isAsyn);
+    if(overrideMimeType){
+    	xhr.overrideMimeType("text/html;charset=ISO-8859-1");
+    }
     if(isAsyn){
     	xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
@@ -192,6 +193,7 @@ function loadBinData(url,callback){
             }
         };
         xhr.send(null);
+
     }else{
     	xhr.send(null);
     	return toResponseStream(xhr);
