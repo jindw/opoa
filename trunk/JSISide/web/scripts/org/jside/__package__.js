@@ -15,7 +15,8 @@ this.addScript("tween-rule.js",'TweenRuleSample');
 
 this.addScript("json.js",['JSON']);
 this.addScript("cookie.js",'Cookie');
-this.addScript("request.js",'Request');
+this.addScript("request.js",'Request'
+				,"org.xidea.jsidoc.util:XMLHttpRequest");
 this.addScript('chinese-calendar.js',['ChineseDate']);
 
 this.addScript("date-format.js","DateFormat");
