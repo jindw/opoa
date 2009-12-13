@@ -4,7 +4,7 @@
 		<format property="version" pattern="yyyyMMdd"/>
 	</tstamp>
 	<property name="scriptBase" value="http://www.xidea.org/project/jsiside/scripts/"/>
-	<available file="../JSA/build/dest/JSA-CMD.jar" property="JSAPath" value="../JSA/build/dest/JSA-CMD.jar" />
+	<available file="../JSA/build/dest/JSide.jar" property="JSAPath" value="../JSA/build/dest/JSide.jar" />
 	<target name="init">
 		<delete dir="build/temp">
 		</delete>
@@ -20,7 +20,7 @@
 		</jar>
 	</target>
 	<target name="jar">
-		<jar destfile="build/dest/JSISide.jar">
+		<jar destfile="build/dest/jsiside.jar">
 			<fileset dir="web/scripts">
 				<include name="**/*.*" />
 				<exclude name="**/*Test*.*" />
@@ -39,7 +39,7 @@
 		</java>
 		<echo file="build/dest/lazy-trigger.js" message="$import()"></echo>
 		<zip destfile="build/dest/jsiside_${version}.zip">
-			<zipfileset src="build/dest/exported.jar" prefix="scripts">
+			<zipfileset src="build/dest/jsiside.jar" prefix="scripts">
 				<include name="**/*.*" />
 			</zipfileset>
 			<zipfileset src="web/WEB-INF/lib/JSI.jar" prefix="scripts">
@@ -68,11 +68,9 @@
 			<arg value="-outputBoot" />
 			<arg value="${basedir}/build/dest/boot.js" />
 			<arg value="-outputExported" />
-			<arg value="${basedir}/build/dest/exported.js" />
-			<arg value="-outputXML" />
-			<arg value="${basedir}/build/dest/exported.xml" />
+			<arg value="${basedir}/build/dest/jsiside.js" />
 			<arg value="-outputJAR" />
-			<arg value="${basedir}/build/dest/exported.jar" />
+			<arg value="${basedir}/build/dest/jsiside.jar" />
 			<arg value="-config.ascii" />
 			<arg value="false" />
 			<!--
