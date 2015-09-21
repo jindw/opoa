@@ -1,0 +1,29 @@
+{
+	"items":[
+		{
+			"id":"soho-wuye-left-table-need-to-pay",
+			"name":"待缴费",
+			"data":[
+				{"module":"example-menu","method":"index","target":"menu","urls":["/service/example/menu.api"]},
+				{"module":"example-to-pay","target":"content","urls":["/mock/example-to-pay.json"]}
+			]
+		},
+		{
+			"id":"soho-wuye-left-table-already-payed",
+			"name":"已缴费",
+			"data":[
+				{"module":"example-menu","target":"menu","urls":["/service/example/menu.api"]},
+				{"module":"example-paied","target":"content","urls":["/mock/example-paied.json"]}
+			]
+		},
+		{
+			"id":"soho-wuye-left-table-reset-pwd",
+			"name":"重置密码",
+			"style":"display: none",
+			"data":[
+				{"module":"example-menu","target":"menu","urls":["/service/example/menu.api"]},
+				{"module":"example-paied","target":"content","urls":["/mock/example-paied.json"]}
+			]
+		}
+	]
+}

@@ -1,0 +1,128 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@1.4.9
+3 info using node@v0.10.28
+4 verbose publish [ '.' ]
+5 verbose cache add [ '.', null ]
+6 verbose cache add name=undefined spec="." args=[".",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: '.',
+7 verbose parsed url   path: '.',
+7 verbose parsed url   href: '.' }
+8 silly lockFile 3a52ce78- .
+9 verbose lock . /Users/jinjinyun/.npm/3a52ce78-.lock
+10 verbose tar pack [ '/var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz',
+10 verbose tar pack   '.' ]
+11 verbose tarball /var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz
+12 verbose folder .
+13 info prepublish opoa@0.1.0
+14 silly lockFile 1f1177db-tar tar://.
+15 verbose lock tar://. /Users/jinjinyun/.npm/1f1177db-tar.lock
+16 silly lockFile 4233932f-82398-0-5363645502366126-tmp-tgz tar:///var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz
+17 verbose lock tar:///var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz /Users/jinjinyun/.npm/4233932f-82398-0-5363645502366126-tmp-tgz.lock
+18 silly lockFile 1f1177db-tar tar://.
+19 silly lockFile 1f1177db-tar tar://.
+20 silly lockFile 4233932f-82398-0-5363645502366126-tmp-tgz tar:///var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz
+21 silly lockFile 4233932f-82398-0-5363645502366126-tmp-tgz tar:///var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz
+22 verbose tar unpack /var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz
+23 silly lockFile 533099cf-jinjinyun-npm-opoa-0-1-0-package tar:///Users/jinjinyun/.npm/opoa/0.1.0/package
+24 verbose lock tar:///Users/jinjinyun/.npm/opoa/0.1.0/package /Users/jinjinyun/.npm/533099cf-jinjinyun-npm-opoa-0-1-0-package.lock
+25 silly lockFile 4233932f-82398-0-5363645502366126-tmp-tgz tar:///var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz
+26 verbose lock tar:///var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz /Users/jinjinyun/.npm/4233932f-82398-0-5363645502366126-tmp-tgz.lock
+27 silly gunzTarPerm modes [ '755', '644' ]
+28 silly gunzTarPerm extractEntry package.json
+29 silly gunzTarPerm extractEntry README.md
+30 silly gunzTarPerm extractEntry mapping.js
+31 silly gunzTarPerm extractEntry .project
+32 silly gunzTarPerm extractEntry assets/example-menu.js
+33 silly gunzTarPerm extractEntry assets/example-paied.js
+34 silly gunzTarPerm extractEntry assets/example-to-pay.js
+35 silly gunzTarPerm extractEntry assets/main.js
+36 silly gunzTarPerm extractEntry assets/css/base.css
+37 silly gunzTarPerm extractEntry assets/css/example.css
+38 silly gunzTarPerm extractEntry assets/css/style.css
+39 silly gunzTarPerm extractEntry assets/img/logo.png
+40 silly gunzTarPerm modified mode [ 'assets/img/logo.png', 416, 420 ]
+41 silly gunzTarPerm extractEntry index.html
+42 silly gunzTarPerm extractEntry mock/example-menu.json
+43 silly gunzTarPerm extractEntry mock/example-paied.json
+44 silly gunzTarPerm extractEntry mock/example-to-pay.json
+45 silly lockFile 533099cf-jinjinyun-npm-opoa-0-1-0-package tar:///Users/jinjinyun/.npm/opoa/0.1.0/package
+46 silly lockFile 533099cf-jinjinyun-npm-opoa-0-1-0-package tar:///Users/jinjinyun/.npm/opoa/0.1.0/package
+47 silly lockFile 4233932f-82398-0-5363645502366126-tmp-tgz tar:///var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz
+48 silly lockFile 4233932f-82398-0-5363645502366126-tmp-tgz tar:///var/folders/gk/9w9d72g92v52z1nwps492tgm0000gn/T/npm-37968-Nsa-FGU4/1442827182398-0.5363645502366126/tmp.tgz
+49 silly lockFile 3a52ce78- .
+50 silly lockFile 3a52ce78- .
+51 silly publish { name: 'opoa',
+51 silly publish   version: '0.1.0',
+51 silly publish   description: 'OPOA example.',
+51 silly publish   keywords: [ 'javascript', 'commonjs', 'lite', 'jsi' ],
+51 silly publish   author:
+51 silly publish    { name: 'jindw',
+51 silly publish      email: 'jindw@xidea.org',
+51 silly publish      url: 'http://www.xidea.org' },
+51 silly publish   repository: { type: 'git', url: 'git://github.com/jindw/opoa.git' },
+51 silly publish   main: './mapping.js',
+51 silly publish   engines: { node: '>=0.1' },
+51 silly publish   dependencies: {},
+51 silly publish   maintainers:
+51 silly publish    [ { name: 'jindw',
+51 silly publish        email: 'jindw@xidea.org',
+51 silly publish        url: 'http://www.xidea.org' } ],
+51 silly publish   contributors: [],
+51 silly publish   bugs:
+51 silly publish    { url: 'https://github.com/jindw/jsi/issues',
+51 silly publish      email: 'jindw@xidea.org' },
+51 silly publish   licenses: [ { type: 'LGPL', url: 'http://www.gnu.org/licenses/lgpl.html' } ],
+51 silly publish   readme: '# Opoa Example\r\n\r\nFunctions\r\n=====\r\n * debug server:\r\n \t* mock api with url pattern\r\n \t* proxy api to remote server\r\n \t* mock api with local json file\r\n \t* mock api with json object\r\n * opoa example\r\n \t* lite front-end templete\r\n \t* load module automatic \r\n \t* history support with hash\r\n   \r\nInstall:\r\n=====\r\n\tnpm install jsi -g\r\n\tnpm install opoa\r\n\t',
+51 silly publish   readmeFilename: 'README.md',
+51 silly publish   homepage: 'https://github.com/jindw/opoa',
+51 silly publish   _id: 'opoa@0.1.0',
+51 silly publish   _shasum: '5713d056058ba052b73c79366bbc8ca5c66ab0c5',
+51 silly publish   _from: '.' }
+52 verbose url raw opoa
+53 verbose url resolving [ 'https://registry.npmjs.org/', './opoa' ]
+54 verbose url resolved https://registry.npmjs.org/opoa
+55 info trying registry request attempt 1 at 17:19:42
+56 http PUT https://registry.npmjs.org/opoa
+57 http 403 https://registry.npmjs.org/opoa
+58 verbose headers { 'content-type': 'application/json',
+58 verbose headers   'cache-control': 'max-age=60',
+58 verbose headers   'content-length': '95',
+58 verbose headers   'accept-ranges': 'bytes',
+58 verbose headers   date: 'Mon, 21 Sep 2015 09:19:36 GMT',
+58 verbose headers   via: '1.1 varnish',
+58 verbose headers   connection: 'keep-alive',
+58 verbose headers   'x-served-by': 'cache-hkg6820-HKG',
+58 verbose headers   'x-cache': 'MISS',
+58 verbose headers   'x-cache-hits': '0',
+58 verbose headers   'x-timer': 'S1442827175.556783,VS0,VE734' }
+59 error publish Failed PUT 403
+60 error Error: "You cannot publish over the previously published version 0.1.0." : opoa
+60 error     at RegClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:273:14)
+60 error     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:211:65)
+60 error     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:123:22)
+60 error     at Request.EventEmitter.emit (events.js:98:17)
+60 error     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:893:14)
+60 error     at Request.EventEmitter.emit (events.js:117:20)
+60 error     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:844:12)
+60 error     at IncomingMessage.EventEmitter.emit (events.js:117:20)
+60 error     at _stream_readable.js:919:16
+60 error     at process._tickCallback (node.js:419:13)
+61 error If you need help, you may report this *entire* log,
+61 error including the npm and node versions, at:
+61 error     <http://github.com/npm/npm/issues>
+62 error System Darwin 13.4.0
+63 error command "node" "/usr/local/bin/npm" "publish"
+64 error cwd /Users/jinjinyun/Documents/workspace/opoa
+65 error node -v v0.10.28
+66 error npm -v 1.4.9
+67 verbose exit [ 1, true ]
