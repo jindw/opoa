@@ -7,7 +7,7 @@
     "repository": "git://github.com/jindw/opoa.git",
     "main": "./mapping.js",
     "engines" : { "node" : ">=0.1" },
-    "dependencies": {},
+    "dependencies": {"jsi":">=0.1.21"},
     "maintainers": [{"name":"jindw","email":"jindw@xidea.org","url":"http://www.xidea.org"}],
     "contributors": [],
     "bugs": {"email": "jindw@xidea.org","url": "https://github.com/jindw/jsi/issues"},

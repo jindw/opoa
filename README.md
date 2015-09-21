@@ -14,7 +14,7 @@ Functions
    
 Install:
 =====
-	npm install jsi -g
 	npm install opoa
 	cd ./node_modules/opoa
+	node -e "require('jsi')"
 	
